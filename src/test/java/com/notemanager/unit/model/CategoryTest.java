@@ -67,4 +67,39 @@ class CategoryTest {
 		cat2.setId("2");
 		assertThat(cat1).isNotEqualTo(cat2);
 	}
+	
+	@Test
+	void testEqualsNullReturnsFalse() {
+		Category category = new Category("PERSONAL");
+		category.setId("1");
+		assertThat(category).isNotEqualTo(null);
+	}
+
+	@Test
+	void testEqualsDifferentClassReturnsFalse() {
+		Category category = new Category("PERSONAL");
+		category.setId("1");
+		assertThat(category).isNotEqualTo("not a category");
+	}
+
+	@Test
+	void testEqualsSameObjectReturnsTrue() {
+		Category category = new Category("PERSONAL");
+		category.setId("1");
+		assertThat(category).isEqualTo(category);
+	}
+
+	@Test
+	void testEqualsBothIdsNullSameNameReturnsTrue() {
+		Category cat1 = new Category("PERSONAL");
+		Category cat2 = new Category("PERSONAL");
+		assertThat(cat1).isEqualTo(cat2);
+	}
+
+	@Test
+	void testEqualsBothIdsNullDifferentNameReturnsFalse() {
+		Category cat1 = new Category("PERSONAL");
+		Category cat2 = new Category("WORK");
+		assertThat(cat1).isNotEqualTo(cat2);
+	}
 }
