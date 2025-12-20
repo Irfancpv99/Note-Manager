@@ -61,4 +61,9 @@ public class Note {
 		return Objects.equals(text, other.text);
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(text);
+	}
+	
 }
