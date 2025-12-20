@@ -59,4 +59,12 @@ class CategoryTest {
 		cat2.setId("1");
 		assertThat(cat1).isEqualTo(cat2);
 	}
+	@Test
+	void testEqualsDifferentIdReturnsFalse() {
+		Category cat1 = new Category("PERSONAL");
+		cat1.setId("1");
+		Category cat2 = new Category("PERSONAL");
+		cat2.setId("2");
+		assertThat(cat1).isNotEqualTo(cat2);
+	}
 }
