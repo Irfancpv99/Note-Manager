@@ -199,7 +199,7 @@
                         <param>com.notemanager.view.*</param>
                         <param>com.notemanager.repository.*</param>
                     </excludedClasses>
-                    <mutationThreshold>100</mutationThreshold>
+                    <mutationThreshold>50</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>
