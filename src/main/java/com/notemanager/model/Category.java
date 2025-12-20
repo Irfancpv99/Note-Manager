@@ -19,4 +19,7 @@ public class Category {
 	public String getName() {
 		return name;
 	}
+	public void setId(String id) {
+		this.id = id;
+	}
 }
