@@ -6,6 +6,9 @@ public class Note {
 	private String categoryId;
 
 	public Note(String text, String categoryId) {
+		if (text == null || text.isEmpty()) {
+			throw new IllegalArgumentException("Text cannot be null or empty");
+		}
 		this.text = text;
 		this.categoryId = categoryId;
 	}
