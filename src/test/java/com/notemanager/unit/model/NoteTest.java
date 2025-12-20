@@ -27,4 +27,10 @@ class NoteTest {
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("Text cannot be null or empty");
 	}
+	@Test
+	void testConstructorNullCategoryIdThrowsException() {
+		assertThatThrownBy(() -> new Note("Test", null))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("CategoryId cannot be null or empty");
+	}
 }
