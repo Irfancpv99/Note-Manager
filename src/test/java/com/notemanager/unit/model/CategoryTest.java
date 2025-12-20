@@ -102,4 +102,13 @@ class CategoryTest {
 		Category cat2 = new Category("WORK");
 		assertThat(cat1).isNotEqualTo(cat2);
 	}
+	
+	@Test
+	void testHashCodeConsistentWithEquals() {
+		Category cat1 = new Category("PERSONAL");
+		cat1.setId("1");
+		Category cat2 = new Category("PERSONAL");
+		cat2.setId("1");
+		assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
+	}
 }
