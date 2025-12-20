@@ -20,4 +20,11 @@ class CategoryTest {
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("Name cannot be null or empty");
 	}
+	
+	@Test
+	void testConstructorEmptyNameThrowsException() {
+		assertThatThrownBy(() -> new Category(""))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Name cannot be null or empty");
+	}
 }
