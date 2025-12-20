@@ -44,4 +44,10 @@ class NoteTest {
 		Note note = new Note("Test", "cat1");
 		assertThat(note.getId()).isNull();
 	}
+	@Test
+	void testSetIdSetsId() {
+		Note note = new Note("Test", "cat1");
+		note.setId("123");
+		assertThat(note.getId()).isEqualTo("123");
+	}
 }
