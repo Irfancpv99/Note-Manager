@@ -76,4 +76,26 @@ class NoteTest {
 		note.setCategoryId("cat2");
 		assertThat(note.getCategoryId()).isEqualTo("cat2");
 	}
+	@Test
+	void testSetCategoryIdNullThrowsException() {
+		Note note = new Note("Test", "cat1");
+		assertThatThrownBy(() -> note.setCategoryId(null))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("CategoryId cannot be null or empty");
+	}
+	@Test
+	void testSetCategoryIdEmptyThrowsException() {
+		Note note = new Note("Test", "cat1");
+		assertThatThrownBy(() -> note.setCategoryId(""))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("CategoryId cannot be null or empty");
+	}
+	@Test
+	void testEqualsSameIdReturnsTrue() {
+		Note note1 = new Note("Text 1", "cat1");
+		note1.setId("1");
+		Note note2 = new Note("Text 2", "cat2");
+		note2.setId("1");
+		assertThat(note1).isEqualTo(note2);
+	}
 }
