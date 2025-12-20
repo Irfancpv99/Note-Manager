@@ -27,4 +27,9 @@ class CategoryTest {
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("Name cannot be null or empty");
 	}
+	@Test
+	void testGetIdReturnsNullWhenNotSet() {
+		Category category = new Category("WORK");
+		assertThat(category.getId()).isNull();
+	}
 }
