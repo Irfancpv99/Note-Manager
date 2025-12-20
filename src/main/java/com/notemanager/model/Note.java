@@ -38,4 +38,10 @@ public class Note {
 		}
 		this.text = text;
 	}
+	public void setCategoryId(String categoryId) {
+		if (categoryId == null || categoryId.isEmpty()) {
+			throw new IllegalArgumentException("CategoryId cannot be null or empty");
+		}
+		this.categoryId = categoryId;
+	}
 }
