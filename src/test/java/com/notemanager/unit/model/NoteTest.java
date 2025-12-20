@@ -1,0 +1,17 @@
+package com.notemanager.unit.model;
+
+import static org.assertj.core.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import com.notemanager.model.Note;
+
+class NoteTest {
+
+	@Test
+	void testConstructorSetsTextAndCategoryId() {
+		Note note = new Note("Test note", "cat1");
+		assertThat(note.getText()).isEqualTo("Test note");
+		assertThat(note.getCategoryId()).isEqualTo("cat1");
+	}
+}
