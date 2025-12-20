@@ -55,8 +55,7 @@ class NoteTest {
 		Note note = new Note("Original", "cat1");
 		note.setText("Updated");
 		assertThat(note.getText()).isEqualTo("Updated");
-	}
-	
+	}	
 	@Test
 	void testSetTextNullThrowsException() {
 		Note note = new Note("Test", "cat1");
