@@ -1,4 +1,5 @@
 package com.notemanager.model;
+import java.util.Objects;
 
 public class Note {
 
@@ -44,4 +45,20 @@ public class Note {
 		}
 		this.categoryId = categoryId;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Note other = (Note) obj;
+		if (id != null && other.id != null) {
+			return Objects.equals(id, other.id);
+		}
+		return Objects.equals(text, other.text);
+	}
+	
 }
