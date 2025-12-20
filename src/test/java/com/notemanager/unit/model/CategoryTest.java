@@ -51,4 +51,12 @@ class CategoryTest {
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("Name cannot be null or empty");
 	}
+	@Test
+	void testEqualsSameIdReturnsTrue() {
+		Category cat1 = new Category("PERSONAL");
+		cat1.setId("1");
+		Category cat2 = new Category("WORK");
+		cat2.setId("1");
+		assertThat(cat1).isEqualTo(cat2);
+	}
 }
