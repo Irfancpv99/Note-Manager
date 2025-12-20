@@ -27,4 +27,94 @@ class CategoryTest {
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("Name cannot be null or empty");
 	}
+	@Test
+	void testGetIdReturnsNullWhenNotSet() {
+		Category category = new Category("WORK");
+		assertThat(category.getId()).isNull();
+	}
+	@Test
+	void testSetIdSetsId() {
+		Category category = new Category("PERSONAL");
+		category.setId("123");
+		assertThat(category.getId()).isEqualTo("123");
+	}
+	@Test
+	void testSetNameUpdatesName() {
+		Category category = new Category("PERSONAL");
+		category.setName("WORK");
+		assertThat(category.getName()).isEqualTo("WORK");
+	}
+	@Test
+	void testSetNameNullThrowsException() {
+		Category category = new Category("PERSONAL");
+		assertThatThrownBy(() -> category.setName(null))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Name cannot be null or empty");
+	}
+	@Test
+	void testEqualsSameIdReturnsTrue() {
+		Category cat1 = new Category("PERSONAL");
+		cat1.setId("1");
+		Category cat2 = new Category("WORK");
+		cat2.setId("1");
+		assertThat(cat1).isEqualTo(cat2);
+	}
+	@Test
+	void testEqualsDifferentIdReturnsFalse() {
+		Category cat1 = new Category("PERSONAL");
+		cat1.setId("1");
+		Category cat2 = new Category("PERSONAL");
+		cat2.setId("2");
+		assertThat(cat1).isNotEqualTo(cat2);
+	}
+	
+	@Test
+	void testEqualsNullReturnsFalse() {
+		Category category = new Category("PERSONAL");
+		category.setId("1");
+		assertThat(category).isNotEqualTo(null);
+	}
+
+	@Test
+	void testEqualsDifferentClassReturnsFalse() {
+		Category category = new Category("PERSONAL");
+		category.setId("1");
+		assertThat(category).isNotEqualTo("not a category");
+	}
+
+	@Test
+	void testEqualsSameObjectReturnsTrue() {
+		Category category = new Category("PERSONAL");
+		category.setId("1");
+		assertThat(category).isEqualTo(category);
+	}
+
+	@Test
+	void testEqualsBothIdsNullSameNameReturnsTrue() {
+		Category cat1 = new Category("PERSONAL");
+		Category cat2 = new Category("PERSONAL");
+		assertThat(cat1).isEqualTo(cat2);
+	}
+
+	@Test
+	void testEqualsBothIdsNullDifferentNameReturnsFalse() {
+		Category cat1 = new Category("PERSONAL");
+		Category cat2 = new Category("WORK");
+		assertThat(cat1).isNotEqualTo(cat2);
+	}
+	
+	@Test
+	void testHashCodeConsistentWithEquals() {
+		Category cat1 = new Category("PERSONAL");
+		cat1.setId("1");
+		Category cat2 = new Category("PERSONAL");
+		cat2.setId("1");
+		assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
+	}
+	
+	@Test
+	void testToStringContainsName() {
+		Category category = new Category("WORK");
+		assertThat(category.toString()).contains("WORK");
+	}
 }
