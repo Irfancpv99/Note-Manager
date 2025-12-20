@@ -32,4 +32,10 @@ public class Note {
 	public String getCategoryId() {
 		return categoryId;
 	}
+	public void setText(String text) {
+		if (text == null || text.isEmpty()) {
+			throw new IllegalArgumentException("Text cannot be null or empty");
+		}
+		this.text = text;
+	}
 }
