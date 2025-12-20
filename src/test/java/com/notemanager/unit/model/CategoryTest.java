@@ -38,4 +38,10 @@ class CategoryTest {
 		category.setId("123");
 		assertThat(category.getId()).isEqualTo("123");
 	}
+	@Test
+	void testSetNameUpdatesName() {
+		Category category = new Category("PERSONAL");
+		category.setName("WORK");
+		assertThat(category.getName()).isEqualTo("WORK");
+	}
 }
