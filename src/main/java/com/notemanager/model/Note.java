@@ -4,6 +4,7 @@ public class Note {
 
 	private String text;
 	private String categoryId;
+	private String id;
 
 	public Note(String text, String categoryId) {
 		if (text == null || text.isEmpty()) {
@@ -14,6 +15,10 @@ public class Note {
 		}
 		this.text = text;
 		this.categoryId = categoryId;
+	}
+	
+	public String getId() {
+		return id;
 	}
 
 	public String getText() {
