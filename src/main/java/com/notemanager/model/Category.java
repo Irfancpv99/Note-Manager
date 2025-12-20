@@ -1,6 +1,5 @@
 package com.notemanager.model;
 
-
 import java.util.Objects;
 
 public class Category {
@@ -9,29 +8,38 @@ public class Category {
 	private String name;
 
 	public Category(String name) {
+		validateName(name);
+		this.name = name;
+	}
+
+	private void validateName(String name) {
 		if (name == null || name.isEmpty()) {
 			throw new IllegalArgumentException("Name cannot be null or empty");
 		}
-		this.name = name;
 	}
-	public void setName(String name) {
-		if (name == null || name.isEmpty()) {
-			throw new IllegalArgumentException("Name cannot be null or empty");
-		}
-		this.name = name;
-	}
-	
+
 	public String getId() {
 		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
 		return name;
 	}
-	public void setId(String id) {
-		this.id = id;
+
+	public void setName(String name) {
+		validateName(name);
+		this.name = name;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -46,11 +54,7 @@ public class Category {
 		}
 		return Objects.equals(name, other.name);
 	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(name);
-	}
+
 	@Override
 	public String toString() {
 		return "Category [id=" + id + ", name=" + name + "]";
