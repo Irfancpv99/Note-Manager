@@ -50,4 +50,10 @@ class NoteTest {
 		note.setId("123");
 		assertThat(note.getId()).isEqualTo("123");
 	}
+	@Test
+	void testSetTextUpdatesText() {
+		Note note = new Note("Original", "cat1");
+		note.setText("Updated");
+		assertThat(note.getText()).isEqualTo("Updated");
+	}
 }
