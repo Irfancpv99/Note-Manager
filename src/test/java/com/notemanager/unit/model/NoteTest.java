@@ -14,4 +14,11 @@ class NoteTest {
 		assertThat(note.getText()).isEqualTo("Test note");
 		assertThat(note.getCategoryId()).isEqualTo("cat1");
 	}
+	
+	@Test
+	void testConstructorNullTextThrowsException() {
+		assertThatThrownBy(() -> new Note(null, "cat1"))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Text cannot be null or empty");
+	}
 }
