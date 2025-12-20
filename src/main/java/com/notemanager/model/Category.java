@@ -2,9 +2,8 @@ package com.notemanager.model;
 
 public class Category {
 
-	private String name;
 	private String id;
-
+	private String name;
 
 	public Category(String name) {
 		if (name == null || name.isEmpty()) {
@@ -13,10 +12,11 @@ public class Category {
 		this.name = name;
 	}
 
-	public String getName() {
-		return name;
-	}
 	public String getId() {
 		return id;
+	}
+
+	public String getName() {
+		return name;
 	}
 }
