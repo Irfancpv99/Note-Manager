@@ -32,4 +32,10 @@ class CategoryTest {
 		Category category = new Category("WORK");
 		assertThat(category.getId()).isNull();
 	}
+	@Test
+	void testSetIdSetsId() {
+		Category category = new Category("PERSONAL");
+		category.setId("123");
+		assertThat(category.getId()).isEqualTo("123");
+	}
 }
