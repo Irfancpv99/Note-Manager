@@ -46,4 +46,9 @@ public class Category {
 		}
 		return Objects.equals(name, other.name);
 	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
 }
