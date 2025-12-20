@@ -111,4 +111,10 @@ class CategoryTest {
 		cat2.setId("1");
 		assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
 	}
+	
+	@Test
+	void testToStringContainsName() {
+		Category category = new Category("WORK");
+		assertThat(category.toString()).contains("WORK");
+	}
 }
