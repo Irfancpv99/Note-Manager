@@ -11,7 +11,13 @@ public class Category {
 		}
 		this.name = name;
 	}
-
+	public void setName(String name) {
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("Name cannot be null or empty");
+		}
+		this.name = name;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -22,4 +28,5 @@ public class Category {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 }
