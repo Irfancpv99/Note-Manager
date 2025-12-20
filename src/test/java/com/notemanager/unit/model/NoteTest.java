@@ -98,4 +98,55 @@ class NoteTest {
 		note2.setId("1");
 		assertThat(note1).isEqualTo(note2);
 	}
+	@Test
+	void testEqualsDifferentIdReturnsFalse() {
+		Note note1 = new Note("Text", "cat1");
+		note1.setId("1");
+		Note note2 = new Note("Text", "cat1");
+		note2.setId("2");
+		assertThat(note1).isNotEqualTo(note2);
+	}
+	
+	@Test
+	void testEqualsNullReturnsFalse() {
+		Note note = new Note("Text", "cat1");
+		note.setId("1");
+		assertThat(note).isNotEqualTo(null);
+	}
+
+	@Test
+	void testEqualsDifferentClassReturnsFalse() {
+		Note note = new Note("Text", "cat1");
+		note.setId("1");
+		assertThat(note).isNotEqualTo("not a note");
+	}
+
+	@Test
+	void testEqualsSameObjectReturnsTrue() {
+		Note note = new Note("Text", "cat1");
+		note.setId("1");
+		assertThat(note).isEqualTo(note);
+	}
+
+	@Test
+	void testEqualsBothIdsNullSameTextReturnsTrue() {
+		Note note1 = new Note("Same text", "cat1");
+		Note note2 = new Note("Same text", "cat2");
+		assertThat(note1).isEqualTo(note2);
+	}
+
+	@Test
+	void testEqualsBothIdsNullDifferentTextReturnsFalse() {
+		Note note1 = new Note("Text 1", "cat1");
+		Note note2 = new Note("Text 2", "cat1");
+		assertThat(note1).isNotEqualTo(note2);
+	}
+	@Test
+	void testHashCodeConsistentWithEquals() {
+		Note note1 = new Note("Text", "cat1");
+		note1.setId("1");
+		Note note2 = new Note("Text", "cat1");
+		note2.setId("1");
+		assertThat(note1.hashCode()).isEqualTo(note2.hashCode());
+	}
 }
