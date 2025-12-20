@@ -13,4 +13,5 @@ class CategoryTest {
 		Category category = new Category("PERSONAL");
 		assertThat(category.getName()).isEqualTo("PERSONAL");
 	}
+	
 }
