@@ -39,4 +39,9 @@ class NoteTest {
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("CategoryId cannot be null or empty");
 	}
+	@Test
+	void testGetIdReturnsNullWhenNotSet() {
+		Note note = new Note("Test", "cat1");
+		assertThat(note.getId()).isNull();
+	}
 }
