@@ -56,4 +56,12 @@ class NoteTest {
 		note.setText("Updated");
 		assertThat(note.getText()).isEqualTo("Updated");
 	}
+	
+	@Test
+	void testSetTextNullThrowsException() {
+		Note note = new Note("Test", "cat1");
+		assertThatThrownBy(() -> note.setText(null))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Text cannot be null or empty");
+	}
 }
