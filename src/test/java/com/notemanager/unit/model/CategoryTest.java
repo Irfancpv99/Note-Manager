@@ -44,4 +44,11 @@ class CategoryTest {
 		category.setName("WORK");
 		assertThat(category.getName()).isEqualTo("WORK");
 	}
+	@Test
+	void testSetNameNullThrowsException() {
+		Category category = new Category("PERSONAL");
+		assertThatThrownBy(() -> category.setName(null))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Name cannot be null or empty");
+	}
 }
