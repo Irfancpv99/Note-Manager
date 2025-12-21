@@ -149,4 +149,14 @@ class NoteTest {
 		note2.setId("1");
 		assertThat(note1.hashCode()).isEqualTo(note2.hashCode());
 	}
+	@Test
+	void testToStringContainsText() {
+		Note note = new Note("My note", "cat1");
+		assertThat(note.toString()).contains("My note");
+	}
+	@Test
+	void testToStringContainsCategoryId() {
+		Note note = new Note("Test", "cat1");
+		assertThat(note.toString()).contains("cat1");
+	}
 }
