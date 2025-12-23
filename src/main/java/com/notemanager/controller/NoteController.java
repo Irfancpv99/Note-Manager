@@ -32,4 +32,8 @@ public class NoteController {
 		List<Note> notes = noteService.getNotesByCategoryId(categoryId);
 		noteView.showAllNotes(notes);
 	}
+	public void newNote(String text, String categoryId) {
+		Note savedNote = noteService.createNote(text, categoryId);
+		noteView.noteAdded(savedNote);
+	}
 }
