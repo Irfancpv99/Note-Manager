@@ -24,4 +24,7 @@ public class NoteService {
 	public List<Note> getAllNotes() {
 		return noteRepository.findAll();
 	}
+	public List<Note> getNotesByCategoryId(String categoryId) {
+		return noteRepository.findByCategoryId(categoryId);
+	}
 }
