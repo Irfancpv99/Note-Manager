@@ -2,6 +2,7 @@ package com.notemanager.unit.service;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -84,5 +85,26 @@ class NoteServiceTest {
 
 		assertThat(result).containsExactly(note1, note2);
 		verify(noteRepository).findByCategoryId("cat1");
+	}
+	@Test
+	void testGetNotesByCategoryIdEmptyReturnsEmptyList() {
+		when(noteRepository.findByCategoryId("cat1")).thenReturn(Collections.emptyList());
+
+		List<Note> result = noteService.getNotesByCategoryId("cat1");
+
+		assertThat(result).isEmpty();
+	}
+	@Test
+	void testCreateNoteSavesAndReturnsNote() {
+		Note savedNote = new Note("New note", "cat1");
+		savedNote.setId("1");
+		when(noteRepository.save(any(Note.class))).thenReturn(savedNote);
+
+		Note result = noteService.createNote("New note", "cat1");
+
+		assertThat(result.getId()).isEqualTo("1");
+		assertThat(result.getText()).isEqualTo("New note");
+		assertThat(result.getCategoryId()).isEqualTo("cat1");
+		verify(noteRepository).save(any(Note.class));
 	}
 }
