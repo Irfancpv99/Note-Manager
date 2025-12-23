@@ -217,4 +217,10 @@ class NoteServiceTest {
 			.hasMessage("Text cannot be null or empty");
 		verify(noteRepository, never()).save(any());
 	}
+	@Test
+	void testDeleteNoteCallsRepository() {
+		noteService.deleteNote("1");
+
+		verify(noteRepository).delete("1");
+	}
 }
