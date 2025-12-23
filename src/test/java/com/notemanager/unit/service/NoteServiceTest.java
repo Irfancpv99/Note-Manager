@@ -107,4 +107,32 @@ class NoteServiceTest {
 		assertThat(result.getCategoryId()).isEqualTo("cat1");
 		verify(noteRepository).save(any(Note.class));
 	}
+	@Test
+	void testCreateNoteNullTextThrowsException() {
+		assertThatThrownBy(() -> noteService.createNote(null, "cat1"))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Text cannot be null or empty");
+		verify(noteRepository, never()).save(any());
+	}
+	@Test
+	void testCreateNoteEmptyTextThrowsException() {
+		assertThatThrownBy(() -> noteService.createNote("", "cat1"))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Text cannot be null or empty");
+		verify(noteRepository, never()).save(any());
+	}
+	@Test
+	void testCreateNoteNullCategoryIdThrowsException() {
+		assertThatThrownBy(() -> noteService.createNote("Test", null))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("CategoryId cannot be null or empty");
+		verify(noteRepository, never()).save(any());
+	}
+	@Test
+	void testCreateNoteEmptyCategoryIdThrowsException() {
+		assertThatThrownBy(() -> noteService.createNote("Test", ""))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("CategoryId cannot be null or empty");
+		verify(noteRepository, never()).save(any());
+	}
 }
