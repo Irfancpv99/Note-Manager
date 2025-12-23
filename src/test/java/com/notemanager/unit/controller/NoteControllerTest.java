@@ -78,4 +78,15 @@ class NoteControllerTest {
 
 		verify(noteView).showAllNotes(notes);
 	}
+	@Test
+	void testNewNoteSuccessCreatesAndUpdatesView() {
+		Note savedNote = new Note("New note", "cat1");
+		savedNote.setId("1");
+		when(noteService.createNote("New note", "cat1")).thenReturn(savedNote);
+
+		noteController.newNote("New note", "cat1");
+
+		verify(noteService).createNote("New note", "cat1");
+		verify(noteView).noteAdded(savedNote);
+	}
 }
