@@ -27,4 +27,9 @@ public class NoteController {
 		noteView.showAllNotes(notes);
 		
 	}
+
+	public void notesByCategoryId(String categoryId) {
+		List<Note> notes = noteService.getNotesByCategoryId(categoryId);
+		noteView.showAllNotes(notes);
+	}
 }
