@@ -186,4 +186,35 @@ class NoteServiceTest {
 		assertThat(result.getCategoryId()).isEqualTo("cat2");
 		verify(noteRepository).save(existingNote);
 	}
+	@Test
+	void testUpdateNoteNotFoundThrowsException() {
+		when(noteRepository.findById("nonexistent")).thenReturn(null);
+
+		assertThatThrownBy(() -> noteService.updateNote("nonexistent", "Text", "cat1"))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Note not found with id: nonexistent");
+		verify(noteRepository, never()).save(any());
+	}
+	@Test
+	void testUpdateNoteNullTextThrowsException() {
+		Note existingNote = new Note("Old text", "cat1");
+		existingNote.setId("1");
+		when(noteRepository.findById("1")).thenReturn(existingNote);
+
+		assertThatThrownBy(() -> noteService.updateNote("1", null, "cat1"))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Text cannot be null or empty");
+		verify(noteRepository, never()).save(any());
+	}
+	@Test
+	void testUpdateNoteEmptyTextThrowsException() {
+		Note existingNote = new Note("Old text", "cat1");
+		existingNote.setId("1");
+		when(noteRepository.findById("1")).thenReturn(existingNote);
+
+		assertThatThrownBy(() -> noteService.updateNote("1", "", "cat1"))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("Text cannot be null or empty");
+		verify(noteRepository, never()).save(any());
+	}
 }
