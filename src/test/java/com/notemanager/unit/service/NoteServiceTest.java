@@ -146,4 +146,23 @@ class NoteServiceTest {
 		assertThat(result).isEqualTo(note);
 		verify(noteRepository).findById("1");
 	}
+	@Test
+	void testFindNoteByIdNotFoundReturnsNull() {
+		when(noteRepository.findById("nonexistent")).thenReturn(null);
+
+		Note result = noteService.findNoteById("nonexistent");
+
+		assertThat(result).isNull();
+	}
+	@Test
+	void testFindCategoryByIdReturnsCategory() {
+		Category category = new Category("PERSONAL");
+		category.setId("1");
+		when(categoryRepository.findById("1")).thenReturn(category);
+
+		Category result = noteService.findCategoryById("1");
+
+		assertThat(result).isEqualTo(category);
+		verify(categoryRepository).findById("1");
+	}
 }
