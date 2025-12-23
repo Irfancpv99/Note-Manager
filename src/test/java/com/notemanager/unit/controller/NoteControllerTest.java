@@ -111,4 +111,20 @@ class NoteControllerTest {
 		verify(noteView).showError("Please select a category");
 		verify(noteService, never()).createNote(anyString(), anyString());
 	}
+	@Test
+	void testNewNoteEmptyCategoryIdShowsError() {
+		noteController.newNote("Test note", "");
+
+		verify(noteView).showError("Please select a category");
+		verify(noteService, never()).createNote(anyString(), anyString());
+	}
+	@Test
+	void testNewNoteServiceExceptionShowsError() {
+		when(noteService.createNote("Test", "cat1"))
+			.thenThrow(new RuntimeException("Database error"));
+
+		noteController.newNote("Test", "cat1");
+
+		verify(noteView).showError("Error creating note: Database error");
+	}
 }
