@@ -64,4 +64,12 @@ class NoteServiceTest {
 		assertThat(result).containsExactly(note1, note2);
 		verify(noteRepository).findAll();
 	}
+	@Test
+	void testGetAllNotesEmptyReturnsEmptyList() {
+		when(noteRepository.findAll()).thenReturn(Collections.emptyList());
+
+		List<Note> result = noteService.getAllNotes();
+
+		assertThat(result).isEmpty();
+	}
 }
