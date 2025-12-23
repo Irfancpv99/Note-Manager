@@ -31,4 +31,7 @@ public class NoteService {
 		Note note = new Note(text, categoryId);
 		return noteRepository.save(note);
 	}
+	public Note findNoteById(String id) {
+		return noteRepository.findById(id);
+	}
 }
