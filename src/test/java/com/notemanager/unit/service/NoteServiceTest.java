@@ -135,4 +135,15 @@ class NoteServiceTest {
 			.hasMessage("CategoryId cannot be null or empty");
 		verify(noteRepository, never()).save(any());
 	}
+	@Test
+	void testFindNoteByIdReturnsNote() {
+		Note note = new Note("Test note", "cat1");
+		note.setId("1");
+		when(noteRepository.findById("1")).thenReturn(note);
+
+		Note result = noteService.findNoteById("1");
+
+		assertThat(result).isEqualTo(note);
+		verify(noteRepository).findById("1");
+	}
 }
