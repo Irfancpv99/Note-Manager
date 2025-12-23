@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.notemanager.model.Category;
+import com.notemanager.model.Note;
 import com.notemanager.repository.CategoryRepository;
 import com.notemanager.repository.NoteRepository;
 import com.notemanager.service.NoteService;
