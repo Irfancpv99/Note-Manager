@@ -165,4 +165,25 @@ class NoteServiceTest {
 		assertThat(result).isEqualTo(category);
 		verify(categoryRepository).findById("1");
 	}
+	@Test
+	void testFindCategoryByIdNotFoundReturnsNull() {
+		when(categoryRepository.findById("nonexistent")).thenReturn(null);
+
+		Category result = noteService.findCategoryById("nonexistent");
+
+		assertThat(result).isNull();
+	}
+	@Test
+	void testUpdateNoteExistingUpdatesNote() {
+		Note existingNote = new Note("Old text", "cat1");
+		existingNote.setId("1");
+		when(noteRepository.findById("1")).thenReturn(existingNote);
+		when(noteRepository.save(any(Note.class))).thenAnswer(inv -> inv.getArgument(0));
+
+		Note result = noteService.updateNote("1", "New text", "cat2");
+
+		assertThat(result.getText()).isEqualTo("New text");
+		assertThat(result.getCategoryId()).isEqualTo("cat2");
+		verify(noteRepository).save(existingNote);
+	}
 }
