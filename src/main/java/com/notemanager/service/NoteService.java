@@ -34,4 +34,9 @@ public class NoteService {
 	public Note findNoteById(String id) {
 		return noteRepository.findById(id);
 	}
+
+	public Category findCategoryById(String id) {
+
+		return categoryRepository.findById(id);
+	}
 }
