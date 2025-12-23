@@ -39,4 +39,13 @@ public class NoteService {
 
 		return categoryRepository.findById(id);
 	}
+	public Note updateNote(String id, String newText, String newCategoryId) {
+		Note existingNote = noteRepository.findById(id);
+		if (existingNote == null) {
+			throw new IllegalArgumentException("Note not found with id: " + id);
+		}
+		existingNote.setText(newText);
+		existingNote.setCategoryId(newCategoryId);
+		return noteRepository.save(existingNote);
+	}
 }
