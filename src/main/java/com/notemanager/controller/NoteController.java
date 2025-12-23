@@ -3,6 +3,7 @@ package com.notemanager.controller;
 import java.util.List;
 
 import com.notemanager.model.Category;
+import com.notemanager.model.Note;
 import com.notemanager.service.NoteService;
 import com.notemanager.view.NoteView;
 
@@ -19,5 +20,11 @@ public class NoteController {
 	public void allCategories() {
 		List<Category> categories = noteService.getAllCategories();
 		noteView.showAllCategories(categories);
+	}
+
+	public void allNotes() {
+		List<Note> notes = noteService.getAllNotes();
+		noteView.showAllNotes(notes);
+		
 	}
 }

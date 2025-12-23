@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.notemanager.controller.NoteController;
 import com.notemanager.model.Category;
+import com.notemanager.model.Note;
+
 import com.notemanager.service.NoteService;
 import com.notemanager.view.NoteView;
 
@@ -40,5 +43,39 @@ class NoteControllerTest {
 		noteController.allCategories();
 
 		verify(noteView).showAllCategories(categories);
+	}
+	@Test
+	void testAllNotesCallsServiceAndUpdatesView() {
+		Note note1 = new Note("Note 1", "cat1");
+		note1.setId("1");
+		Note note2 = new Note("Note 2", "cat2");
+		note2.setId("2");
+		List<Note> notes = Arrays.asList(note1, note2);
+		when(noteService.getAllNotes()).thenReturn(notes);
+
+		noteController.allNotes();
+
+		verify(noteView).showAllNotes(notes);
+	}
+	
+	@Test
+	void testAllNotesEmptyList() {
+		when(noteService.getAllNotes()).thenReturn(Collections.emptyList());
+
+		noteController.allNotes();
+
+		verify(noteView).showAllNotes(Collections.emptyList());
+	}
+	
+	@Test
+	void testNotesByCategoryIdCallsServiceAndUpdatesView() {
+		Note note1 = new Note("Note 1", "cat1");
+		note1.setId("1");
+		List<Note> notes = Arrays.asList(note1);
+		when(noteService.getNotesByCategoryId("cat1")).thenReturn(notes);
+
+		noteController.notesByCategoryId("cat1");
+
+		verify(noteView).showAllNotes(notes);
 	}
 }
