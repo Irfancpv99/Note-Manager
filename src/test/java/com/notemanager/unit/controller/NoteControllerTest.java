@@ -97,4 +97,18 @@ class NoteControllerTest {
 		verify(noteView).showError("Note text cannot be empty");
 		verify(noteService, never()).createNote(anyString(), anyString());
 	}
+	@Test
+	void testNewNoteBlankTextShowsError() {
+		noteController.newNote("   ", "cat1");
+
+		verify(noteView).showError("Note text cannot be empty");
+		verify(noteService, never()).createNote(anyString(), anyString());
+	}
+	@Test
+	void testNewNoteNullCategoryIdShowsError() {
+		noteController.newNote("Test note", null);
+
+		verify(noteView).showError("Please select a category");
+		verify(noteService, never()).createNote(anyString(), anyString());
+	}
 }

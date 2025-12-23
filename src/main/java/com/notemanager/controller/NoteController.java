@@ -33,6 +33,10 @@ public class NoteController {
 		noteView.showAllNotes(notes);
 	}
 	public void newNote(String text, String categoryId) {
+		if (text == null || text.trim().isEmpty()) {
+			noteView.showError("Note text cannot be empty");
+			return;
+		}
 		Note savedNote = noteService.createNote(text, categoryId);
 		noteView.noteAdded(savedNote);
 	}
