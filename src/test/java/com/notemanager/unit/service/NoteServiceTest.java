@@ -1,12 +1,13 @@
 package com.notemanager.unit.service;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -44,6 +45,7 @@ class NoteServiceTest {
 		assertThat(result).containsExactly(cat1, cat2);
 		verify(categoryRepository).findAll();
 	}
+
 	@Test
 	void testGetAllCategoriesEmptyReturnsEmptyList() {
 		when(categoryRepository.findAll()).thenReturn(Collections.emptyList());
@@ -52,6 +54,7 @@ class NoteServiceTest {
 
 		assertThat(result).isEmpty();
 	}
+
 	@Test
 	void testGetAllNotesReturnsAllNotes() {
 		Note note1 = new Note("Note 1", "cat1");
@@ -65,6 +68,7 @@ class NoteServiceTest {
 		assertThat(result).containsExactly(note1, note2);
 		verify(noteRepository).findAll();
 	}
+
 	@Test
 	void testGetAllNotesEmptyReturnsEmptyList() {
 		when(noteRepository.findAll()).thenReturn(Collections.emptyList());
@@ -73,6 +77,7 @@ class NoteServiceTest {
 
 		assertThat(result).isEmpty();
 	}
+
 	@Test
 	void testGetNotesByCategoryIdReturnsFilteredNotes() {
 		Note note1 = new Note("Note 1", "cat1");
@@ -86,6 +91,7 @@ class NoteServiceTest {
 		assertThat(result).containsExactly(note1, note2);
 		verify(noteRepository).findByCategoryId("cat1");
 	}
+
 	@Test
 	void testGetNotesByCategoryIdEmptyReturnsEmptyList() {
 		when(noteRepository.findByCategoryId("cat1")).thenReturn(Collections.emptyList());
@@ -94,6 +100,7 @@ class NoteServiceTest {
 
 		assertThat(result).isEmpty();
 	}
+
 	@Test
 	void testCreateNoteSavesAndReturnsNote() {
 		Note savedNote = new Note("New note", "cat1");
@@ -107,6 +114,7 @@ class NoteServiceTest {
 		assertThat(result.getCategoryId()).isEqualTo("cat1");
 		verify(noteRepository).save(any(Note.class));
 	}
+
 	@Test
 	void testCreateNoteNullTextThrowsException() {
 		assertThatThrownBy(() -> noteService.createNote(null, "cat1"))
@@ -114,6 +122,7 @@ class NoteServiceTest {
 			.hasMessage("Text cannot be null or empty");
 		verify(noteRepository, never()).save(any());
 	}
+
 	@Test
 	void testCreateNoteEmptyTextThrowsException() {
 		assertThatThrownBy(() -> noteService.createNote("", "cat1"))
@@ -121,6 +130,7 @@ class NoteServiceTest {
 			.hasMessage("Text cannot be null or empty");
 		verify(noteRepository, never()).save(any());
 	}
+
 	@Test
 	void testCreateNoteNullCategoryIdThrowsException() {
 		assertThatThrownBy(() -> noteService.createNote("Test", null))
@@ -128,6 +138,7 @@ class NoteServiceTest {
 			.hasMessage("CategoryId cannot be null or empty");
 		verify(noteRepository, never()).save(any());
 	}
+
 	@Test
 	void testCreateNoteEmptyCategoryIdThrowsException() {
 		assertThatThrownBy(() -> noteService.createNote("Test", ""))
@@ -135,6 +146,7 @@ class NoteServiceTest {
 			.hasMessage("CategoryId cannot be null or empty");
 		verify(noteRepository, never()).save(any());
 	}
+
 	@Test
 	void testFindNoteByIdReturnsNote() {
 		Note note = new Note("Test note", "cat1");
@@ -146,6 +158,7 @@ class NoteServiceTest {
 		assertThat(result).isEqualTo(note);
 		verify(noteRepository).findById("1");
 	}
+
 	@Test
 	void testFindNoteByIdNotFoundReturnsNull() {
 		when(noteRepository.findById("nonexistent")).thenReturn(null);
@@ -154,6 +167,7 @@ class NoteServiceTest {
 
 		assertThat(result).isNull();
 	}
+
 	@Test
 	void testFindCategoryByIdReturnsCategory() {
 		Category category = new Category("PERSONAL");
@@ -165,6 +179,7 @@ class NoteServiceTest {
 		assertThat(result).isEqualTo(category);
 		verify(categoryRepository).findById("1");
 	}
+
 	@Test
 	void testFindCategoryByIdNotFoundReturnsNull() {
 		when(categoryRepository.findById("nonexistent")).thenReturn(null);
@@ -173,6 +188,7 @@ class NoteServiceTest {
 
 		assertThat(result).isNull();
 	}
+
 	@Test
 	void testUpdateNoteExistingUpdatesNote() {
 		Note existingNote = new Note("Old text", "cat1");
@@ -186,6 +202,7 @@ class NoteServiceTest {
 		assertThat(result.getCategoryId()).isEqualTo("cat2");
 		verify(noteRepository).save(existingNote);
 	}
+
 	@Test
 	void testUpdateNoteNotFoundThrowsException() {
 		when(noteRepository.findById("nonexistent")).thenReturn(null);
@@ -195,6 +212,7 @@ class NoteServiceTest {
 			.hasMessage("Note not found with id: nonexistent");
 		verify(noteRepository, never()).save(any());
 	}
+
 	@Test
 	void testUpdateNoteNullTextThrowsException() {
 		Note existingNote = new Note("Old text", "cat1");
@@ -206,6 +224,7 @@ class NoteServiceTest {
 			.hasMessage("Text cannot be null or empty");
 		verify(noteRepository, never()).save(any());
 	}
+
 	@Test
 	void testUpdateNoteEmptyTextThrowsException() {
 		Note existingNote = new Note("Old text", "cat1");
@@ -217,6 +236,7 @@ class NoteServiceTest {
 			.hasMessage("Text cannot be null or empty");
 		verify(noteRepository, never()).save(any());
 	}
+
 	@Test
 	void testDeleteNoteCallsRepository() {
 		noteService.deleteNote("1");

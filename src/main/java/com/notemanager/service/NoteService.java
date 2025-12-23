@@ -21,24 +21,27 @@ public class NoteService {
 		return categoryRepository.findAll();
 	}
 
+	public Category findCategoryById(String id) {
+		return categoryRepository.findById(id);
+	}
+
 	public List<Note> getAllNotes() {
 		return noteRepository.findAll();
 	}
+
 	public List<Note> getNotesByCategoryId(String categoryId) {
 		return noteRepository.findByCategoryId(categoryId);
 	}
+
 	public Note createNote(String text, String categoryId) {
 		Note note = new Note(text, categoryId);
 		return noteRepository.save(note);
 	}
+
 	public Note findNoteById(String id) {
 		return noteRepository.findById(id);
 	}
 
-	public Category findCategoryById(String id) {
-
-		return categoryRepository.findById(id);
-	}
 	public Note updateNote(String id, String newText, String newCategoryId) {
 		Note existingNote = noteRepository.findById(id);
 		if (existingNote == null) {
@@ -48,6 +51,7 @@ public class NoteService {
 		existingNote.setCategoryId(newCategoryId);
 		return noteRepository.save(existingNote);
 	}
+
 	public void deleteNote(String id) {
 		noteRepository.delete(id);
 	}
