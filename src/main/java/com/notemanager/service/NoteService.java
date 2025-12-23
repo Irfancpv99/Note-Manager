@@ -48,4 +48,7 @@ public class NoteService {
 		existingNote.setCategoryId(newCategoryId);
 		return noteRepository.save(existingNote);
 	}
+	public void deleteNote(String id) {
+		noteRepository.delete(id);
+	}
 }
