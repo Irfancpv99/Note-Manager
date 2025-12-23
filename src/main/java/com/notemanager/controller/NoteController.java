@@ -41,7 +41,11 @@ public class NoteController {
 			noteView.showError("Please select a category");
 			return;
 		}
-		Note savedNote = noteService.createNote(text, categoryId);
-		noteView.noteAdded(savedNote);
+		try {
+			Note savedNote = noteService.createNote(text, categoryId);
+			noteView.noteAdded(savedNote);
+		} catch (Exception e) {
+			noteView.showError("Error creating note: " + e.getMessage());
+		}
 	}
 }
