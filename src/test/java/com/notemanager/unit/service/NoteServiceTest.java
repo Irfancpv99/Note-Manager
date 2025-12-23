@@ -50,4 +50,17 @@ class NoteServiceTest {
 
 		assertThat(result).isEmpty();
 	}
+	@Test
+	void testGetAllNotesReturnsAllNotes() {
+		Note note1 = new Note("Note 1", "cat1");
+		note1.setId("1");
+		Note note2 = new Note("Note 2", "cat2");
+		note2.setId("2");
+		when(noteRepository.findAll()).thenReturn(Arrays.asList(note1, note2));
+
+		List<Note> result = noteService.getAllNotes();
+
+		assertThat(result).containsExactly(note1, note2);
+		verify(noteRepository).findAll();
+	}
 }
