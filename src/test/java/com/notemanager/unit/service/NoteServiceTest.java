@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.notemanager.model.Category;
+import com.notemanager.model.Note;
 import com.notemanager.repository.CategoryRepository;
 import com.notemanager.repository.NoteRepository;
 import com.notemanager.service.NoteService;
@@ -62,5 +63,13 @@ class NoteServiceTest {
 
 		assertThat(result).containsExactly(note1, note2);
 		verify(noteRepository).findAll();
+	}
+	@Test
+	void testGetAllNotesEmptyReturnsEmptyList() {
+		when(noteRepository.findAll()).thenReturn(Collections.emptyList());
+
+		List<Note> result = noteService.getAllNotes();
+
+		assertThat(result).isEmpty();
 	}
 }
