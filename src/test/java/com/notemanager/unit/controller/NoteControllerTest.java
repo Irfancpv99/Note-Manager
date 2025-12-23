@@ -2,6 +2,7 @@ package com.notemanager.unit.controller;
 
 import static org.mockito.Mockito.*;
 
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
@@ -88,5 +89,12 @@ class NoteControllerTest {
 
 		verify(noteService).createNote("New note", "cat1");
 		verify(noteView).noteAdded(savedNote);
+	}
+	@Test
+	void testNewNoteEmptyTextShowsError() {
+		noteController.newNote("", "cat1");
+
+		verify(noteView).showError("Note text cannot be empty");
+		verify(noteService, never()).createNote(anyString(), anyString());
 	}
 }
