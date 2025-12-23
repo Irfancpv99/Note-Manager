@@ -37,6 +37,10 @@ public class NoteController {
 			noteView.showError("Note text cannot be empty");
 			return;
 		}
+		if (categoryId == null || categoryId.trim().isEmpty()) {
+			noteView.showError("Please select a category");
+			return;
+		}
 		Note savedNote = noteService.createNote(text, categoryId);
 		noteView.noteAdded(savedNote);
 	}
