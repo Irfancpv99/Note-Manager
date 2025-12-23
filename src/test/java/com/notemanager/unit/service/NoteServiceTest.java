@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,5 +41,13 @@ class NoteServiceTest {
 
 		assertThat(result).containsExactly(cat1, cat2);
 		verify(categoryRepository).findAll();
+	}
+	@Test
+	void testGetAllCategoriesEmptyReturnsEmptyList() {
+		when(categoryRepository.findAll()).thenReturn(Collections.emptyList());
+
+		List<Category> result = noteService.getAllCategories();
+
+		assertThat(result).isEmpty();
 	}
 }
