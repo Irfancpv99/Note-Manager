@@ -27,4 +27,8 @@ public class NoteService {
 	public List<Note> getNotesByCategoryId(String categoryId) {
 		return noteRepository.findByCategoryId(categoryId);
 	}
+	public Note createNote(String text, String categoryId) {
+		Note note = new Note(text, categoryId);
+		return noteRepository.save(note);
+	}
 }
