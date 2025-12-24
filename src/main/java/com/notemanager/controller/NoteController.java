@@ -60,4 +60,9 @@ public class NoteController {
 			noteView.showErrorNoteNotFound(e.getMessage(), null);
 		}
 	}
+
+	public void deleteNote(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }
