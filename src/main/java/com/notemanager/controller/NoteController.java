@@ -63,8 +63,11 @@ public class NoteController {
 
 	public void deleteNote(String id) {
 		Note note = noteService.findNoteById(id);
-			noteService.deleteNote(id);
-				noteView.noteDeleted(note);
-		
+		if (note == null) {
+			noteView.showErrorNoteNotFound("Note not found with id: " + id, null);
+			return;
+		}
+		noteService.deleteNote(id);
+		noteView.noteDeleted(note);
 	}
 }
