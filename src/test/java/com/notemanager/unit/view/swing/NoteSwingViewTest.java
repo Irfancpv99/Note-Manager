@@ -33,5 +33,5 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.list("notesList").requireEnabled();
 		window.button(JButtonMatcher.withText("Edit")).requireDisabled();
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
-	}
+  }
 }
