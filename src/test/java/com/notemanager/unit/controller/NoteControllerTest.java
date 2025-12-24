@@ -152,4 +152,13 @@ class NoteControllerTest {
 		verify(noteView).showError("Note text cannot be empty");
 		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
 	}
+	@Test
+	void testUpdateNoteNotFoundShowsError() {
+		when(noteService.updateNote("1", "New text", "cat1"))
+			.thenThrow(new IllegalArgumentException("Note not found with id: 1"));
+
+		noteController.updateNote("1", "New text", "cat1");
+
+		verify(noteView).showErrorNoteNotFound(eq("Note not found with id: 1"), isNull());
+	}
 }
