@@ -34,4 +34,5 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Edit")).requireDisabled();
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
 	}
+	
 }
