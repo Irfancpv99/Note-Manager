@@ -161,4 +161,16 @@ class NoteControllerTest {
 
 		verify(noteView).showErrorNoteNotFound(eq("Note not found with id: 1"), isNull());
 	}
+	@Test
+	void testDeleteNoteCallsServiceAndUpdatesView() {
+		Note noteToDelete = new Note("To delete", "cat1");
+		noteToDelete.setId("1");
+		when(noteService.findNoteById("1")).thenReturn(noteToDelete);
+
+		noteController.deleteNote("1");
+
+		verify(noteService).findNoteById("1");
+		verify(noteService).deleteNote("1");
+		verify(noteView).noteDeleted(noteToDelete);
+	}
 }
