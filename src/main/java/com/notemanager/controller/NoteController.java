@@ -53,7 +53,11 @@ public class NoteController {
 			noteView.showError("Note text cannot be empty");
 			return;
 		}
-		Note updatedNote = noteService.updateNote(id, newText, newCategoryId);
-		noteView.noteUpdated(updatedNote);
+		try {
+			Note updatedNote = noteService.updateNote(id, newText, newCategoryId);
+			noteView.noteUpdated(updatedNote);
+		} catch (IllegalArgumentException e) {
+			noteView.showErrorNoteNotFound(e.getMessage(), null);
+		}
 	}
 }
