@@ -1,4 +1,4 @@
-package com.notemanager.unit.view;
+package com.notemanager.unit.view.swing;
 
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.matcher.JButtonMatcher;
