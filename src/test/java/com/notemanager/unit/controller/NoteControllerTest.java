@@ -173,4 +173,13 @@ class NoteControllerTest {
 		verify(noteService).deleteNote("1");
 		verify(noteView).noteDeleted(noteToDelete);
 	}
+	@Test
+	void testDeleteNoteNotFoundShowsError() {
+		when(noteService.findNoteById("nonexistent")).thenReturn(null);
+
+		noteController.deleteNote("nonexistent");
+
+		verify(noteView).showErrorNoteNotFound("Note not found with id: nonexistent", null);
+		verify(noteService, never()).deleteNote(anyString());
+	}
 }
