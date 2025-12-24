@@ -48,4 +48,8 @@ public class NoteController {
 			noteView.showError("Error creating note: " + e.getMessage());
 		}
 	}
+	public void updateNote(String id, String newText, String newCategoryId) {
+		Note updatedNote = noteService.updateNote(id, newText, newCategoryId);
+		noteView.noteUpdated(updatedNote);
+	}
 }
