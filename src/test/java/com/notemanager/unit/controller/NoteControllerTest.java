@@ -138,4 +138,18 @@ class NoteControllerTest {
 		verify(noteService).updateNote("1", "Updated text", "cat2");
 		verify(noteView).noteUpdated(updatedNote);
 	}
+	@Test
+	void testUpdateNoteEmptyTextShowsError() {
+		noteController.updateNote("1", "", "cat1");
+
+		verify(noteView).showError("Note text cannot be empty");
+		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
+	}
+	@Test
+	void testUpdateNoteBlankTextShowsError() {
+		noteController.updateNote("1", "   ", "cat1");
+
+		verify(noteView).showError("Note text cannot be empty");
+		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
+	}
 }
