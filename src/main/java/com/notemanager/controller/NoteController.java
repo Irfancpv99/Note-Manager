@@ -61,8 +61,10 @@ public class NoteController {
 		}
 	}
 
-	public void deleteNote(String string) {
-		// TODO Auto-generated method stub
+	public void deleteNote(String id) {
+		Note note = noteService.findNoteById(id);
+			noteService.deleteNote(id);
+				noteView.noteDeleted(note);
 		
 	}
 }
