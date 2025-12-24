@@ -204,6 +204,7 @@
                     <targetClasses>
                         <param>com.notemanager.model.*</param>
                         <param>com.notemanager.controller.*</param>
+                        <param>com.notemanager.service.*</param>
                     </targetClasses>
                     <targetTests>
                         <param>com.notemanager.*Test</param>
@@ -213,6 +214,9 @@
                         <param>com.notemanager.view.*</param>
                         <param>com.notemanager.repository.*</param>
                     </excludedClasses>
+                    <excludedTestClasses>
+        				<param>com.notemanager.unit.view.swing.**</param>
+   				 </excludedTestClasses>
                     <mutationThreshold>50</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
