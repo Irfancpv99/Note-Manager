@@ -1,4 +1,4 @@
-package com.notemanager.unit.view.swing;
+package com.notemanager.unit.view;
 
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.matcher.JButtonMatcher;
@@ -33,5 +33,5 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.list("notesList").requireEnabled();
 		window.button(JButtonMatcher.withText("Edit")).requireDisabled();
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
-  }
+	}
 }
