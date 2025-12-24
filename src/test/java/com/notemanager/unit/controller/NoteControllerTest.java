@@ -127,4 +127,15 @@ class NoteControllerTest {
 
 		verify(noteView).showError("Error creating note: Database error");
 	}
+	@Test
+	void testUpdateNoteSuccessUpdatesAndRefreshesView() {
+		Note updatedNote = new Note("Updated text", "cat2");
+		updatedNote.setId("1");
+		when(noteService.updateNote("1", "Updated text", "cat2")).thenReturn(updatedNote);
+
+		noteController.updateNote("1", "Updated text", "cat2");
+
+		verify(noteService).updateNote("1", "Updated text", "cat2");
+		verify(noteView).noteUpdated(updatedNote);
+	}
 }
