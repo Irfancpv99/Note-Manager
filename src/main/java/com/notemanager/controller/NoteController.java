@@ -25,13 +25,13 @@ public class NoteController {
 	public void allNotes() {
 		List<Note> notes = noteService.getAllNotes();
 		noteView.showAllNotes(notes);
-		
 	}
 
 	public void notesByCategoryId(String categoryId) {
 		List<Note> notes = noteService.getNotesByCategoryId(categoryId);
 		noteView.showAllNotes(notes);
 	}
+
 	public void newNote(String text, String categoryId) {
 		if (text == null || text.trim().isEmpty()) {
 			noteView.showError("Note text cannot be empty");
@@ -48,6 +48,7 @@ public class NoteController {
 			noteView.showError("Error creating note: " + e.getMessage());
 		}
 	}
+
 	public void updateNote(String id, String newText, String newCategoryId) {
 		if (newText == null || newText.trim().isEmpty()) {
 			noteView.showError("Note text cannot be empty");

@@ -1,11 +1,11 @@
 package com.notemanager.unit.controller;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-
 import java.util.Arrays;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.notemanager.controller.NoteController;
 import com.notemanager.model.Category;
 import com.notemanager.model.Note;
-
 import com.notemanager.service.NoteService;
 import com.notemanager.view.NoteView;
 
@@ -45,6 +44,7 @@ class NoteControllerTest {
 
 		verify(noteView).showAllCategories(categories);
 	}
+
 	@Test
 	void testAllNotesCallsServiceAndUpdatesView() {
 		Note note1 = new Note("Note 1", "cat1");
@@ -58,7 +58,7 @@ class NoteControllerTest {
 
 		verify(noteView).showAllNotes(notes);
 	}
-	
+
 	@Test
 	void testAllNotesEmptyList() {
 		when(noteService.getAllNotes()).thenReturn(Collections.emptyList());
@@ -67,7 +67,7 @@ class NoteControllerTest {
 
 		verify(noteView).showAllNotes(Collections.emptyList());
 	}
-	
+
 	@Test
 	void testNotesByCategoryIdCallsServiceAndUpdatesView() {
 		Note note1 = new Note("Note 1", "cat1");
@@ -79,6 +79,7 @@ class NoteControllerTest {
 
 		verify(noteView).showAllNotes(notes);
 	}
+
 	@Test
 	void testNewNoteSuccessCreatesAndUpdatesView() {
 		Note savedNote = new Note("New note", "cat1");
@@ -90,6 +91,7 @@ class NoteControllerTest {
 		verify(noteService).createNote("New note", "cat1");
 		verify(noteView).noteAdded(savedNote);
 	}
+
 	@Test
 	void testNewNoteEmptyTextShowsError() {
 		noteController.newNote("", "cat1");
@@ -97,6 +99,7 @@ class NoteControllerTest {
 		verify(noteView).showError("Note text cannot be empty");
 		verify(noteService, never()).createNote(anyString(), anyString());
 	}
+
 	@Test
 	void testNewNoteBlankTextShowsError() {
 		noteController.newNote("   ", "cat1");
@@ -104,6 +107,7 @@ class NoteControllerTest {
 		verify(noteView).showError("Note text cannot be empty");
 		verify(noteService, never()).createNote(anyString(), anyString());
 	}
+
 	@Test
 	void testNewNoteNullCategoryIdShowsError() {
 		noteController.newNote("Test note", null);
@@ -111,6 +115,7 @@ class NoteControllerTest {
 		verify(noteView).showError("Please select a category");
 		verify(noteService, never()).createNote(anyString(), anyString());
 	}
+
 	@Test
 	void testNewNoteEmptyCategoryIdShowsError() {
 		noteController.newNote("Test note", "");
@@ -118,6 +123,7 @@ class NoteControllerTest {
 		verify(noteView).showError("Please select a category");
 		verify(noteService, never()).createNote(anyString(), anyString());
 	}
+
 	@Test
 	void testNewNoteServiceExceptionShowsError() {
 		when(noteService.createNote("Test", "cat1"))
@@ -127,6 +133,7 @@ class NoteControllerTest {
 
 		verify(noteView).showError("Error creating note: Database error");
 	}
+
 	@Test
 	void testUpdateNoteSuccessUpdatesAndRefreshesView() {
 		Note updatedNote = new Note("Updated text", "cat2");
@@ -138,6 +145,7 @@ class NoteControllerTest {
 		verify(noteService).updateNote("1", "Updated text", "cat2");
 		verify(noteView).noteUpdated(updatedNote);
 	}
+
 	@Test
 	void testUpdateNoteEmptyTextShowsError() {
 		noteController.updateNote("1", "", "cat1");
@@ -145,6 +153,7 @@ class NoteControllerTest {
 		verify(noteView).showError("Note text cannot be empty");
 		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
 	}
+
 	@Test
 	void testUpdateNoteBlankTextShowsError() {
 		noteController.updateNote("1", "   ", "cat1");
@@ -152,6 +161,7 @@ class NoteControllerTest {
 		verify(noteView).showError("Note text cannot be empty");
 		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
 	}
+
 	@Test
 	void testUpdateNoteNotFoundShowsError() {
 		when(noteService.updateNote("1", "New text", "cat1"))
@@ -161,6 +171,7 @@ class NoteControllerTest {
 
 		verify(noteView).showErrorNoteNotFound(eq("Note not found with id: 1"), isNull());
 	}
+
 	@Test
 	void testDeleteNoteCallsServiceAndUpdatesView() {
 		Note noteToDelete = new Note("To delete", "cat1");
@@ -173,6 +184,7 @@ class NoteControllerTest {
 		verify(noteService).deleteNote("1");
 		verify(noteView).noteDeleted(noteToDelete);
 	}
+
 	@Test
 	void testDeleteNoteNotFoundShowsError() {
 		when(noteService.findNoteById("nonexistent")).thenReturn(null);
