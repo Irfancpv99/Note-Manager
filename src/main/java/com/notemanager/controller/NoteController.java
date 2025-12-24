@@ -49,6 +49,10 @@ public class NoteController {
 		}
 	}
 	public void updateNote(String id, String newText, String newCategoryId) {
+		if (newText == null || newText.trim().isEmpty()) {
+			noteView.showError("Note text cannot be empty");
+			return;
+		}
 		Note updatedNote = noteService.updateNote(id, newText, newCategoryId);
 		noteView.noteUpdated(updatedNote);
 	}
