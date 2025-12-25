@@ -181,4 +181,20 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents[0]).contains("Updated text");
 	}
+	@Test
+	@GUITest
+	public void testNoteDeletedRemovedFromList() {
+		Note note1 = new Note("Note 1", "cat1");
+		note1.setId("1");
+		Note note2 = new Note("Note 2", "cat1");
+		note2.setId("2");
+		GuiActionRunner.execute(() -> 
+			noteSwingView.showAllNotes(Arrays.asList(note1, note2))
+		);
+
+		GuiActionRunner.execute(() -> noteSwingView.noteDeleted(note1));
+
+		String[] listContents = window.list("notesList").contents();
+		assertThat(listContents).hasSize(1);
+	}
 }
