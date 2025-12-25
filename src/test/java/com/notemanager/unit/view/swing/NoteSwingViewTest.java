@@ -142,4 +142,25 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.button(JButtonMatcher.withText("Update"));
 	}
+	@Test
+	@GUITest
+	public void testUpdateButtonCallsControllerUpdate() {
+		Category category = new Category("PERSONAL");
+		category.setId("cat1");
+		Note note = new Note("Original", "cat1");
+		note.setId("1");
+		GuiActionRunner.execute(() -> {
+			noteSwingView.showAllCategories(Arrays.asList(category));
+			noteSwingView.showAllNotes(Arrays.asList(note));
+		});
+
+		window.list("notesList").selectItem(0);
+		window.button(JButtonMatcher.withText("Edit")).click();
+
+		window.textBox("noteTextArea").deleteText();
+		window.textBox("noteTextArea").enterText("Updated text");
+		window.button(JButtonMatcher.withText("Update")).click();
+
+		verify(noteController).updateNote("1", "Updated text", "cat1");
+	}
 }
