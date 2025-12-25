@@ -1,27 +1,46 @@
 package com.notemanager.unit.view.swing;
 
+import static org.mockito.Mockito.*;
+
+import java.util.Arrays;
+
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import com.notemanager.controller.NoteController;
+import com.notemanager.model.Category;
 import com.notemanager.view.swing.NoteSwingView;
 
 public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	private FrameFixture window;
 	private NoteSwingView noteSwingView;
+	private AutoCloseable closeable;
+
+	@Mock
+	private NoteController noteController;
 
 	@Override
 	protected void onSetUp() {
+		closeable = MockitoAnnotations.openMocks(this);
 		GuiActionRunner.execute(() -> {
 			noteSwingView = new NoteSwingView();
+			noteSwingView.setNoteController(noteController);
 			return noteSwingView;
 		});
 		window = new FrameFixture(robot(), noteSwingView);
 		window.show();
+	}
+
+	@Override
+	protected void onTearDown() throws Exception {
+		closeable.close();
 	}
 
 	@Test
@@ -33,5 +52,21 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.list("notesList").requireEnabled();
 		window.button(JButtonMatcher.withText("Edit")).requireDisabled();
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
-  }
+	}
+	
+	@Test
+	@GUITest
+	public void testSaveButtonCallsControllerNewNote() {
+		Category category = new Category("WORK");
+		category.setId("1");
+		GuiActionRunner.execute(() -> 
+			noteSwingView.showAllCategories(Arrays.asList(category))
+		);
+
+		window.comboBox("categoryComboBox").selectItem(0);
+		window.textBox("noteTextArea").enterText("Test note text");
+		window.button("saveButton").click();
+
+		verify(noteController).newNote("Test note text", "1");
+	}
 }
