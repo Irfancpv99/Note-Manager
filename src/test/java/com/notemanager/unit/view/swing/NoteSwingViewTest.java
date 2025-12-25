@@ -1,5 +1,6 @@
 package com.notemanager.unit.view.swing;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -9,7 +10,6 @@ import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
-import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -55,7 +55,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Edit")).requireDisabled();
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
 	}
-	
+
 	@Test
 	@GUITest
 	public void testSaveButtonCallsControllerNewNote() {
@@ -67,10 +67,11 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.comboBox("categoryComboBox").selectItem(0);
 		window.textBox("noteTextArea").enterText("Test note text");
-		window.button("saveButton").click();
+		window.button(JButtonMatcher.withText("Save")).click();
 
 		verify(noteController).newNote("Test note text", "1");
 	}
+
 	@Test
 	@GUITest
 	public void testSaveButtonCallsControllerWithNullCategoryWhenNoneSelected() {
@@ -79,6 +80,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(noteController).newNote("Test note", null);
 	}
+
 	@Test
 	@GUITest
 	public void testSelectNoteFromListEnablesButtons() {
@@ -93,6 +95,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Edit")).requireEnabled();
 		window.button(JButtonMatcher.withText("Delete")).requireEnabled();
 	}
+
 	@Test
 	@GUITest
 	public void testDeleteButtonCallsControllerDelete() {
@@ -107,7 +110,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(noteController).deleteNote("1");
 	}
-	
+
 	@Test
 	@GUITest
 	public void testEditButtonLoadsNoteIntoTextArea() {
@@ -125,7 +128,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.textBox("noteTextArea").requireText("Test note content");
 	}
-	
+
 	@Test
 	@GUITest
 	public void testEditModeChangesButtonText() {
@@ -143,6 +146,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.button(JButtonMatcher.withText("Update"));
 	}
+
 	@Test
 	@GUITest
 	public void testUpdateButtonCallsControllerUpdate() {
@@ -164,7 +168,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(noteController).updateNote("1", "Updated text", "cat1");
 	}
-	
+
 	@Test
 	@GUITest
 	public void testNoteUpdatedRefreshesInList() {
@@ -181,6 +185,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents[0]).contains("Updated text");
 	}
+
 	@Test
 	@GUITest
 	public void testNoteDeletedRemovedFromList() {

@@ -1,29 +1,30 @@
 package com.notemanager.view.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.util.List;
-import javax.swing.ListSelectionModel;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 
 import com.notemanager.controller.NoteController;
 import com.notemanager.model.Category;
 import com.notemanager.model.Note;
+import com.notemanager.view.NoteView;
 
-public class NoteSwingView extends JFrame {
+public class NoteSwingView extends JFrame implements NoteView {
 
 	private static final long serialVersionUID = 1L;
-	private boolean editMode = false;
-	private String editingNoteId = null;
 
 	private JComboBox<CategoryItem> categoryComboBox;
 	private DefaultComboBoxModel<CategoryItem> categoryComboBoxModel;
@@ -33,8 +34,11 @@ public class NoteSwingView extends JFrame {
 	private DefaultListModel<Note> notesListModel;
 	private JButton editButton;
 	private JButton deleteButton;
+	private JLabel errorLabel;
 
 	private NoteController noteController;
+	private boolean editMode = false;
+	private String editingNoteId = null;
 
 	public NoteSwingView() {
 		setTitle("Note Manager");
@@ -51,7 +55,6 @@ public class NoteSwingView extends JFrame {
 
 		saveButton = new JButton("Save");
 		saveButton.setName("saveButton");
-
 		saveButton.addActionListener(e -> {
 			String text = noteTextArea.getText();
 			CategoryItem selectedCategory = (CategoryItem) categoryComboBox.getSelectedItem();
@@ -67,7 +70,6 @@ public class NoteSwingView extends JFrame {
 		notesListModel = new DefaultListModel<>();
 		notesList = new JList<>(notesListModel);
 		notesList.setName("notesList");
-		
 		notesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		notesList.addListSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
@@ -80,7 +82,6 @@ public class NoteSwingView extends JFrame {
 		editButton = new JButton("Edit");
 		editButton.setName("editButton");
 		editButton.setEnabled(false);
-		
 		editButton.addActionListener(e -> {
 			Note selected = notesList.getSelectedValue();
 			if (selected != null) {
@@ -94,13 +95,16 @@ public class NoteSwingView extends JFrame {
 		deleteButton = new JButton("Delete");
 		deleteButton.setName("deleteButton");
 		deleteButton.setEnabled(false);
-		
 		deleteButton.addActionListener(e -> {
 			Note selected = notesList.getSelectedValue();
 			if (selected != null) {
 				noteController.deleteNote(selected.getId());
 			}
 		});
+
+		errorLabel = new JLabel(" ");
+		errorLabel.setName("errorLabel");
+		errorLabel.setForeground(Color.RED);
 
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.add(categoryComboBox, BorderLayout.NORTH);
@@ -117,26 +121,36 @@ public class NoteSwingView extends JFrame {
 
 		add(topPanel, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
+		add(errorLabel, BorderLayout.SOUTH);
 	}
 
 	public void setNoteController(NoteController noteController) {
 		this.noteController = noteController;
 	}
 
+	@Override
 	public void showAllCategories(List<Category> categories) {
 		categoryComboBoxModel.removeAllElements();
 		for (Category category : categories) {
 			categoryComboBoxModel.addElement(new CategoryItem(category));
 		}
 	}
-	
+
+	@Override
 	public void showAllNotes(List<Note> notes) {
 		notesListModel.clear();
 		for (Note note : notes) {
 			notesListModel.addElement(note);
 		}
 	}
-	
+
+	@Override
+	public void noteAdded(Note note) {
+		notesListModel.addElement(note);
+		noteTextArea.setText("");
+	}
+
+	@Override
 	public void noteUpdated(Note note) {
 		for (int i = 0; i < notesListModel.size(); i++) {
 			if (notesListModel.get(i).getId().equals(note.getId())) {
@@ -149,7 +163,8 @@ public class NoteSwingView extends JFrame {
 		saveButton.setText("Save");
 		noteTextArea.setText("");
 	}
-	
+
+	@Override
 	public void noteDeleted(Note note) {
 		for (int i = 0; i < notesListModel.size(); i++) {
 			if (notesListModel.get(i).getId().equals(note.getId())) {
@@ -157,6 +172,16 @@ public class NoteSwingView extends JFrame {
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void showError(String message) {
+		errorLabel.setText(message);
+	}
+
+	@Override
+	public void showErrorNoteNotFound(String message, Note note) {
+		errorLabel.setText(message);
 	}
 
 	private static class CategoryItem {
@@ -174,6 +199,5 @@ public class NoteSwingView extends JFrame {
 		public String toString() {
 			return category.getName();
 		}
-		
 	}
 }
