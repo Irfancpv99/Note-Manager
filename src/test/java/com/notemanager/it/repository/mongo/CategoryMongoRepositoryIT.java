@@ -56,4 +56,16 @@ class CategoryMongoRepositoryIT {
 	void testFindByIdNotFound() {
 		assertThat(repository.findById("000000000000000000000000")).isNull();
 	}
+	@Test
+	void testFindByIdFound() {
+		Document doc = new Document().append("name", "PERSONAL");
+		categoryCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		com.notemanager.model.Category found = repository.findById(id);
+
+		assertThat(found).isNotNull();
+		assertThat(found.getName()).isEqualTo("PERSONAL");
+		assertThat(found.getId()).isEqualTo(id);
+	}
 }
