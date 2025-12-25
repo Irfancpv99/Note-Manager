@@ -22,6 +22,8 @@ import com.notemanager.model.Note;
 public class NoteSwingView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private boolean editMode = false;
+	private String editingNoteId = null;
 
 	private JComboBox<CategoryItem> categoryComboBox;
 	private DefaultComboBoxModel<CategoryItem> categoryComboBoxModel;
@@ -76,7 +78,10 @@ public class NoteSwingView extends JFrame {
 		editButton.addActionListener(e -> {
 			Note selected = notesList.getSelectedValue();
 			if (selected != null) {
+				editMode = true;
+				editingNoteId = selected.getId();
 				noteTextArea.setText(selected.getText());
+				saveButton.setText("Update");
 			}
 		});
 
