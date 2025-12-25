@@ -20,7 +20,17 @@ public class CategoryMongoRepository implements CategoryRepository {
 
 	@Override
 	public List<Category> findAll() {
-		return new ArrayList<>();
+		List<Category> categories = new ArrayList<>();
+		for (Document doc : collection.find()) {
+			categories.add(documentToCategory(doc));
+		}
+		return categories;
+	}
+
+	private Category documentToCategory(Document doc) {
+		Category category = new Category(doc.getString("name"));
+		category.setId(doc.getObjectId("_id").toString());
+		return category;
 	}
 
 	@Override
