@@ -146,7 +146,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.button(JButtonMatcher.withText("Update"));
 	}
-
 	@Test
 	@GUITest
 	public void testUpdateButtonCallsControllerUpdate() {
@@ -168,7 +167,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(noteController).updateNote("1", "Updated text", "cat1");
 	}
-
 	@Test
 	@GUITest
 	public void testNoteUpdatedRefreshesInList() {
@@ -185,7 +183,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents[0]).contains("Updated text");
 	}
-
 	@Test
 	@GUITest
 	public void testNoteDeletedRemovedFromList() {
