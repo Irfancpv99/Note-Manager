@@ -124,4 +124,22 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.textBox("noteTextArea").requireText("Test note content");
 	}
+	
+	@Test
+	@GUITest
+	public void testEditModeChangesButtonText() {
+		Category category = new Category("WORK");
+		category.setId("cat1");
+		Note note = new Note("Test note", "cat1");
+		note.setId("1");
+		GuiActionRunner.execute(() -> {
+			noteSwingView.showAllCategories(Arrays.asList(category));
+			noteSwingView.showAllNotes(Arrays.asList(note));
+		});
+
+		window.list("notesList").selectItem(0);
+		window.button(JButtonMatcher.withText("Edit")).click();
+
+		window.button(JButtonMatcher.withText("Update"));
+	}
 }
