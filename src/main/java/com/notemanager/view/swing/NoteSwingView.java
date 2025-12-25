@@ -72,6 +72,13 @@ public class NoteSwingView extends JFrame {
 		editButton = new JButton("Edit");
 		editButton.setName("editButton");
 		editButton.setEnabled(false);
+		
+		editButton.addActionListener(e -> {
+			Note selected = notesList.getSelectedValue();
+			if (selected != null) {
+				noteTextArea.setText(selected.getText());
+			}
+		});
 
 		deleteButton = new JButton("Delete");
 		deleteButton.setName("deleteButton");
