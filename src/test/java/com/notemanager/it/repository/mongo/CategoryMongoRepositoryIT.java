@@ -2,8 +2,6 @@ package com.notemanager.it.repository.mongo;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.Locale.Category;
-
 import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +62,7 @@ class CategoryMongoRepositoryIT {
 		categoryCollection.insertOne(doc);
 		String id = doc.getObjectId("_id").toString();
 
-		Category found = repository.findById(id);
+		com.notemanager.model.Category found = repository.findById(id);
 
 		assertThat(found).isNotNull();
 		assertThat(found.getName()).isEqualTo("PERSONAL");

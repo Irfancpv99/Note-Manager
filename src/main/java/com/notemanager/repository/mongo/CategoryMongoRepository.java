@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.notemanager.model.Category;
 import com.notemanager.repository.CategoryRepository;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 public class CategoryMongoRepository implements CategoryRepository {
 
@@ -35,7 +37,11 @@ public class CategoryMongoRepository implements CategoryRepository {
 
 	@Override
 	public Category findById(String id) {
-		return null;
+		Document doc = collection.find(Filters.eq("_id", new ObjectId(id))).first();
+		if (doc == null) {
+			return null;
+		}
+		return documentToCategory(doc);
 	}
 
 	@Override
