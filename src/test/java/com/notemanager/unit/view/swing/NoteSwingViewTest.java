@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.notemanager.controller.NoteController;
 import com.notemanager.model.Category;
+import com.notemanager.model.Note;
 import com.notemanager.view.swing.NoteSwingView;
 
 public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
@@ -68,5 +69,27 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button("saveButton").click();
 
 		verify(noteController).newNote("Test note text", "1");
+	}
+	@Test
+	@GUITest
+	public void testSaveButtonCallsControllerWithNullCategoryWhenNoneSelected() {
+		window.textBox("noteTextArea").enterText("Test note");
+		window.button(JButtonMatcher.withText("Save")).click();
+
+		verify(noteController).newNote("Test note", null);
+	}
+	@Test
+	@GUITest
+	public void testSelectNoteFromListEnablesButtons() {
+		Note note = new Note("Test note", "cat1");
+		note.setId("1");
+		GuiActionRunner.execute(() -> 
+			noteSwingView.showAllNotes(Arrays.asList(note))
+		);
+
+		window.list("notesList").selectItem(0);
+
+		window.button(JButtonMatcher.withText("Edit")).requireEnabled();
+		window.button(JButtonMatcher.withText("Delete")).requireEnabled();
 	}
 }
