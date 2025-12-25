@@ -47,6 +47,20 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- JUnit 4 (required for AssertJ Swing) -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.13.2</version>
+		    <scope>test</scope>
+		</dependency>
+		<!-- JUnit Vintage Engine (to run JUnit 4 tests with JUnit 5) -->
+		<dependency>
+		    <groupId>org.junit.vintage</groupId>
+		    <artifactId>junit-vintage-engine</artifactId>
+		    <version>${junit.version}</version>
+		    <scope>test</scope>
+		</dependency>
 
         <!-- Mockito -->
         <dependency>
@@ -190,6 +204,7 @@
                     <targetClasses>
                         <param>com.notemanager.model.*</param>
                         <param>com.notemanager.controller.*</param>
+                        <param>com.notemanager.service.*</param>
                     </targetClasses>
                     <targetTests>
                         <param>com.notemanager.*Test</param>
@@ -199,6 +214,10 @@
                         <param>com.notemanager.view.*</param>
                         <param>com.notemanager.repository.*</param>
                     </excludedClasses>
+                    <excludedTestClasses>
+        				<param>com.notemanager.unit.view.swing.**</param>
+        				<param>com.notemanager.unit.view.NoteSwingViewTest</param>
+   				 </excludedTestClasses>
                     <mutationThreshold>50</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
