@@ -92,4 +92,18 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Edit")).requireEnabled();
 		window.button(JButtonMatcher.withText("Delete")).requireEnabled();
 	}
+	@Test
+	@GUITest
+	public void testDeleteButtonCallsControllerDelete() {
+		Note note = new Note("Test note", "cat1");
+		note.setId("1");
+		GuiActionRunner.execute(() -> 
+			noteSwingView.showAllNotes(Arrays.asList(note))
+		);
+
+		window.list("notesList").selectItem(0);
+		window.button(JButtonMatcher.withText("Delete")).click();
+
+		verify(noteController).deleteNote("1");
+	}
 }
