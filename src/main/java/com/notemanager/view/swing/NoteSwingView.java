@@ -149,6 +149,15 @@ public class NoteSwingView extends JFrame {
 		saveButton.setText("Save");
 		noteTextArea.setText("");
 	}
+	
+	public void noteDeleted(Note note) {
+		for (int i = 0; i < notesListModel.size(); i++) {
+			if (notesListModel.get(i).getId().equals(note.getId())) {
+				notesListModel.remove(i);
+				break;
+			}
+		}
+	}
 
 	private static class CategoryItem {
 		private final Category category;
