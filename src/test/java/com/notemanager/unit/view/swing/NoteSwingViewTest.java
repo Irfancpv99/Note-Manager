@@ -44,7 +44,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	protected void onTearDown() throws Exception {
 		closeable.close();
 	}
-
 	@Test
 	@GUITest
 	public void testControlsInitialState() {
@@ -55,7 +54,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Edit")).requireDisabled();
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
 	}
-
 	@Test
 	@GUITest
 	public void testSaveButtonCallsControllerNewNote() {
@@ -71,7 +69,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(noteController).newNote("Test note text", "1");
 	}
-
 	@Test
 	@GUITest
 	public void testSaveButtonCallsControllerWithNullCategoryWhenNoneSelected() {
@@ -80,7 +77,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(noteController).newNote("Test note", null);
 	}
-
 	@Test
 	@GUITest
 	public void testSelectNoteFromListEnablesButtons() {
@@ -95,7 +91,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Edit")).requireEnabled();
 		window.button(JButtonMatcher.withText("Delete")).requireEnabled();
 	}
-
 	@Test
 	@GUITest
 	public void testDeleteButtonCallsControllerDelete() {
@@ -110,12 +105,11 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(noteController).deleteNote("1");
 	}
-
 	@Test
 	@GUITest
 	public void testEditButtonLoadsNoteIntoTextArea() {
 		Category category = new Category("WORK");
-		category.setId("cat1");
+	    	category.setId("cat1");
 		Note note = new Note("Test note content", "cat1");
 		note.setId("1");
 		GuiActionRunner.execute(() -> {
@@ -128,7 +122,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.textBox("noteTextArea").requireText("Test note content");
 	}
-
 	@Test
 	@GUITest
 	public void testEditModeChangesButtonText() {
@@ -146,7 +139,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.button(JButtonMatcher.withText("Update"));
 	}
-
 	@Test
 	@GUITest
 	public void testUpdateButtonCallsControllerUpdate() {
@@ -168,7 +160,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		verify(noteController).updateNote("1", "Updated text", "cat1");
 	}
-
 	@Test
 	@GUITest
 	public void testNoteUpdatedRefreshesInList() {
@@ -186,6 +177,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		assertThat(listContents[0]).contains("Updated text");
 	}
 
+  
 	@Test
 	@GUITest
 	public void testNoteDeletedRemovedFromList() {
