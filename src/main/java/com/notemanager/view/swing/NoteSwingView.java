@@ -2,6 +2,7 @@ package com.notemanager.view.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -14,16 +15,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.notemanager.controller.NoteController;
+import com.notemanager.model.Category;
 import com.notemanager.model.Note;
 
 public class NoteSwingView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private JComboBox<String> categoryComboBox;
+	private JComboBox<CategoryItem> categoryComboBox;
+	private DefaultComboBoxModel<CategoryItem> categoryComboBoxModel;
 	private JTextArea noteTextArea;
 	private JButton saveButton;
 	private JList<Note> notesList;
+	private DefaultListModel<Note> notesListModel;
 	private JButton editButton;
 	private JButton deleteButton;
 
@@ -35,7 +39,8 @@ public class NoteSwingView extends JFrame {
 		setSize(500, 600);
 		setLayout(new BorderLayout());
 
-		categoryComboBox = new JComboBox<>(new DefaultComboBoxModel<>());
+		categoryComboBoxModel = new DefaultComboBoxModel<>();
+		categoryComboBox = new JComboBox<>(categoryComboBoxModel);
 		categoryComboBox.setName("categoryComboBox");
 
 		noteTextArea = new JTextArea(5, 30);
@@ -43,8 +48,15 @@ public class NoteSwingView extends JFrame {
 
 		saveButton = new JButton("Save");
 		saveButton.setName("saveButton");
+		saveButton.addActionListener(e -> {
+			String text = noteTextArea.getText();
+			CategoryItem selectedCategory = (CategoryItem) categoryComboBox.getSelectedItem();
+			String categoryId = selectedCategory != null ? selectedCategory.getId() : null;
+			noteController.newNote(text, categoryId);
+		});
 
-		notesList = new JList<>(new DefaultListModel<>());
+		notesListModel = new DefaultListModel<>();
+		notesList = new JList<>(notesListModel);
 		notesList.setName("notesList");
 
 		editButton = new JButton("Edit");
@@ -74,5 +86,29 @@ public class NoteSwingView extends JFrame {
 
 	public void setNoteController(NoteController noteController) {
 		this.noteController = noteController;
+	}
+
+	public void showAllCategories(List<Category> categories) {
+		categoryComboBoxModel.removeAllElements();
+		for (Category category : categories) {
+			categoryComboBoxModel.addElement(new CategoryItem(category));
+		}
+	}
+
+	private static class CategoryItem {
+		private final Category category;
+
+		public CategoryItem(Category category) {
+			this.category = category;
+		}
+
+		public String getId() {
+			return category.getId();
+		}
+
+		@Override
+		public String toString() {
+			return category.getName();
+		}
 	}
 }
