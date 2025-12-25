@@ -76,6 +76,13 @@ public class NoteSwingView extends JFrame {
 		deleteButton = new JButton("Delete");
 		deleteButton.setName("deleteButton");
 		deleteButton.setEnabled(false);
+		
+		deleteButton.addActionListener(e -> {
+			Note selected = notesList.getSelectedValue();
+			if (selected != null) {
+				noteController.deleteNote(selected.getId());
+			}
+		});
 
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.add(categoryComboBox, BorderLayout.NORTH);
