@@ -3,6 +3,7 @@ package com.notemanager.view.swing;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.List;
+import javax.swing.ListSelectionModel;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -58,6 +59,15 @@ public class NoteSwingView extends JFrame {
 		notesListModel = new DefaultListModel<>();
 		notesList = new JList<>(notesListModel);
 		notesList.setName("notesList");
+		
+		notesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		notesList.addListSelectionListener(e -> {
+			if (!e.getValueIsAdjusting()) {
+				boolean hasSelection = notesList.getSelectedIndex() != -1;
+				editButton.setEnabled(hasSelection);
+				deleteButton.setEnabled(hasSelection);
+			}
+		});
 
 		editButton = new JButton("Edit");
 		editButton.setName("editButton");
@@ -94,6 +104,13 @@ public class NoteSwingView extends JFrame {
 			categoryComboBoxModel.addElement(new CategoryItem(category));
 		}
 	}
+	
+	public void showAllNotes(List<Note> notes) {
+		notesListModel.clear();
+		for (Note note : notes) {
+			notesListModel.addElement(note);
+		}
+	}
 
 	private static class CategoryItem {
 		private final Category category;
@@ -110,5 +127,6 @@ public class NoteSwingView extends JFrame {
 		public String toString() {
 			return category.getName();
 		}
+		
 	}
 }
