@@ -51,11 +51,17 @@ public class NoteSwingView extends JFrame {
 
 		saveButton = new JButton("Save");
 		saveButton.setName("saveButton");
+
 		saveButton.addActionListener(e -> {
 			String text = noteTextArea.getText();
 			CategoryItem selectedCategory = (CategoryItem) categoryComboBox.getSelectedItem();
 			String categoryId = selectedCategory != null ? selectedCategory.getId() : null;
-			noteController.newNote(text, categoryId);
+
+			if (editMode && editingNoteId != null) {
+				noteController.updateNote(editingNoteId, text, categoryId);
+			} else {
+				noteController.newNote(text, categoryId);
+			}
 		});
 
 		notesListModel = new DefaultListModel<>();
@@ -129,6 +135,19 @@ public class NoteSwingView extends JFrame {
 		for (Note note : notes) {
 			notesListModel.addElement(note);
 		}
+	}
+	
+	public void noteUpdated(Note note) {
+		for (int i = 0; i < notesListModel.size(); i++) {
+			if (notesListModel.get(i).getId().equals(note.getId())) {
+				notesListModel.set(i, note);
+				break;
+			}
+		}
+		editMode = false;
+		editingNoteId = null;
+		saveButton.setText("Save");
+		noteTextArea.setText("");
 	}
 
 	private static class CategoryItem {

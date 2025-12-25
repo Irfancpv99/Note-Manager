@@ -9,6 +9,7 @@ import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
+import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -162,5 +163,22 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Update")).click();
 
 		verify(noteController).updateNote("1", "Updated text", "cat1");
+	}
+	
+	@Test
+	@GUITest
+	public void testNoteUpdatedRefreshesInList() {
+		Note note = new Note("Original text", "cat1");
+		note.setId("1");
+		GuiActionRunner.execute(() -> 
+			noteSwingView.showAllNotes(Arrays.asList(note))
+		);
+
+		Note updatedNote = new Note("Updated text", "cat1");
+		updatedNote.setId("1");
+		GuiActionRunner.execute(() -> noteSwingView.noteUpdated(updatedNote));
+
+		String[] listContents = window.list("notesList").contents();
+		assertThat(listContents[0]).contains("Updated text");
 	}
 }
