@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.notemanager.controller.NoteController;
 import com.notemanager.model.Note;
 
 public class NoteSwingView extends JFrame {
@@ -25,6 +26,8 @@ public class NoteSwingView extends JFrame {
 	private JList<Note> notesList;
 	private JButton editButton;
 	private JButton deleteButton;
+
+	private NoteController noteController;
 
 	public NoteSwingView() {
 		setTitle("Note Manager");
@@ -67,5 +70,9 @@ public class NoteSwingView extends JFrame {
 
 		add(topPanel, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
+	}
+
+	public void setNoteController(NoteController noteController) {
+		this.noteController = noteController;
 	}
 }
