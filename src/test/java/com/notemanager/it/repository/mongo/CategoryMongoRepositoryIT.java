@@ -52,4 +52,8 @@ class CategoryMongoRepositoryIT {
 
 		assertThat(repository.findAll()).hasSize(2);
 	}
+	@Test
+	void testFindByIdNotFound() {
+		assertThat(repository.findById("000000000000000000000000")).isNull();
+	}
 }
