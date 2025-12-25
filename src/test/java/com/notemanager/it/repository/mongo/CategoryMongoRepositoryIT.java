@@ -45,4 +45,11 @@ class CategoryMongoRepositoryIT {
 	void testFindAllWhenDatabaseIsEmpty() {
 		assertThat(repository.findAll()).isEmpty();
 	}
+	@Test
+	void testFindAllWhenDatabaseHasCategories() {
+		categoryCollection.insertOne(new Document().append("name", "PERSONAL"));
+		categoryCollection.insertOne(new Document().append("name", "WORK"));
+
+		assertThat(repository.findAll()).hasSize(2);
+	}
 }
