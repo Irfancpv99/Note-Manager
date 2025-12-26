@@ -45,4 +45,27 @@ class CategoryMongoRepositoryIT {
 	void testFindAllWhenDatabaseIsEmpty() {
 		assertThat(repository.findAll()).isEmpty();
 	}
+	@Test
+	void testFindAllWhenDatabaseHasCategories() {
+		categoryCollection.insertOne(new Document().append("name", "PERSONAL"));
+		categoryCollection.insertOne(new Document().append("name", "WORK"));
+
+		assertThat(repository.findAll()).hasSize(2);
+	}
+	@Test
+	void testFindByIdNotFound() {
+		assertThat(repository.findById("000000000000000000000000")).isNull();
+	}
+	@Test
+	void testFindByIdFound() {
+		Document doc = new Document().append("name", "PERSONAL");
+		categoryCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		com.notemanager.model.Category found = repository.findById(id);
+
+		assertThat(found).isNotNull();
+		assertThat(found.getName()).isEqualTo("PERSONAL");
+		assertThat(found.getId()).isEqualTo(id);
+	}
 }
