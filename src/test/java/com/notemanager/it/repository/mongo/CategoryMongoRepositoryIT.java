@@ -64,4 +64,8 @@ class CategoryMongoRepositoryIT {
         assertThat(found.getName()).isEqualTo("PERSONAL");
         assertThat(found.getId()).isEqualTo(id);
     }
+    @Test
+	void testFindByIdWithInvalidId() {
+		assertThat(repository.findById("invalid")).isNull();
+	}
 }
