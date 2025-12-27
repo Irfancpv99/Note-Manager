@@ -37,11 +37,15 @@ public class CategoryMongoRepository implements CategoryRepository {
 
 	@Override
 	public Category findById(String id) {
-		Document doc = collection.find(Filters.eq("_id", new ObjectId(id))).first();
-		if (doc == null) {
+		try {
+			Document doc = collection.find(Filters.eq("_id", new ObjectId(id))).first();
+			if (doc == null) {
+				return null;
+			}
+			return documentToCategory(doc);
+		} catch (IllegalArgumentException e) {
 			return null;
 		}
-		return documentToCategory(doc);
 	}
 
 	@Override
