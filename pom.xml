@@ -166,7 +166,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!-- Failsafe for integration tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
