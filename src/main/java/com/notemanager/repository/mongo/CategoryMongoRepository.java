@@ -50,9 +50,14 @@ public class CategoryMongoRepository implements CategoryRepository {
 
 	@Override
 	public Category save(Category category) {
-		Document doc = new Document().append("name", category.getName());
-		collection.insertOne(doc);
-		category.setId(doc.getObjectId("_id").toString());
+		if (category.getId() == null) {
+			Document doc = new Document().append("name", category.getName());
+			collection.insertOne(doc);
+			category.setId(doc.getObjectId("_id").toString());
+		} else {
+			Document doc = new Document().append("name", category.getName());
+			collection.replaceOne(Filters.eq("_id", new ObjectId(category.getId())), doc);
+		}
 		return category;
 	}
 
