@@ -137,46 +137,6 @@
                             <alias>mongodb</alias>
                             <run>
                                 <ports>
-                                    <port>27017:27017</port>
-                                </ports>
-                                <wait>
-                                    <log>Waiting for connections</log>
-                                    <time>30000</time>
-                                </wait>
-                            </run>
-                        </image>
-                    </images>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>docker-start</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>docker-stop</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Docker Maven Plugin - starts MongoDB before integration tests -->
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker-maven-plugin.version}</version>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>mongo:6.0</name>
-                            <alias>mongodb</alias>
-                            <run>
-                                <ports>
                                     <port>0:27017</port>
                                 </ports>
                                 <wait>
