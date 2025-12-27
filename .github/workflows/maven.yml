@@ -10,6 +10,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+
     steps:
     - uses: actions/checkout@v4
       with:
@@ -23,7 +29,7 @@ jobs:
         cache: maven
 
     - name: Build and Test
-      run: mvn -B clean verify -Dtest='!**/*Swing*' -DfailIfNoTests=false
+      run: mvn -B clean verify -Dtest='!**/*Swing*' -Dit.test='!**/*Swing*' -DfailIfNoTests=false -Ddocker.skip=true
 
     - name: Mutation Testing
       run: mvn org.pitest:pitest-maven:mutationCoverage
