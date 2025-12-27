@@ -122,6 +122,7 @@
                     <excludes>
                         <exclude>**/*IT.java</exclude>
                         <exclude>**/*E2E.java</exclude>
+                        <exclude>**/it/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
