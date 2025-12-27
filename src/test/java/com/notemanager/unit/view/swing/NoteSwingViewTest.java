@@ -151,7 +151,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Edit")).click();
 		robot().waitForIdle();
 
-		window.button(JButtonMatcher.withText("Update"));
+		window.button("saveButton").requireText("Update");
 	}
 
 	@Test
