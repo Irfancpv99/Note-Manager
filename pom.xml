@@ -47,7 +47,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
         <!-- JUnit 4 (required for AssertJ Swing) -->
         <dependency>
             <groupId>junit</groupId>
@@ -55,7 +54,6 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-
         <!-- JUnit Vintage Engine (to run JUnit 4 tests with JUnit 5) -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
@@ -124,7 +122,6 @@
                     <excludes>
                         <exclude>**/*IT.java</exclude>
                         <exclude>**/*E2E.java</exclude>
-                        <exclude>**/it/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
