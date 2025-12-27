@@ -68,4 +68,14 @@ class CategoryMongoRepositoryIT {
 	void testFindByIdWithInvalidId() {
 		assertThat(repository.findById("invalid")).isNull();
 	}
+    @Test
+	void testSaveNewCategory() {
+		Category category = new Category("STUDY");
+
+		Category saved = repository.save(category);
+
+		assertThat(saved.getId()).isNotNull();
+		assertThat(saved.getName()).isEqualTo("STUDY");
+		assertThat(categoryCollection.countDocuments()).isEqualTo(1);
+	}
 }
