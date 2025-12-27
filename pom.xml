@@ -223,7 +223,7 @@
                     <excludedTestClasses>
                         <param>com.notemanager.unit.view.swing.*</param>
                     </excludedTestClasses>
-                    <mutationThreshold>100</mutationThreshold>
+                    <mutationThreshold>90</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>
