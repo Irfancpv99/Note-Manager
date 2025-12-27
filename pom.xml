@@ -137,11 +137,11 @@
                             <alias>mongodb</alias>
                             <run>
                                 <ports>
-                                    <port>27017:27017</port>
+                                    <port>0:27017</port>
                                 </ports>
                                 <wait>
                                     <log>Waiting for connections</log>
-                                    <time>30000</time>
+                                    <time>60000</time>
                                 </wait>
                             </run>
                         </image>
@@ -164,7 +164,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!-- Failsafe for integration tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
