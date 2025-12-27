@@ -22,7 +22,6 @@
         <mockito.version>4.11.0</mockito.version>
         <assertj.version>3.24.2</assertj.version>
         <assertj-swing.version>3.17.1</assertj-swing.version>
-        <testcontainers.version>1.17.6</testcontainers.version>
         <mongodb.version>4.9.1</mongodb.version>
 
         <!-- Plugin versions -->
@@ -30,6 +29,7 @@
         <failsafe.version>3.1.2</failsafe.version>
         <jacoco.version>0.8.10</jacoco.version>
         <pitest.version>1.14.1</pitest.version>
+        <docker-maven-plugin.version>0.43.4</docker-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -48,19 +48,19 @@
             <scope>test</scope>
         </dependency>
         <!-- JUnit 4 (required for AssertJ Swing) -->
-		<dependency>
-		    <groupId>junit</groupId>
-		    <artifactId>junit</artifactId>
-		    <version>4.13.2</version>
-		    <scope>test</scope>
-		</dependency>
-		<!-- JUnit Vintage Engine (to run JUnit 4 tests with JUnit 5) -->
-		<dependency>
-		    <groupId>org.junit.vintage</groupId>
-		    <artifactId>junit-vintage-engine</artifactId>
-		    <version>${junit.version}</version>
-		    <scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- JUnit Vintage Engine (to run JUnit 4 tests with JUnit 5) -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Mockito -->
         <dependency>
@@ -99,21 +99,6 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.36</version>
         </dependency>
-
-        <!-- Testcontainers -->
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${testcontainers.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>mongodb</artifactId>
-            <version>${testcontainers.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -137,10 +122,50 @@
                     <excludes>
                         <exclude>**/*IT.java</exclude>
                         <exclude>**/*E2E.java</exclude>
+                        <exclude>**/it/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
 
+            <!-- Docker Maven Plugin - starts MongoDB before integration tests -->
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin.version}</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>mongo:6.0</name>
+                            <alias>mongodb</alias>
+                            <run>
+                                <ports>
+                                    <port>0:27017</port>
+                                </ports>
+                                <wait>
+                                    <log>Waiting for connections</log>
+                                    <time>60000</time>
+                                </wait>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>docker-start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>docker-stop</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Failsafe for integration tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -208,9 +233,10 @@
                         <param>com.notemanager.repository.*</param>
                     </excludedClasses>
                     <excludedTestClasses>
-        				<param>com.notemanager.unit.view.swing.**</param>
-        				<param>com.notemanager.unit.view.NoteSwingViewTest</param>
-   				 </excludedTestClasses>
+                        <param>**/*Swing*</param>
+                        <param>com.notemanager.unit.view.swing.*</param>
+                        
+                    </excludedTestClasses>
                     <mutationThreshold>90</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
