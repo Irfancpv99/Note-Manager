@@ -235,6 +235,7 @@
                     <excludedTestClasses>
                         <param>**/*Swing*</param>
                         <param>com.notemanager.unit.view.swing.*</param>
+                        
                     </excludedTestClasses>
                     <mutationThreshold>90</mutationThreshold>
                     <mutators>
