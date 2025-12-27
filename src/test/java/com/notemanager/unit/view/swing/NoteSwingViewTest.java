@@ -91,6 +91,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		);
 
 		window.list("notesList").selectItem(0);
+		robot().waitForIdle();
 
 		window.button(JButtonMatcher.withText("Edit")).requireEnabled();
 		window.button(JButtonMatcher.withText("Delete")).requireEnabled();
@@ -106,7 +107,9 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		);
 
 		window.list("notesList").selectItem(0);
+		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Delete")).click();
+		robot().waitForIdle();
 
 		verify(noteController).deleteNote("1");
 	}
@@ -124,7 +127,9 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		});
 
 		window.list("notesList").selectItem(0);
+		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Edit")).click();
+		robot().waitForIdle();
 
 		window.textBox("noteTextArea").requireText("Test note content");
 	}
@@ -142,10 +147,13 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		});
 
 		window.list("notesList").selectItem(0);
+		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Edit")).click();
+		robot().waitForIdle();
 
 		window.button(JButtonMatcher.withText("Update"));
 	}
+
 	@Test
 	@GUITest
 	public void testUpdateButtonCallsControllerUpdate() {
@@ -159,14 +167,18 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		});
 
 		window.list("notesList").selectItem(0);
+		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Edit")).click();
+		robot().waitForIdle();
 
 		window.textBox("noteTextArea").deleteText();
 		window.textBox("noteTextArea").enterText("Updated text");
 		window.button(JButtonMatcher.withText("Update")).click();
+		robot().waitForIdle();
 
 		verify(noteController).updateNote("1", "Updated text", "cat1");
 	}
+
 	@Test
 	@GUITest
 	public void testNoteUpdatedRefreshesInList() {
@@ -183,6 +195,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents[0]).contains("Updated text");
 	}
+
 	@Test
 	@GUITest
 	public void testNoteDeletedRemovedFromList() {
