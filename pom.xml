@@ -137,11 +137,11 @@
                             <alias>mongodb</alias>
                             <run>
                                 <ports>
-                                    <port>0:27017</port>
+                                    <port>27017:27017</port>
                                 </ports>
                                 <wait>
                                     <log>Waiting for connections</log>
-                                    <time>60000</time>
+                                    <time>30000</time>
                                 </wait>
                             </run>
                         </image>
