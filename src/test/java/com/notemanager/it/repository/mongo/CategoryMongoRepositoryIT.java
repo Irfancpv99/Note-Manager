@@ -3,6 +3,7 @@ package com.notemanager.it.repository.mongo;
 import static org.assertj.core.api.Assertions.*;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,5 +78,21 @@ class CategoryMongoRepositoryIT {
 		assertThat(saved.getId()).isNotNull();
 		assertThat(saved.getName()).isEqualTo("STUDY");
 		assertThat(categoryCollection.countDocuments()).isEqualTo(1);
+	}
+    @Test
+	void testSaveExistingCategoryUpdates() {
+		Document doc = new Document().append("name", "OLD");
+		categoryCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		Category category = new Category("NEW");
+		category.setId(id);
+
+		Category saved = repository.save(category);
+
+		assertThat(saved.getName()).isEqualTo("NEW");
+		assertThat(categoryCollection.countDocuments()).isEqualTo(1);
+		Document updated = categoryCollection.find(Filters.eq("_id", new ObjectId(id))).first();
+		assertThat(updated.getString("name")).isEqualTo("NEW");
 	}
 }
