@@ -108,6 +108,11 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco.version}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/NoteManagerApp.class</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -118,13 +123,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*IT.java</exclude>
-                        <exclude>**/*E2E.java</exclude>
-                        <exclude>**/it/**</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
 
             <!-- Docker Maven Plugin - starts MongoDB before integration tests -->
@@ -139,11 +137,11 @@
                             <alias>mongodb</alias>
                             <run>
                                 <ports>
-                                    <port>0:27017</port>
+                                    <port>27017:27017</port>
                                 </ports>
                                 <wait>
                                     <log>Waiting for connections</log>
-                                    <time>60000</time>
+                                    <time>30000</time>
                                 </wait>
                             </run>
                         </image>
@@ -166,6 +164,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Failsafe for integration tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -179,23 +178,12 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <includes>
-                        <include>**/*IT.java</include>
-                        <include>**/*E2E.java</include>
-                    </includes>
-                </configuration>
             </plugin>
 
             <!-- JaCoCo for code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/NoteManagerApp.class</exclude>
-                    </excludes>
-                </configuration>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -233,11 +221,9 @@
                         <param>com.notemanager.repository.*</param>
                     </excludedClasses>
                     <excludedTestClasses>
-                        <param>**/*Swing*</param>
                         <param>com.notemanager.unit.view.swing.*</param>
-                        
                     </excludedTestClasses>
-                    <mutationThreshold>90</mutationThreshold>
+                    <mutationThreshold>100</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>

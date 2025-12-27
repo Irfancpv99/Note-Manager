@@ -10,12 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mongodb:
-        image: mongo:6.0
-        ports:
-          - 27017:27017
-
     steps:
     - uses: actions/checkout@v4
       with:
@@ -28,8 +22,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build and Test
-      run: mvn -B clean verify -Dtest='!**/*Swing*' -Dit.test='!**/*Swing*' -DfailIfNoTests=false -Ddocker.skip=true
+    - name: Build and Test with GUI support
+      run: xvfb-run mvn -B clean verify
 
     - name: Mutation Testing
       run: mvn org.pitest:pitest-maven:mutationCoverage
