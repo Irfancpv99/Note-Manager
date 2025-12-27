@@ -96,4 +96,20 @@ class CategoryMongoRepositoryIT {
 		Document updated = categoryCollection.find(Filters.eq("_id", new ObjectId(id))).first();
 		assertThat(updated.getString("name")).isEqualTo("NEW");
 	}
+    @Test
+	void testDelete() {
+		Document doc = new Document().append("name", "PERSONAL");
+		categoryCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		repository.delete(id);
+
+		assertThat(categoryCollection.countDocuments()).isZero();
+	}
+    @Test
+	void testDeleteWithInvalidId() {
+		repository.delete("invalid");
+
+		assertThat(categoryCollection.countDocuments()).isZero();
+	}
 }
