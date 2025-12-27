@@ -37,19 +37,36 @@ public class CategoryMongoRepository implements CategoryRepository {
 
 	@Override
 	public Category findById(String id) {
-		Document doc = collection.find(Filters.eq("_id", new ObjectId(id))).first();
-		if (doc == null) {
+		try {
+			Document doc = collection.find(Filters.eq("_id", new ObjectId(id))).first();
+			if (doc == null) {
+				return null;
+			}
+			return documentToCategory(doc);
+		} catch (IllegalArgumentException e) {
 			return null;
 		}
-		return documentToCategory(doc);
 	}
 
 	@Override
 	public Category save(Category category) {
-		return null;
+		if (category.getId() == null) {
+			Document doc = new Document().append("name", category.getName());
+			collection.insertOne(doc);
+			category.setId(doc.getObjectId("_id").toString());
+		} else {
+			Document doc = new Document().append("name", category.getName());
+			collection.replaceOne(Filters.eq("_id", new ObjectId(category.getId())), doc);
+		}
+		return category;
 	}
 
 	@Override
 	public void delete(String id) {
+		try {
+			collection.deleteOne(Filters.eq("_id", new ObjectId(id)));
+		} catch (IllegalArgumentException e) {
+			
+		}
 	}
 }
