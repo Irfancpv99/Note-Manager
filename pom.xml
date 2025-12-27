@@ -139,7 +139,7 @@
                             <alias>mongodb</alias>
                             <run>
                                 <ports>
-                                    <port>27017:27017</port>
+                                    <port>0:27017</port>
                                 </ports>
                                 <wait>
                                     <log>Waiting for connections</log>
@@ -233,8 +233,7 @@
                         <param>com.notemanager.repository.*</param>
                     </excludedClasses>
                     <excludedTestClasses>
-                        <param>com.notemanager.unit.view.swing.**</param>
-                        <param>com.notemanager.unit.view.NoteSwingViewTest</param>
+                        <param>**/*Swing*</param>
                     </excludedTestClasses>
                     <mutationThreshold>90</mutationThreshold>
                     <mutators>
