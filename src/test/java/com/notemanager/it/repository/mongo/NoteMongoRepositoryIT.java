@@ -13,14 +13,14 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import com.notemanager.repository.mongo.CategoryMongoRepository;
+import com.notemanager.repository.mongo.NoteMongoRepository;
 
 class NoteMongoRepositoryIT {
 
     private MongoClient client;
     private MongoDatabase database;
     private MongoCollection<Document> categoryCollection;
-    private CategoryMongoRepository repository;
+    private NoteMongoRepository repository;
 
     @BeforeEach
     void setUp() {
