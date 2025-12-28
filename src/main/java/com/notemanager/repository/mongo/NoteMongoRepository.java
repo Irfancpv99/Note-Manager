@@ -49,7 +49,11 @@ public class NoteMongoRepository implements NoteRepository {
 	}
 	@Override
 	public List<Note> findByCategoryId(String categoryId) {
-		return new ArrayList<>();
+		List<Note> notes = new ArrayList<>();
+		for (Document doc : collection.find(Filters.eq("categoryId", categoryId))) {
+			notes.add(documentToNote(doc));
+		}
+		return notes;
 	}
 
 	@Override
