@@ -20,7 +20,17 @@ public class NoteMongoRepository implements NoteRepository {
 
 	@Override
 	public List<Note> findAll() {
-		return new ArrayList<>();
+		List<Note> notes = new ArrayList<>();
+		for (Document doc : collection.find()) {
+			notes.add(documentToNote(doc));
+		}
+		return notes;
+	}
+
+	private Note documentToNote(Document doc) {
+		Note note = new Note(doc.getString("text"), doc.getString("categoryId"));
+		note.setId(doc.getObjectId("_id").toString());
+		return note;
 	}
 
 	@Override
