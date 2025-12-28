@@ -55,6 +55,7 @@ public class Note {
 
 	@Override
 	public int hashCode() {
+		if (id != null) return id.hashCode();
 		return Objects.hash(text);
 	}
 

@@ -143,9 +143,11 @@ class NoteTest {
 
 	@Test
 	void testEqualsBothIdsNullSameTextReturnsTrue() {
-		Note note1 = new Note("Same text", "cat1");
-		Note note2 = new Note("Same text", "cat2");
+		Note note1 = new Note("Text", "cat1");
+		Note note2 = new Note("Text", "cat2");
 		assertThat(note1).isEqualTo(note2);
+		assertThat(note1.hashCode()).isNotZero();
+		
 	}
 
 	@Test
@@ -162,7 +164,19 @@ class NoteTest {
 		Note note2 = new Note("Text", "cat1");
 		note2.setId("1");
 		assertThat(note1.hashCode()).isEqualTo(note2.hashCode());
+		assertThat(note1.hashCode()).isNotZero();
 	}
+	
+	@Test
+	void sameIdDifferentTextMustHaveSameHashCode() {
+	    Note note1 = new Note("Text 1", "cat1");
+	    note1.setId("1");
+	    Note note2 = new Note("Text 2", "cat2");
+	    note2.setId("1");
+
+	    assertThat(note1).isEqualTo(note2);          
+	    assertThat(note1.hashCode()).isEqualTo(note2.hashCode()); 
+	    }
 
 	@Test
 	void testToStringContainsText() {
