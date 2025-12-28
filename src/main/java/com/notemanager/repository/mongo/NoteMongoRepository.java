@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.notemanager.model.Note;
 import com.notemanager.repository.NoteRepository;
 
@@ -35,9 +37,16 @@ public class NoteMongoRepository implements NoteRepository {
 
 	@Override
 	public Note findById(String id) {
-		return null;
+		try {
+			Document doc = collection.find(Filters.eq("_id", new ObjectId(id))).first();
+			if (doc == null) {
+				return null;
+			}
+			return documentToNote(doc);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
 	}
-
 	@Override
 	public List<Note> findByCategoryId(String categoryId) {
 		return new ArrayList<>();
