@@ -2,6 +2,8 @@ package com.notemanager.it.repository.mongo;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,5 +77,15 @@ class NoteMongoRepositoryIT {
 	void testFindByCategoryIdWhenNoMatches() {
 	noteCollection.insertOne(new Document().append("text", "Note 1").append("categoryId", "cat1"));
 	assertThat(repository.findByCategoryId("cat2")).isEmpty();
+	}
+	@Test
+	void testFindByCategoryIdWhenMatches() {
+		noteCollection.insertOne(new Document().append("text", "Note 1").append("categoryId", "cat1"));
+		noteCollection.insertOne(new Document().append("text", "Note 2").append("categoryId", "cat1"));
+		noteCollection.insertOne(new Document().append("text", "Note 3").append("categoryId", "cat2"));
+
+		List<Note> found = repository.findByCategoryId("cat1");
+
+		assertThat(found).hasSize(2);
 	}
 }
