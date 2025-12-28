@@ -11,7 +11,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
+import com.notemanager.model.Note;
 import com.notemanager.repository.mongo.NoteMongoRepository;
 
 class NoteMongoRepositoryIT {
@@ -51,4 +51,17 @@ class NoteMongoRepositoryIT {
     void testFindByIdNotFound() {
         assertThat(repository.findById("000000000000000000000000")).isNull();
     }
+	@Test
+	void testFindByIdFound() {
+		Document doc = new Document().append("text", "Test note").append("categoryId", "cat1");
+		noteCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		Note found = repository.findById(id);
+
+		assertThat(found).isNotNull();
+		assertThat(found.getText()).isEqualTo("Test note");
+		assertThat(found.getCategoryId()).isEqualTo("cat1");
+		assertThat(found.getId()).isEqualTo(id);
+	}
 }
