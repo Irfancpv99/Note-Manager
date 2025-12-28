@@ -119,4 +119,14 @@ class NoteMongoRepositoryIT {
 		assertThat(updated.getString("text")).isEqualTo("New text");
 		assertThat(updated.getString("categoryId")).isEqualTo("cat2");
 	}
+	@Test
+	void testDelete() {
+		Document doc = new Document().append("text", "Test").append("categoryId", "cat1");
+		noteCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		repository.delete(id);
+
+		assertThat(noteCollection.countDocuments()).isZero();
+	}
 }
