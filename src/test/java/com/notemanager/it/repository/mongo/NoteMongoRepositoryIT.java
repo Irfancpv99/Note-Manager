@@ -88,4 +88,15 @@ class NoteMongoRepositoryIT {
 
 		assertThat(found).hasSize(2);
 	}
+	@Test
+	void testSaveNewNote() {
+		Note note = new Note("Test note", "cat1");
+
+		Note saved = repository.save(note);
+
+		assertThat(saved.getId()).isNotNull();
+		assertThat(saved.getText()).isEqualTo("Test note");
+		assertThat(saved.getCategoryId()).isEqualTo("cat1");
+		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+	}
 }
