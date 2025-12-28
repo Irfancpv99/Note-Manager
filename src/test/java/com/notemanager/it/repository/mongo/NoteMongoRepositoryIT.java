@@ -129,4 +129,10 @@ class NoteMongoRepositoryIT {
 
 		assertThat(noteCollection.countDocuments()).isZero();
 	}
+	@Test
+	void testDeleteWithInvalidId() {
+		repository.delete("invalid");
+
+		assertThat(noteCollection.countDocuments()).isZero();
+	}
 }
