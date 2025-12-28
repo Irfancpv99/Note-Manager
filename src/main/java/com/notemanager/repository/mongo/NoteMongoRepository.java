@@ -58,7 +58,12 @@ public class NoteMongoRepository implements NoteRepository {
 
 	@Override
 	public Note save(Note note) {
-		return null;
+		Document doc = new Document()
+			.append("text", note.getText())
+			.append("categoryId", note.getCategoryId());
+		collection.insertOne(doc);
+		note.setId(doc.getObjectId("_id").toString());
+		return note;
 	}
 
 	@Override
