@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.notemanager.model.Note;
 import com.notemanager.repository.mongo.NoteMongoRepository;
 
@@ -98,5 +100,23 @@ class NoteMongoRepositoryIT {
 		assertThat(saved.getText()).isEqualTo("Test note");
 		assertThat(saved.getCategoryId()).isEqualTo("cat1");
 		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+	}
+	@Test
+	void testSaveExistingNoteUpdates() {
+		Document doc = new Document().append("text", "Old text").append("categoryId", "cat1");
+		noteCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		Note note = new Note("New text", "cat2");
+		note.setId(id);
+
+		Note saved = repository.save(note);
+
+		assertThat(saved.getText()).isEqualTo("New text");
+		assertThat(saved.getCategoryId()).isEqualTo("cat2");
+		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+		Document updated = noteCollection.find(Filters.eq("_id", new ObjectId(id))).first();
+		assertThat(updated.getString("text")).isEqualTo("New text");
+		assertThat(updated.getString("categoryId")).isEqualTo("cat2");
 	}
 }
