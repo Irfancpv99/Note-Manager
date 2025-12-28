@@ -75,5 +75,9 @@ public class NoteMongoRepository implements NoteRepository {
 
 	@Override
 	public void delete(String id) {
+		try {
+			collection.deleteOne(Filters.eq("_id", new ObjectId(id)));
+		} catch (IllegalArgumentException e) {
+		}
 	}
 }
