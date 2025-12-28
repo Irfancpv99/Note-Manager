@@ -40,4 +40,11 @@ class NoteMongoRepositoryIT {
 	void testFindAllWhenDatabaseIsEmpty() {
 		assertThat(repository.findAll()).isEmpty();
 	}
+    @Test
+	void testFindAllWhenDatabaseHasNotes() {
+		noteCollection.insertOne(new Document().append("text", "Note 1").append("categoryId", "cat1"));
+		noteCollection.insertOne(new Document().append("text", "Note 2").append("categoryId", "cat2"));
+
+		assertThat(repository.findAll()).hasSize(2);
+	}
 }
