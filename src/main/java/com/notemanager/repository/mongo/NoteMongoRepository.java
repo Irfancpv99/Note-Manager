@@ -29,12 +29,6 @@ public class NoteMongoRepository implements NoteRepository {
 		return notes;
 	}
 
-	private Note documentToNote(Document doc) {
-		Note note = new Note(doc.getString("text"), doc.getString("categoryId"));
-		note.setId(doc.getObjectId("_id").toString());
-		return note;
-	}
-
 	@Override
 	public Note findById(String id) {
 		try {
@@ -47,6 +41,7 @@ public class NoteMongoRepository implements NoteRepository {
 			return null;
 		}
 	}
+
 	@Override
 	public List<Note> findByCategoryId(String categoryId) {
 		List<Note> notes = new ArrayList<>();
@@ -58,15 +53,32 @@ public class NoteMongoRepository implements NoteRepository {
 
 	@Override
 	public Note save(Note note) {
-		Document doc = new Document()
-			.append("text", note.getText())
-			.append("categoryId", note.getCategoryId());
-		collection.insertOne(doc);
-		note.setId(doc.getObjectId("_id").toString());
+		if (note.getId() == null) {
+			Document doc = new Document()
+				.append("text", note.getText())
+				.append("categoryId", note.getCategoryId());
+			collection.insertOne(doc);
+			note.setId(doc.getObjectId("_id").toString());
+		} else {
+			Document doc = new Document()
+				.append("text", note.getText())
+				.append("categoryId", note.getCategoryId());
+			collection.replaceOne(Filters.eq("_id", new ObjectId(note.getId())), doc);
+		}
 		return note;
 	}
 
 	@Override
 	public void delete(String id) {
+		try {
+			collection.deleteOne(Filters.eq("_id", new ObjectId(id)));
+		} catch (IllegalArgumentException e) {
+		}
+	}
+
+	private Note documentToNote(Document doc) {
+		Note note = new Note(doc.getString("text"), doc.getString("categoryId"));
+		note.setId(doc.getObjectId("_id").toString());
+		return note;
 	}
 }
