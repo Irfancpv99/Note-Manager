@@ -64,4 +64,16 @@ class NoteMongoRepositoryIT {
 		assertThat(found.getCategoryId()).isEqualTo("cat1");
 		assertThat(found.getId()).isEqualTo(id);
 	}
+	@Test
+
+	void testFindByIdWithInvalidId() {
+	assertThat(repository.findById("invalid")).isNull();
+	}
+
+	@Test
+
+	void testFindByCategoryIdWhenNoMatches() {
+	noteCollection.insertOne(new Document().append("text", "Note 1").append("categoryId", "cat1"));
+	assertThat(repository.findByCategoryId("cat2")).isEmpty();
+	}
 }
