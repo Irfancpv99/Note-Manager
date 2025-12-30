@@ -76,5 +76,30 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 
 		assertThat(noteCollection.countDocuments()).isEqualTo(1);
 	}
+	
+	@Test
+	@GUITest
+	public void testDeleteNote() {
+	    
+		Document category = new Document().append("name", "WORK");
+	    categoryCollection.insertOne(category);
+	    String categoryId = category.getObjectId("_id").toString();
+	    
+	    Document note = new Document()
+	        .append("text", "To Delete")
+	        .append("categoryId", categoryId);
+	    noteCollection.insertOne(note);
+	    
+	    GuiActionRunner.execute(() -> {
+	        noteController.allCategories();
+	        noteController.allNotes();
+	    });
+	    
+	    // Select and delete
+	    window.list("notesList").selectItem(0);
+	    window.button(JButtonMatcher.withText("Delete")).click();
+	    
+	    assertThat(noteCollection.countDocuments()).isZero();
+	}
 }
 
