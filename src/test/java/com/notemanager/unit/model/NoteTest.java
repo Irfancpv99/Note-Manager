@@ -173,10 +173,7 @@ class NoteTest {
 	    note1.setId("1");
 	    Note note2 = new Note("Text 2", "cat2");
 	    note2.setId("1");
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/main
 	    assertThat(note1).isEqualTo(note2);          
 	    assertThat(note1.hashCode()).isEqualTo(note2.hashCode()); 
 	    }

@@ -77,7 +77,7 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 	    
 	    window.comboBox("categoryComboBox").selectItem(0);
 	    window.textBox("noteTextArea").enterText("E2E test note");
-	    window.button("saveButton").click();  // Use name instead of text matcher
+	    window.button("saveButton").click(); 
 	    
 	    assertThat(noteCollection.countDocuments()).isEqualTo(1);
 	}
@@ -128,7 +128,7 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 	    window.button(JButtonMatcher.withText("Edit")).click();
 	    window.textBox("noteTextArea").deleteText();
 	    window.textBox("noteTextArea").enterText("Updated");
-	    window.button(JButtonMatcher.withText("Update")).click();
+	    window.button("saveButton").click();
 	    
 	    Document updated = noteCollection.find().first();
 	    assertThat(updated.getString("text")).isEqualTo("Updated");
