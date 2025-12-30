@@ -111,6 +111,7 @@ class CategoryTest {
 		
 		assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
 	    assertThat(cat1.hashCode()).isNotZero();
+
 	}
 	
 	@Test
@@ -124,6 +125,7 @@ class CategoryTest {
 	    
 	    assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
 	    assertThat(cat1.hashCode()).isNotZero();
+
 	}
 	
 	@Test
