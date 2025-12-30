@@ -14,20 +14,11 @@ import com.notemanager.view.swing.NoteSwingView;
 public class NoteManagerApp {
 
 	public static void main(String[] args) {
-		String mongoUrl = "mongodb://localhost:27017";
-		String dbName = "notemanager";
-
-		for (String arg : args) {
-			if (arg.startsWith("--mongo-url=")) {
-				mongoUrl = arg.substring("--mongo-url=".length());
-			} else if (arg.startsWith("--db-name=")) {
-				dbName = arg.substring("--db-name=".length());
-			}
-		}
-
-		MongoClient client = MongoClients.create(mongoUrl);
-		MongoDatabase database = client.getDatabase(dbName);
-
+		
+		MongoClient client = MongoClients.create("mongodb://localhost:27017");
+		MongoDatabase database = client.getDatabase("notemanager");
+		
+		
 		CategoryMongoRepository categoryRepository = new CategoryMongoRepository(database);
 		NoteMongoRepository noteRepository = new NoteMongoRepository(database);
 		NoteService noteService = new NoteService(noteRepository, categoryRepository);
