@@ -77,7 +77,7 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 	    
 	    window.comboBox("categoryComboBox").selectItem(0);
 	    window.textBox("noteTextArea").enterText("E2E test note");
-	    window.button("saveButton").click(); 
+	    window.button("saveButton").click();  // Use name instead of text matcher
 	    
 	    assertThat(noteCollection.countDocuments()).isEqualTo(1);
 	}
