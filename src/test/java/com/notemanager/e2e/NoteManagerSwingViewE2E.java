@@ -67,14 +67,19 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testAddNote() {
-		categoryCollection.insertOne(new Document().append("name", "WORK"));
-		GuiActionRunner.execute(() -> noteController.allCategories());
-
-		window.comboBox("categoryComboBox").selectItem(0);
-		window.textBox("noteTextArea").enterText("E2E test note");
-		window.button(JButtonMatcher.withText("Save")).click();
-
-		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+	   
+		Document category = new Document().append("name", "WORK");
+	    categoryCollection.insertOne(category);
+	    
+	     GuiActionRunner.execute(() -> noteController.allCategories());
+	    
+	     assertThat(window.comboBox("categoryComboBox").contents()).isNotEmpty();
+	    
+	    window.comboBox("categoryComboBox").selectItem(0);
+	    window.textBox("noteTextArea").enterText("E2E test note");
+	    window.button("saveButton").click(); 
+	    
+	    assertThat(noteCollection.countDocuments()).isEqualTo(1);
 	}
 	
 	@Test
@@ -95,11 +100,38 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 	        noteController.allNotes();
 	    });
 	    
-	    // Select and delete
+	  
 	    window.list("notesList").selectItem(0);
 	    window.button(JButtonMatcher.withText("Delete")).click();
 	    
 	    assertThat(noteCollection.countDocuments()).isZero();
+	}
+	
+	@Test
+	@GUITest
+	public void testEditNote() {
+	   Document category = new Document().append("name", "WORK");
+	    categoryCollection.insertOne(category);
+	    String categoryId = category.getObjectId("_id").toString();
+	    
+	    Document note = new Document()
+	        .append("text", "Original")
+	        .append("categoryId", categoryId);
+	    noteCollection.insertOne(note);
+	    
+	     GuiActionRunner.execute(() -> {
+	        noteController.allCategories();
+	        noteController.allNotes();
+	    });
+	    
+	    window.list("notesList").selectItem(0);
+	    window.button(JButtonMatcher.withText("Edit")).click();
+	    window.textBox("noteTextArea").deleteText();
+	    window.textBox("noteTextArea").enterText("Updated");
+	    window.button(JButtonMatcher.withText("Update")).click();
+	    
+	    Document updated = noteCollection.find().first();
+	    assertThat(updated.getString("text")).isEqualTo("Updated");
 	}
 }
 
