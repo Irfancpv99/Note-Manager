@@ -195,4 +195,28 @@ class NoteControllerTest {
 		verify(noteView).showError("Note not found with id: nonexistent");
 		verify(noteService, never()).deleteNote(anyString());
 	}
+	@Test
+	void testNoteNullTextShowsError() {
+		noteController.newNote(null, "cat1");
+
+		verify(noteView).showError("Note text cannot be empty");
+		verify(noteService, never()).createNote(anyString(), anyString());
+	}
+
+	@Test
+	void testNoteBlankCategoryIdShowsError() {
+		noteController.newNote("Test note", "   ");
+
+		verify(noteView).showError("Please select a category");
+		verify(noteService, never()).createNote(anyString(), anyString());
+	}
+
+	@Test
+	void testUpdateNoteNullTextShowsError() {
+		noteController.updateNote("1", null, "cat1");
+
+		verify(noteView).showError("Note text cannot be empty");
+		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
+	}
+	
 }
