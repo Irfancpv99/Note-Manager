@@ -32,9 +32,9 @@
         <docker-maven-plugin.version>0.43.4</docker-maven-plugin.version>
           
            <!-- SonarCloud properties -->
-		<sonar.organization>Irfancpv99</sonar.organization>
+		<sonar.organization>irfancpv99</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.projectKey>Irfancpv99_Note-Manager</sonar.projectKey>
+		<sonar.projectKey>irfancpv99_Note-Manager</sonar.projectKey>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.exclusions>**/NoteManagerApp.java</sonar.exclusions>
          
