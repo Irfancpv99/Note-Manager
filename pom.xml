@@ -30,6 +30,13 @@
         <jacoco.version>0.8.10</jacoco.version>
         <pitest.version>1.14.1</pitest.version>
         <docker-maven-plugin.version>0.43.4</docker-maven-plugin.version>
+          
+           <!-- SonarCloud properties -->
+		<sonar.organization>irfancpv99</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.projectKey>Irfancpv99_Note-Manager</sonar.projectKey>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.exclusions>**/NoteManagerApp.java</sonar.exclusions> 
     </properties>
 
     <dependencies>
@@ -169,6 +176,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${failsafe.version}</version>
+                <configuration>
+		        <includes>
+		            <include>**/*IT.java</include>
+		            <include>**/*E2E.java</include>
+		        </includes>
+		    	</configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -177,6 +190,54 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            
+            <!-- Build Helper to add IT and E2E test sources -->
+			<plugin>
+			    <groupId>org.codehaus.mojo</groupId>
+			    <artifactId>build-helper-maven-plugin</artifactId>
+			    <version>3.4.0</version>
+			    <executions>
+			        <execution>
+			            <id>add-integration-test-source</id>
+			            <phase>generate-test-sources</phase>
+			            <goals>
+			                <goal>add-test-source</goal>
+			            </goals>
+			            <configuration>
+			                <sources>
+			                    <source>src/it/java</source>
+			                    <source>src/e2e/java</source>
+			                </sources>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+            <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <mainClass>com.notemanager.app.NoteManagerApp</mainClass>
+            </configuration>
+            </plugin>
+
+            <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <mainClass>com.notemanager.app.NoteManagerApp</mainClass>
+            </configuration>
+            </plugin>
+
+            <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <mainClass>com.notemanager.app.NoteManagerApp</mainClass>
+            </configuration>
             </plugin>
 
             <!-- JaCoCo for code coverage -->
@@ -210,19 +271,18 @@
                         <param>com.notemanager.model.*</param>
                         <param>com.notemanager.controller.*</param>
                         <param>com.notemanager.service.*</param>
-                    </targetClasses>
+                      	</targetClasses>
                     <targetTests>
                         <param>com.notemanager.*Test</param>
                     </targetTests>
                     <excludedClasses>
                         <param>com.notemanager.app.*</param>
                         <param>com.notemanager.view.*</param>
-                        <param>com.notemanager.repository.*</param>
                     </excludedClasses>
                     <excludedTestClasses>
                         <param>com.notemanager.unit.view.swing.*</param>
                     </excludedTestClasses>
-                    <mutationThreshold>90</mutationThreshold>
+                    <mutationThreshold>100</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>
@@ -234,7 +294,29 @@
                         <version>1.2.0</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin>   
+            
+            <!-- Coveralls for code coverage reporting -->
+			<plugin>
+			    <groupId>org.eluder.coveralls</groupId>
+			    <artifactId>coveralls-maven-plugin</artifactId>
+			    <version>4.3.0</version>
+			    <dependencies>
+    		    <dependency>
+			      <groupId>javax.xml.bind</groupId>
+			      <artifactId>jaxb-api</artifactId>
+			      <version>2.3.1</version>
+			    </dependency>
+			  </dependencies>
+			</plugin>
+			
+			<!-- SonarCloud -->
+			
+			 <plugin>
+		        <groupId>org.sonarsource.scanner.maven</groupId>
+		        <artifactId>sonar-maven-plugin</artifactId>
+		        <version>4.0.0.4121</version>
+		     </plugin>
 
             <!-- Assembly plugin for executable JAR -->
             <plugin>

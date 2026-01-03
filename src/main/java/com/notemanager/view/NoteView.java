@@ -18,6 +18,4 @@ public interface NoteView {
 	void noteDeleted(Note note);
 
 	void showError(String message);
-
-	void showErrorNoteNotFound(String message, Note note);
 }
