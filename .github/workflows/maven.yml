@@ -29,9 +29,9 @@ jobs:
       run: mvn org.pitest:pitest-maven:mutationCoverage
 
     - name: Coveralls Report
-      run: mvn coveralls:report -DrepoToken=${{ secrets.COVERALLS_TOKEN }}
+      run: mvn coveralls:report -DrepoToken=${{ secrets.COVERALLS_REPO_TOKEN }}
       env:
-        COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+        COVERALLS_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
     - name: SonarCloud Analysis
       run: mvn sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
