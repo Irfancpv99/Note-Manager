@@ -1,4 +1,4 @@
-package com.notemanager.it.repository.mongo;
+package com.notemanager.repository.mongo;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -14,8 +14,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.notemanager.model.Category;
-import com.notemanager.repository.mongo.CategoryMongoRepository;
-
 class CategoryMongoRepositoryIT {
 
     private MongoClient client;

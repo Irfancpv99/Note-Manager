@@ -179,11 +179,6 @@ public class NoteSwingView extends JFrame implements NoteView {
 		errorLabel.setText(message);
 	}
 
-	@Override
-	public void showErrorNoteNotFound(String message, Note note) {
-		errorLabel.setText(message);
-	}
-
 	private static class CategoryItem {
 		private final Category category;
 
