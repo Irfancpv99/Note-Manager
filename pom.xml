@@ -214,6 +214,15 @@
 			    </executions>
 			</plugin>
 
+            <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <mainClass>com.notemanager.app.NoteManagerApp</mainClass>
+            </configuration>
+            </plugin>
+
             <!-- JaCoCo for code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
