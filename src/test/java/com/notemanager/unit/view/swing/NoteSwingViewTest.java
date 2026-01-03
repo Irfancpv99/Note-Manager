@@ -71,7 +71,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Save")).click();
 		robot().waitForIdle();
-		
+
 		verify(noteController).newNote("Test note text", "1");
 	}
 
@@ -214,5 +214,14 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents).hasSize(1);
+	}
+	@Test
+	@GUITest
+	public void testShowErrorDisplaysMessage() {
+		GuiActionRunner.execute(() -> 
+			noteSwingView.showError("Test error message")
+		);
+
+		window.label("errorLabel").requireText("Test error message");
 	}
 }
