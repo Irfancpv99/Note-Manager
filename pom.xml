@@ -34,7 +34,7 @@
            <!-- SonarCloud properties -->
 		<sonar.organization>irfancpv99</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.projectKey>irfancpv99_Note-Manager</sonar.projectKey>
+		<sonar.projectKey>Irfancpv99_Note-Manager</sonar.projectKey>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.exclusions>**/NoteManagerApp.java</sonar.exclusions> 
     </properties>
