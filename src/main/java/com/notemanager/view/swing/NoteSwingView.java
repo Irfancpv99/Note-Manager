@@ -3,7 +3,9 @@ package com.notemanager.view.swing;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -35,6 +37,7 @@ public class NoteSwingView extends JFrame implements NoteView {
 	private JButton editButton;
 	private JButton deleteButton;
 	private JLabel errorLabel;
+	private Map<String, String> categoryIdToName = new HashMap<>();
 
 	private NoteController noteController;
 	private boolean editMode = false;
@@ -77,6 +80,17 @@ public class NoteSwingView extends JFrame implements NoteView {
 				editButton.setEnabled(hasSelection);
 				deleteButton.setEnabled(hasSelection);
 			}
+		});
+		
+		notesList.setCellRenderer((list, note, index, isSelected, cellHasFocus) -> {
+		    String categoryName = categoryIdToName.getOrDefault(note.getCategoryId(), "Unknown");
+		    JLabel label = new JLabel("Note : " + note.getText() + " | Category : " + categoryName);
+		    if (isSelected) {
+		        label.setBackground(list.getSelectionBackground());
+		        label.setForeground(list.getSelectionForeground());
+		        label.setOpaque(true);
+		    }
+		    return label;
 		});
 
 		editButton = new JButton("Edit");
@@ -130,10 +144,12 @@ public class NoteSwingView extends JFrame implements NoteView {
 
 	@Override
 	public void showAllCategories(List<Category> categories) {
-		categoryComboBoxModel.removeAllElements();
-		for (Category category : categories) {
-			categoryComboBoxModel.addElement(new CategoryItem(category));
-		}
+	    categoryComboBoxModel.removeAllElements();
+	    categoryIdToName.clear();
+	    for (Category category : categories) {
+	        categoryComboBoxModel.addElement(new CategoryItem(category));
+	        categoryIdToName.put(category.getId(), category.getName());
+	    }
 	}
 
 	@Override
