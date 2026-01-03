@@ -270,6 +270,7 @@
                     </dependency>
                 </dependencies>
             </plugin>   
+            
             <!-- Coveralls for code coverage reporting -->
 			<plugin>
 			    <groupId>org.eluder.coveralls</groupId>
@@ -283,6 +284,14 @@
 			    </dependency>
 			  </dependencies>
 			</plugin>
+			
+			<!-- SonarCloud -->
+			
+			 <plugin>
+		        <groupId>org.sonarsource.scanner.maven</groupId>
+		        <artifactId>sonar-maven-plugin</artifactId>
+		        <version>4.0.0.4121</version>
+		     </plugin>
 
             <!-- Assembly plugin for executable JAR -->
             <plugin>
