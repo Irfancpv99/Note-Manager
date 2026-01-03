@@ -22,6 +22,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+        
     - name: Build and Test with GUI support
       run: xvfb-run mvn -B clean verify
 
