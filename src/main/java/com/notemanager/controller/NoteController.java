@@ -58,14 +58,14 @@ public class NoteController {
 			Note updatedNote = noteService.updateNote(id, newText, newCategoryId);
 			noteView.noteUpdated(updatedNote);
 		} catch (IllegalArgumentException e) {
-			noteView.showErrorNoteNotFound(e.getMessage(), null);
+			noteView.showError(e.getMessage());
 		}
 	}
 
 	public void deleteNote(String id) {
 		Note note = noteService.findNoteById(id);
 		if (note == null) {
-			noteView.showErrorNoteNotFound("Note not found with id: " + id, null);
+			noteView.showError("Note not found with id: " + id);
 			return;
 		}
 		noteService.deleteNote(id);

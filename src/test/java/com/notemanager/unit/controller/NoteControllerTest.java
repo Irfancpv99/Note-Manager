@@ -170,7 +170,7 @@ class NoteControllerTest {
 
 		noteController.updateNote("1", "New text", "cat1");
 
-		verify(noteView).showErrorNoteNotFound(eq("Note not found with id: 1"), isNull());
+		verify(noteView).showError(eq("Note not found with id: 1"));
 	}
 
 	@Test
@@ -192,7 +192,7 @@ class NoteControllerTest {
 
 		noteController.deleteNote("nonexistent");
 
-		verify(noteView).showErrorNoteNotFound("Note not found with id: nonexistent", null);
+		verify(noteView).showError("Note not found with id: nonexistent");
 		verify(noteService, never()).deleteNote(anyString());
 	}
 }
