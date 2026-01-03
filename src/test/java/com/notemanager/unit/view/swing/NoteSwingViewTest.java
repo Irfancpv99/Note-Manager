@@ -66,7 +66,9 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		);
 
 		window.comboBox("categoryComboBox").selectItem(0);
+		robot().waitForIdle();
 		window.textBox("noteTextArea").enterText("Test note text");
+		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Save")).click();
 		robot().waitForIdle();
 
