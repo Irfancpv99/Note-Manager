@@ -107,8 +107,7 @@ class CategoryTest {
 	void testHashCodeConsistentWithEquals() {
 	    Category cat1 = new Category("PERSONAL");
 	    Category cat2 = new Category("PERSONAL");
-	    assertThat(cat1).isEqualTo(cat2);
-	    assertThat(cat1).hasSameHashCodeAs(cat2);
+	    assertThat(cat1).isEqualTo(cat2).hasSameHashCodeAs(cat2);
 	    assertThat(cat1.hashCode()).isNotZero();
 	}
 	
