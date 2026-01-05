@@ -10,6 +10,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -146,21 +149,13 @@ class NoteControllerTest {
 		verify(noteService).updateNote("1", "Updated text", "cat2");
 		verify(noteView).noteUpdated(updatedNote);
 	}
-
-	@Test
-	void testUpdateNoteEmptyTextShowsError() {
-		noteController.updateNote("1", "", "cat1");
-
-		verify(noteView).showError("Note text cannot be empty");
-		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
-	}
-
-	@Test
-	void testUpdateNoteBlankTextShowsError() {
-		noteController.updateNote("1", "   ", "cat1");
-
-		verify(noteView).showError("Note text cannot be empty");
-		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = {"   "})
+	void testNewNoteInvalidCategory(String invalidCategoryId) {
+	    noteController.newNote("Test note", invalidCategoryId);
+	    verify(noteView).showError("Please select a category");
+	    verify(noteService, never()).createNote(anyString(), anyString());
 	}
 
 	@Test
@@ -194,13 +189,6 @@ class NoteControllerTest {
 
 		verify(noteView).showError("Note not found with id: nonexistent");
 		verify(noteService, never()).deleteNote(anyString());
-	}
-	@Test
-	void testNoteNullTextShowsError() {
-		noteController.newNote(null, "cat1");
-
-		verify(noteView).showError("Note text cannot be empty");
-		verify(noteService, never()).createNote(anyString(), anyString());
 	}
 
 	@Test

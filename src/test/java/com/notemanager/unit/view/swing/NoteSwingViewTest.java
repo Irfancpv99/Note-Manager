@@ -31,7 +31,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	@Override
 	protected void onSetUp() {
 	    closeable = MockitoAnnotations.openMocks(this);
-	    noteSwingView = GuiActionRunner.execute(() -> new NoteSwingView());
+	    noteSwingView = GuiActionRunner.execute(NoteSwingView::new);
 	    window = new FrameFixture(robot(), noteSwingView);
 	    window.show();
 	    robot().waitForIdle();
