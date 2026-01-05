@@ -1,4 +1,4 @@
-package com.notemanager.e2e;
+package com.notemanager;
 
 import static org.assertj.core.api.Assertions.*;
 
