@@ -30,14 +30,13 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	@Override
 	protected void onSetUp() {
-		closeable = MockitoAnnotations.openMocks(this);
-		GuiActionRunner.execute(() -> {
-			noteSwingView = new NoteSwingView();
-			noteSwingView.setNoteController(noteController);
-			return noteSwingView;
-		});
-		window = new FrameFixture(robot(), noteSwingView);
-		window.show();
+	    closeable = MockitoAnnotations.openMocks(this);
+	    noteSwingView = GuiActionRunner.execute(() -> new NoteSwingView());
+	    window = new FrameFixture(robot(), noteSwingView);
+	    window.show();
+	    robot().waitForIdle();
+	    GuiActionRunner.execute(() -> noteSwingView.setNoteController(noteController));
+	    robot().waitForIdle();
 	}
 
 	@Override
@@ -216,7 +215,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents).hasSize(1);
-<<<<<<< HEAD
 	}
 	@Test
 	@GUITest
@@ -225,10 +223,6 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	        noteSwingView.showError("Test error message")
 	    );
 	    window.label("errorLabel").requireText("Test error message");
-	    
 	    assertThat(window.label("errorLabel").text()).isEqualTo("Test error message");
 	}
-=======
-	}	
->>>>>>> b5622ec2101342813a9f792e74722b156e398297
 }
