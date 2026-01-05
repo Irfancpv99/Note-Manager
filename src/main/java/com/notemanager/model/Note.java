@@ -71,6 +71,9 @@ public class Note {
 		if (id != null && other.id != null) {
 			return Objects.equals(id, other.id);
 		}
+		if (id != null || other.id != null) {
+	        return false;
+	    }
 		return Objects.equals(text, other.text);
 	}
 

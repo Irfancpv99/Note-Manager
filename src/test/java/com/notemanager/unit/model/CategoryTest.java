@@ -111,6 +111,7 @@ class CategoryTest {
 		
 		assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
 	    assertThat(cat1.hashCode()).isNotZero();
+
 	}
 	
 	@Test
@@ -124,10 +125,27 @@ class CategoryTest {
 	    
 	    assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
 	    assertThat(cat1.hashCode()).isNotZero();
+
 	}
+	
 	@Test
 	void testToStringContainsName() {
 		Category category = new Category("WORK");
 		assertThat(category.toString()).contains("WORK");
+	}
+	@Test
+	void testEqualsFirstIdNullSecondIdNotNull() {
+		Category cat1 = new Category("PERSONAL");
+		Category cat2 = new Category("PERSONAL");
+		cat2.setId("1");
+		assertThat(cat1).isNotEqualTo(cat2);
+	}
+
+	@Test
+	void testEqualsFirstIdNotNullSecondIdNull() {
+		Category cat1 = new Category("PERSONAL");
+		cat1.setId("1");
+		Category cat2 = new Category("PERSONAL");
+		assertThat(cat1).isNotEqualTo(cat2);
 	}
 }

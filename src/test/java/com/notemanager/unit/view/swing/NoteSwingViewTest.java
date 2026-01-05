@@ -68,8 +68,11 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		);
 
 		window.comboBox("categoryComboBox").selectItem(0);
+		robot().waitForIdle();
 		window.textBox("noteTextArea").enterText("Test note text");
+		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Save")).click();
+		robot().waitForIdle();
 
 		verify(noteController).newNote("Test note text", "1");
 	}
@@ -213,6 +216,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents).hasSize(1);
+<<<<<<< HEAD
 	}
 	@Test
 	@GUITest
@@ -224,4 +228,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	    
 	    assertThat(window.label("errorLabel").text()).isEqualTo("Test error message");
 	}
+=======
+	}	
+>>>>>>> b5622ec2101342813a9f792e74722b156e398297
 }

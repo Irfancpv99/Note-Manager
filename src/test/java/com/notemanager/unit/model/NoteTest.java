@@ -187,4 +187,19 @@ class NoteTest {
 		Note note = new Note("Test", "cat1");
 		assertThat(note.toString()).contains("cat1");
 	}
+	@Test
+	void testEqualsFirstIdNullSecondIdNotNull() {
+		Note note1 = new Note("Text", "cat1");
+		Note note2 = new Note("Text", "cat1");
+		note2.setId("1");
+		assertThat(note1).isNotEqualTo(note2);
+	}
+
+	@Test
+	void testEqualsFirstIdNotNullSecondIdNull() {
+		Note note1 = new Note("Text", "cat1");
+		note1.setId("1");
+		Note note2 = new Note("Text", "cat1");
+		assertThat(note1).isNotEqualTo(note2);
+	}
 }

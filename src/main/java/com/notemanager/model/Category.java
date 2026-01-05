@@ -53,6 +53,9 @@ public class Category {
 		if (id != null && other.id != null) {
 			return Objects.equals(id, other.id);
 		}
+		if (id != null || other.id != null) {
+	        return false;
+	    }
 		return Objects.equals(name, other.name);
 	}
 
