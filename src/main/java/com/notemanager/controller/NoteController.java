@@ -41,12 +41,8 @@ public class NoteController {
 			noteView.showError("Please select a category");
 			return;
 		}
-		try {
-			Note savedNote = noteService.createNote(text, categoryId);
-			noteView.noteAdded(savedNote);
-		} catch (Exception e) {
-			noteView.showError("Error creating note: " + e.getMessage());
-		}
+		Note savedNote = noteService.createNote(text, categoryId);
+		noteView.noteAdded(savedNote);
 	}
 
 	public void updateNote(String id, String newText, String newCategoryId) {
@@ -54,12 +50,13 @@ public class NoteController {
 			noteView.showError("Note text cannot be empty");
 			return;
 		}
-		try {
-			Note updatedNote = noteService.updateNote(id, newText, newCategoryId);
-			noteView.noteUpdated(updatedNote);
-		} catch (IllegalArgumentException e) {
-			noteView.showError(e.getMessage());
+		Note existingNote = noteService.findNoteById(id);
+		if (existingNote == null) {
+			noteView.showError("Note not found with id: " + id);
+			return;
 		}
+		Note updatedNote = noteService.updateNote(id, newText, newCategoryId);
+		noteView.noteUpdated(updatedNote);
 	}
 
 	public void deleteNote(String id) {

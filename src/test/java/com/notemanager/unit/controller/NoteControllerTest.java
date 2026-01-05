@@ -3,13 +3,15 @@ package com.notemanager.unit.controller;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -33,7 +35,7 @@ class NoteControllerTest {
 	private NoteController noteController;
 
 	@Test
-	void testAllCategoriesCallsServiceAndUpdatesView() {
+	void testAllCategories() {
 		Category cat1 = new Category("PERSONAL");
 		cat1.setId("1");
 		Category cat2 = new Category("WORK");
@@ -47,7 +49,7 @@ class NoteControllerTest {
 	}
 
 	@Test
-	void testAllNotesCallsServiceAndUpdatesView() {
+	void testAllNotes() {
 		Note note1 = new Note("Note 1", "cat1");
 		note1.setId("1");
 		Note note2 = new Note("Note 2", "cat2");
@@ -61,7 +63,7 @@ class NoteControllerTest {
 	}
 
 	@Test
-	void testAllNotesEmptyList() {
+	void testAllNotesEmpty() {
 		when(noteService.getAllNotes()).thenReturn(Collections.emptyList());
 
 		noteController.allNotes();
@@ -70,7 +72,7 @@ class NoteControllerTest {
 	}
 
 	@Test
-	void testNotesByCategoryIdCallsServiceAndUpdatesView() {
+	void testNotesByCategoryId() {
 		Note note1 = new Note("Note 1", "cat1");
 		note1.setId("1");
 		List<Note> notes = Arrays.asList(note1);
@@ -82,7 +84,7 @@ class NoteControllerTest {
 	}
 
 	@Test
-	void testNewNoteSuccessCreatesAndUpdatesView() {
+	void testNewNoteSuccess() {
 		Note savedNote = new Note("New note", "cat1");
 		savedNote.setId("1");
 		when(noteService.createNote("New note", "cat1")).thenReturn(savedNote);
@@ -93,52 +95,33 @@ class NoteControllerTest {
 		verify(noteView).noteAdded(savedNote);
 	}
 
-	@Test
-	void testNewNoteEmptyTextShowsError() {
-		noteController.newNote("", "cat1");
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = {"   "})
+	void testNewNoteInvalidText(String invalidText) {
+		noteController.newNote(invalidText, "cat1");
 
 		verify(noteView).showError("Note text cannot be empty");
 		verify(noteService, never()).createNote(anyString(), anyString());
 	}
 
-	@Test
-	void testNewNoteBlankTextShowsError() {
-		noteController.newNote("   ", "cat1");
-
-		verify(noteView).showError("Note text cannot be empty");
-		verify(noteService, never()).createNote(anyString(), anyString());
-	}
-
-	@Test
-	void testNewNoteNullCategoryIdShowsError() {
-		noteController.newNote("Test note", null);
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = {"   "})
+	void testNewNoteInvalidCategory(String invalidCategoryId) {
+		noteController.newNote("Test note", invalidCategoryId);
 
 		verify(noteView).showError("Please select a category");
 		verify(noteService, never()).createNote(anyString(), anyString());
 	}
 
 	@Test
-	void testNewNoteEmptyCategoryIdShowsError() {
-		noteController.newNote("Test note", "");
-
-		verify(noteView).showError("Please select a category");
-		verify(noteService, never()).createNote(anyString(), anyString());
-	}
-
-	@Test
-	void testNewNoteServiceExceptionShowsError() {
-		when(noteService.createNote("Test", "cat1"))
-			.thenThrow(new RuntimeException("Database error"));
-
-		noteController.newNote("Test", "cat1");
-
-		verify(noteView).showError("Error creating note: Database error");
-	}
-
-	@Test
-	void testUpdateNoteSuccessUpdatesAndRefreshesView() {
+	void testUpdateNoteSuccess() {
+		Note existingNote = new Note("Old text", "cat1");
+		existingNote.setId("1");
 		Note updatedNote = new Note("Updated text", "cat2");
 		updatedNote.setId("1");
+		when(noteService.findNoteById("1")).thenReturn(existingNote);
 		when(noteService.updateNote("1", "Updated text", "cat2")).thenReturn(updatedNote);
 
 		noteController.updateNote("1", "Updated text", "cat2");
@@ -147,34 +130,28 @@ class NoteControllerTest {
 		verify(noteView).noteUpdated(updatedNote);
 	}
 
-	@Test
-	void testUpdateNoteEmptyTextShowsError() {
-		noteController.updateNote("1", "", "cat1");
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = {"   "})
+	void testUpdateNoteInvalidText(String invalidText) {
+		noteController.updateNote("1", invalidText, "cat1");
 
 		verify(noteView).showError("Note text cannot be empty");
 		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
 	}
 
 	@Test
-	void testUpdateNoteBlankTextShowsError() {
-		noteController.updateNote("1", "   ", "cat1");
-
-		verify(noteView).showError("Note text cannot be empty");
-		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
-	}
-
-	@Test
-	void testUpdateNoteNotFoundShowsError() {
-		when(noteService.updateNote("1", "New text", "cat1"))
-			.thenThrow(new IllegalArgumentException("Note not found with id: 1"));
+	void testUpdateNoteNotFound() {
+		when(noteService.findNoteById("1")).thenReturn(null);
 
 		noteController.updateNote("1", "New text", "cat1");
 
-		verify(noteView).showError(eq("Note not found with id: 1"));
+		verify(noteView).showError("Note not found with id: 1");
+		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
 	}
 
 	@Test
-	void testDeleteNoteCallsServiceAndUpdatesView() {
+	void testDeleteNoteSuccess() {
 		Note noteToDelete = new Note("To delete", "cat1");
 		noteToDelete.setId("1");
 		when(noteService.findNoteById("1")).thenReturn(noteToDelete);
@@ -187,7 +164,7 @@ class NoteControllerTest {
 	}
 
 	@Test
-	void testDeleteNoteNotFoundShowsError() {
+	void testDeleteNoteNotFound() {
 		when(noteService.findNoteById("nonexistent")).thenReturn(null);
 
 		noteController.deleteNote("nonexistent");
@@ -195,28 +172,4 @@ class NoteControllerTest {
 		verify(noteView).showError("Note not found with id: nonexistent");
 		verify(noteService, never()).deleteNote(anyString());
 	}
-	@Test
-	void testNoteNullTextShowsError() {
-		noteController.newNote(null, "cat1");
-
-		verify(noteView).showError("Note text cannot be empty");
-		verify(noteService, never()).createNote(anyString(), anyString());
-	}
-
-	@Test
-	void testNoteBlankCategoryIdShowsError() {
-		noteController.newNote("Test note", "   ");
-
-		verify(noteView).showError("Please select a category");
-		verify(noteService, never()).createNote(anyString(), anyString());
-	}
-
-	@Test
-	void testUpdateNoteNullTextShowsError() {
-		noteController.updateNote("1", null, "cat1");
-
-		verify(noteView).showError("Note text cannot be empty");
-		verify(noteService, never()).updateNote(anyString(), anyString(), anyString());
-	}
-	
 }
