@@ -214,4 +214,5 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents).hasSize(1);
 	}
+	
 }
