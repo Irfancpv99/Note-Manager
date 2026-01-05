@@ -227,5 +227,4 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	    
 	    assertThat(window.label("errorLabel").text()).isEqualTo("Test error message");
 	}
-	}	
 }
