@@ -214,5 +214,14 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("notesList").contents();
 		assertThat(listContents).hasSize(1);
 	}
-	
+	@Test
+	@GUITest
+	public void testShowErrorDisplaysMessage() {
+	    GuiActionRunner.execute(() -> 
+	        noteSwingView.showError("Test error message")
+	    );
+	    window.label("errorLabel").requireText("Test error message");
+	    
+	    assertThat(window.label("errorLabel").text()).isEqualTo("Test error message");
+	}
 }
