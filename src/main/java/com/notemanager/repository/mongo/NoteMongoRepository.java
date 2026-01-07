@@ -14,6 +14,8 @@ import com.notemanager.repository.NoteRepository;
 
 public class NoteMongoRepository implements NoteRepository {
 
+	private static final String CATEGORY_ID = "categoryId";
+
 	private final MongoCollection<Document> collection;
 
 	public NoteMongoRepository(MongoDatabase database) {
@@ -45,7 +47,7 @@ public class NoteMongoRepository implements NoteRepository {
 	@Override
 	public List<Note> findByCategoryId(String categoryId) {
 		List<Note> notes = new ArrayList<>();
-		for (Document doc : collection.find(Filters.eq("categoryId", categoryId))) {
+		for (Document doc : collection.find(Filters.eq(CATEGORY_ID, categoryId))) {
 			notes.add(documentToNote(doc));
 		}
 		return notes;
@@ -56,13 +58,13 @@ public class NoteMongoRepository implements NoteRepository {
 		if (note.getId() == null) {
 			Document doc = new Document()
 				.append("text", note.getText())
-				.append("categoryId", note.getCategoryId());
+				.append(CATEGORY_ID, note.getCategoryId());
 			collection.insertOne(doc);
 			note.setId(doc.getObjectId("_id").toString());
 		} else {
 			Document doc = new Document()
 				.append("text", note.getText())
-				.append("categoryId", note.getCategoryId());
+				.append(CATEGORY_ID, note.getCategoryId());
 			collection.replaceOne(Filters.eq("_id", new ObjectId(note.getId())), doc);
 		}
 		return note;
@@ -73,11 +75,12 @@ public class NoteMongoRepository implements NoteRepository {
 		try {
 			collection.deleteOne(Filters.eq("_id", new ObjectId(id)));
 		} catch (IllegalArgumentException e) {
+			// Invalid ObjectId  - ignore as the note not exist 
 		}
 	}
 
 	private Note documentToNote(Document doc) {
-		Note note = new Note(doc.getString("text"), doc.getString("categoryId"));
+		Note note = new Note(doc.getString("text"), doc.getString(CATEGORY_ID));
 		note.setId(doc.getObjectId("_id").toString());
 		return note;
 	}
