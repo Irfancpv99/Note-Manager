@@ -54,4 +54,15 @@ class NoteServiceIT {
 		assertThat(categories).extracting(Category::getName)
 			.containsExactlyInAnyOrder("PERSONAL", "WORK");
 	}
+	@Test
+	void testGetAllNotesFromDatabase() {
+		noteCollection.insertOne(new Document().append("text", "Note 1").append("categoryId", "cat1"));
+		noteCollection.insertOne(new Document().append("text", "Note 2").append("categoryId", "cat2"));
+
+		List<Note> notes = noteService.getAllNotes();
+
+		assertThat(notes).hasSize(2);
+		assertThat(notes).extracting(Note::getText)
+			.containsExactlyInAnyOrder("Note 1", "Note 2");
+	}
 }
