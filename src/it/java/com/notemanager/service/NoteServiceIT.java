@@ -97,4 +97,15 @@ class NoteServiceIT {
 		assertThat(found).isNotNull();
 		assertThat(found.getText()).isEqualTo("Test");
 	}
+	@Test
+	void testFindCategoryByIdFromDatabase() {
+		Document doc = new Document().append("name", "PERSONAL");
+		categoryCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		Category found = noteService.findCategoryById(id);
+
+		assertThat(found).isNotNull();
+		assertThat(found.getName()).isEqualTo("PERSONAL");
+	}
 }
