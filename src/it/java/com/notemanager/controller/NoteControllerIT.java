@@ -103,4 +103,14 @@ class NoteControllerIT {
 		List<Note> captured = notesCaptor.getValue();
 		assertThat(captured).hasSize(2);
 	}
+	@Test
+	void testNewNoteToDatabase() {
+		noteController.newNote("New note", "cat1");
+
+		verify(noteView).noteAdded(noteCaptor.capture());
+		Note captured = noteCaptor.getValue();
+		assertThat(captured.getId()).isNotNull();
+		assertThat(captured.getText()).isEqualTo("New note");
+		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+	}
 }
