@@ -108,4 +108,16 @@ class NoteServiceIT {
 		assertThat(found).isNotNull();
 		assertThat(found.getName()).isEqualTo("PERSONAL");
 	}
+	@Test
+	void testUpdateNoteInDatabase() {
+		Document doc = new Document().append("text", "Old").append("categoryId", "cat1");
+		noteCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		Note updated = noteService.updateNote(id, "New", "cat2");
+
+		assertThat(updated.getText()).isEqualTo("New");
+		assertThat(updated.getCategoryId()).isEqualTo("cat2");
+		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+	}
 }
