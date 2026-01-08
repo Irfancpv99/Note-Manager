@@ -39,6 +39,9 @@ class NoteControllerIT {
 
 	@Captor
 	private ArgumentCaptor<List<Category>> categoriesCaptor;
+
+	@Captor
+	private ArgumentCaptor<List<Note>> notesCaptor;
 	
 	@Captor
 	private ArgumentCaptor<List<Note>> notesCaptor;
