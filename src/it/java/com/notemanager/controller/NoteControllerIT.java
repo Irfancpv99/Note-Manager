@@ -38,7 +38,8 @@ class NoteControllerIT {
 
 	@Captor
 	private ArgumentCaptor<List<Category>> categoriesCaptor;
-
+	
+	
 	@BeforeEach
 	void setUp() {
 		closeable = MockitoAnnotations.openMocks(this);
@@ -72,5 +73,18 @@ class NoteControllerIT {
 		assertThat(captured).hasSize(2);
 		assertThat(captured).extracting(Category::getName)
 			.containsExactlyInAnyOrder("PERSONAL", "WORK");
+	}
+	@Test
+	void testAllNotesFromDatabase() {
+		noteCollection.insertOne(new Document().append("text", "Note 1").append("categoryId", "cat1"));
+		noteCollection.insertOne(new Document().append("text", "Note 2").append("categoryId", "cat2"));
+
+		noteController.allNotes();
+
+		verify(noteView).showAllNotes(notesCaptor.capture());
+		List<Note> captured = notesCaptor.getValue();
+		assertThat(captured).hasSize(2);
+		assertThat(captured).extracting(Note::getText)
+			.containsExactlyInAnyOrder("Note 1", "Note 2");
 	}
 }
