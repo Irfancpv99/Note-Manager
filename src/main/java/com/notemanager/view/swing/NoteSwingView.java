@@ -39,13 +39,13 @@ public class NoteSwingView extends JFrame implements NoteView {
 	private JLabel errorLabel;
 	private Map<String, String> categoryIdToName = new HashMap<>();
 
-	private NoteController noteController;
-	private boolean editMode = false;
-	private String editingNoteId = null;
+	private transient NoteController noteController;
+	private transient boolean editMode = false;
+	private transient String editingNoteId = null;
 
 	public NoteSwingView() {
 		setTitle("Note Manager");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setSize(500, 600);
 		setLayout(new BorderLayout());
 

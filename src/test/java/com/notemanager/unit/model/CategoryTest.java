@@ -105,13 +105,10 @@ class CategoryTest {
 	
 	@Test
 	void testHashCodeConsistentWithEquals() {
-		Category cat1 = new Category("PERSONAL");
-		Category cat2 = new Category("PERSONAL");
-		assertThat(cat1).isEqualTo(cat2);
-		
-		assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
+	    Category cat1 = new Category("PERSONAL");
+	    Category cat2 = new Category("PERSONAL");
+	    assertThat(cat1).isEqualTo(cat2).hasSameHashCodeAs(cat2);
 	    assertThat(cat1.hashCode()).isNotZero();
-
 	}
 	
 	@Test
@@ -120,12 +117,8 @@ class CategoryTest {
 	    cat1.setId("1");
 	    Category cat2 = new Category("WORK");
 	    cat2.setId("1");
-
-	    assertThat(cat1).isEqualTo(cat2);
-	    
-	    assertThat(cat1.hashCode()).isEqualTo(cat2.hashCode());
+	    assertThat(cat1).isEqualTo(cat2).hasSameHashCodeAs(cat2);
 	    assertThat(cat1.hashCode()).isNotZero();
-
 	}
 	
 	@Test
