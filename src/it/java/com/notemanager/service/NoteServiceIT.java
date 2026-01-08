@@ -14,6 +14,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.notemanager.model.Category;
+import com.notemanager.model.Note;
 import com.notemanager.repository.mongo.CategoryMongoRepository;
 import com.notemanager.repository.mongo.NoteMongoRepository;
 
