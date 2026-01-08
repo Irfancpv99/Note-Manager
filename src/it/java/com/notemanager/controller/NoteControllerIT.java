@@ -38,6 +38,9 @@ class NoteControllerIT {
 
 	@Captor
 	private ArgumentCaptor<List<Category>> categoriesCaptor;
+
+	@Captor
+	private ArgumentCaptor<List<Note>> notesCaptor;
 	
 	
 	@BeforeEach
