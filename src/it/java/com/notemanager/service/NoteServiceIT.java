@@ -78,4 +78,23 @@ class NoteServiceIT {
 		assertThat(notes).extracting(Note::getText)
 			.containsExactlyInAnyOrder("Note 1", "Note 2");
 	}
+	@Test
+	void testCreateNoteInDatabase() {
+		Note created = noteService.createNote("New note", "cat1");
+
+		assertThat(created.getId()).isNotNull();
+		assertThat(created.getText()).isEqualTo("New note");
+		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+	}
+	@Test
+	void testFindNoteByIdFromDatabase() {
+		Document doc = new Document().append("text", "Test").append("categoryId", "cat1");
+		noteCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		Note found = noteService.findNoteById(id);
+
+		assertThat(found).isNotNull();
+		assertThat(found.getText()).isEqualTo("Test");
+	}
 }
