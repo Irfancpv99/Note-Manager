@@ -43,9 +43,6 @@ class NoteControllerIT {
 	@Captor
 	private ArgumentCaptor<List<Note>> notesCaptor;
 	
-	@Captor
-	private ArgumentCaptor<List<Note>> notesCaptor;
-	
 	
 	@BeforeEach
 	void setUp() {
