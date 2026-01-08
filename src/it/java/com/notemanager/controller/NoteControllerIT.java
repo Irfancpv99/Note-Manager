@@ -91,4 +91,16 @@ class NoteControllerIT {
 		assertThat(captured).extracting(Note::getText)
 			.containsExactlyInAnyOrder("Note 1", "Note 2");
 	}
+	@Test
+	void testNotesByCategoryIdFromDatabase() {
+		noteCollection.insertOne(new Document().append("text", "Note 1").append("categoryId", "cat1"));
+		noteCollection.insertOne(new Document().append("text", "Note 2").append("categoryId", "cat1"));
+		noteCollection.insertOne(new Document().append("text", "Note 3").append("categoryId", "cat2"));
+
+		noteController.notesByCategoryId("cat1");
+
+		verify(noteView).showAllNotes(notesCaptor.capture());
+		List<Note> captured = notesCaptor.getValue();
+		assertThat(captured).hasSize(2);
+	}
 }
