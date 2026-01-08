@@ -120,4 +120,14 @@ class NoteServiceIT {
 		assertThat(updated.getCategoryId()).isEqualTo("cat2");
 		assertThat(noteCollection.countDocuments()).isEqualTo(1);
 	}
+	@Test
+	void testDeleteNoteFromDatabase() {
+		Document doc = new Document().append("text", "Test").append("categoryId", "cat1");
+		noteCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		noteService.deleteNote(id);
+
+		assertThat(noteCollection.countDocuments()).isZero();
+	}
 }
