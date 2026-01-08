@@ -43,6 +43,9 @@ class NoteControllerIT {
 	@Captor
 	private ArgumentCaptor<List<Note>> notesCaptor;
 	
+	@Captor
+	private ArgumentCaptor<Note> noteCaptor;
+	
 	
 	@BeforeEach
 	void setUp() {
@@ -102,5 +105,15 @@ class NoteControllerIT {
 		verify(noteView).showAllNotes(notesCaptor.capture());
 		List<Note> captured = notesCaptor.getValue();
 		assertThat(captured).hasSize(2);
+	}
+	@Test
+	void testNewNoteToDatabase() {
+		noteController.newNote("New note", "cat1");
+
+		verify(noteView).noteAdded(noteCaptor.capture());
+		Note captured = noteCaptor.getValue();
+		assertThat(captured.getId()).isNotNull();
+		assertThat(captured.getText()).isEqualTo("New note");
+		assertThat(noteCollection.countDocuments()).isEqualTo(1);
 	}
 }
