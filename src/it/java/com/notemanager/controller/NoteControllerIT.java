@@ -129,4 +129,15 @@ class NoteControllerIT {
 		assertThat(captured.getText()).isEqualTo("Updated");
 		assertThat(captured.getCategoryId()).isEqualTo("cat2");
 	}
+	@Test
+	void testDeleteNoteFromDatabase() {
+		Document doc = new Document().append("text", "To delete").append("categoryId", "cat1");
+		noteCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		noteController.deleteNote(id);
+
+		verify(noteView).noteDeleted(noteCaptor.capture());
+		assertThat(noteCollection.countDocuments()).isZero();
+	}
 }
