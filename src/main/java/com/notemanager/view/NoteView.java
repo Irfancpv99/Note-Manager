@@ -18,4 +18,5 @@ public interface NoteView {
 	void noteDeleted(Note note);
 
 	void showError(String message);
+	
 }
