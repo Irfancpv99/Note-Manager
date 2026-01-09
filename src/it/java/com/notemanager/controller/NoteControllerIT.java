@@ -116,4 +116,17 @@ class NoteControllerIT {
 		assertThat(captured.getText()).isEqualTo("New note");
 		assertThat(noteCollection.countDocuments()).isEqualTo(1);
 	}
+	@Test
+	void testUpdateNoteInDatabase() {
+		Document doc = new Document().append("text", "Old").append("categoryId", "cat1");
+		noteCollection.insertOne(doc);
+		String id = doc.getObjectId("_id").toString();
+
+		noteController.updateNote(id, "Updated", "cat2");
+
+		verify(noteView).noteUpdated(noteCaptor.capture());
+		Note captured = noteCaptor.getValue();
+		assertThat(captured.getText()).isEqualTo("Updated");
+		assertThat(captured.getCategoryId()).isEqualTo("cat2");
+	}
 }
