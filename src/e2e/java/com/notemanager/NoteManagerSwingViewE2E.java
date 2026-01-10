@@ -79,4 +79,27 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 		Document savedNote = noteCollection.find().first();
 		assertThat(savedNote.getString("text")).isEqualTo("E2E test note");
 	}
+	@Test
+	@GUITest
+	public void testDeleteNoteSuccess() {
+		Document category = new Document().append("name", "PERSONAL");
+		categoryCollection.insertOne(category);
+		String categoryId = category.getObjectId("_id").toString();
+
+		Document note = new Document()
+			.append("text", "Note to delete")
+			.append("categoryId", categoryId);
+		noteCollection.insertOne(note);
+
+		GuiActionRunner.execute(() -> {
+			noteController.allCategories();
+			noteController.allNotes();
+		});
+
+		window.list("notesList").selectItem(0);
+		window.button(JButtonMatcher.withText("Delete")).click();
+
+		assertThat(noteCollection.countDocuments()).isZero();
+		assertThat(window.list("notesList").contents()).isEmpty();
+	}
 }
