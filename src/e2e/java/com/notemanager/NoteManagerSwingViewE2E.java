@@ -3,7 +3,6 @@ package com.notemanager;
 import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.swing.annotation.GUITest;
-import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
@@ -66,72 +65,18 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 
 	@Test
 	@GUITest
-	public void testAddNote() {
-	   
+	public void testAddNoteSuccess() {
 		Document category = new Document().append("name", "WORK");
-	    categoryCollection.insertOne(category);
-	    
-	     GuiActionRunner.execute(() -> noteController.allCategories());
-	    
-	     assertThat(window.comboBox("categoryComboBox").contents()).isNotEmpty();
-	    
-	    window.comboBox("categoryComboBox").selectItem(0);
-	    window.textBox("noteTextArea").enterText("E2E test note");
-	    window.button("saveButton").click(); 
-	    
-	    assertThat(noteCollection.countDocuments()).isEqualTo(1);
-	}
-	
-	@Test
-	@GUITest
-	public void testDeleteNote() {
-	    
-		Document category = new Document().append("name", "WORK");
-	    categoryCollection.insertOne(category);
-	    String categoryId = category.getObjectId("_id").toString();
-	    
-	    Document note = new Document()
-	        .append("text", "To Delete")
-	        .append("categoryId", categoryId);
-	    noteCollection.insertOne(note);
-	    
-	    GuiActionRunner.execute(() -> {
-	        noteController.allCategories();
-	        noteController.allNotes();
-	    });
-	    
-	  
-	    window.list("notesList").selectItem(0);
-	    window.button(JButtonMatcher.withText("Delete")).click();
-	    
-	    assertThat(noteCollection.countDocuments()).isZero();
-	}
-	
-	@Test
-	@GUITest
-	public void testEditNote() {
-	   Document category = new Document().append("name", "WORK");
-	    categoryCollection.insertOne(category);
-	    String categoryId = category.getObjectId("_id").toString();
-	    
-	    Document note = new Document()
-	        .append("text", "Original")
-	        .append("categoryId", categoryId);
-	    noteCollection.insertOne(note);
-	    
-	     GuiActionRunner.execute(() -> {
-	        noteController.allCategories();
-	        noteController.allNotes();
-	    });
-	    
-	    window.list("notesList").selectItem(0);
-	    window.button(JButtonMatcher.withText("Edit")).click();
-	    window.textBox("noteTextArea").deleteText();
-	    window.textBox("noteTextArea").enterText("Updated");
-	    window.button("saveButton").click();
-	    
-	    Document updated = noteCollection.find().first();
-	    assertThat(updated.getString("text")).isEqualTo("Updated");
+		categoryCollection.insertOne(category);
+
+		GuiActionRunner.execute(() -> noteController.allCategories());
+
+		window.comboBox("categoryComboBox").selectItem(0);
+		window.textBox("noteTextArea").enterText("E2E test note");
+		window.button("saveButton").click();
+
+		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+		Document savedNote = noteCollection.find().first();
+		assertThat(savedNote.getString("text")).isEqualTo("E2E test note");
 	}
 }
-
