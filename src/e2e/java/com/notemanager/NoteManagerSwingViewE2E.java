@@ -58,7 +58,6 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 		window = new FrameFixture(robot(), noteSwingView);
 		window.show();
 	}
-
 	@Override
 	protected void onTearDown() {
 		client.close();
