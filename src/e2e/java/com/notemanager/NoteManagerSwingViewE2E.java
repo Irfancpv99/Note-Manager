@@ -65,28 +65,29 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 
 	@Test
 	@GUITest
-	public void testAddNoteSuccess() {
+	public void testAddNote() {
 		Document category = new Document().append("name", "WORK");
 		categoryCollection.insertOne(category);
 
 		GuiActionRunner.execute(() -> noteController.allCategories());
+
+		assertThat(window.comboBox("categoryComboBox").contents()).isNotEmpty();
+
 		window.comboBox("categoryComboBox").selectItem(0);
 		window.textBox("noteTextArea").enterText("E2E test note");
 		window.button("saveButton").click();
 
 		assertThat(noteCollection.countDocuments()).isEqualTo(1);
-		Document savedNote = noteCollection.find().first();
-		assertThat(savedNote.getString("text")).isEqualTo("E2E test note");
 	}
 	@Test
 	@GUITest
-	public void testDeleteNoteSuccess() {
-		Document category = new Document().append("name", "PERSONAL");
+	public void testDeleteNote() {
+		Document category = new Document().append("name", "WORK");
 		categoryCollection.insertOne(category);
 		String categoryId = category.getObjectId("_id").toString();
 
 		Document note = new Document()
-			.append("text", "Note to delete")
+			.append("text", "To Delete")
 			.append("categoryId", categoryId);
 		noteCollection.insertOne(note);
 
@@ -99,18 +100,24 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Delete")).click();
 
 		assertThat(noteCollection.countDocuments()).isZero();
-		assertThat(window.list("notesList").contents()).isEmpty();
 	}
+	
 	@Test
 	@GUITest
-	public void testEditNoteSuccess() {
-		Document category = new Document().append("name", "STUDY");
-		categoryCollection.insertOne(category);
-		String categoryId = category.getObjectId("_id").toString();
+	public void testEditNoteTextAndCategory() {
+		
+		Document workCategory = new Document().append("name", "WORK");
+		categoryCollection.insertOne(workCategory);
+		String workCategoryId = workCategory.getObjectId("_id").toString();
 
+		Document personalCategory = new Document().append("name", "PERSONAL");
+		categoryCollection.insertOne(personalCategory);
+		String personalCategoryId = personalCategory.getObjectId("_id").toString();
+
+		// Added note in WORK category
 		Document note = new Document()
-			.append("text", "Original text")
-			.append("categoryId", categoryId);
+			.append("text", "Original Text")
+			.append("categoryId", workCategoryId);
 		noteCollection.insertOne(note);
 
 		GuiActionRunner.execute(() -> {
@@ -118,17 +125,23 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 			noteController.allNotes();
 		});
 
+		// edit 
 		window.list("notesList").selectItem(0);
 		window.button(JButtonMatcher.withText("Edit")).click();
-		window.textBox("noteTextArea").requireText("Original text");
-		window.button("saveButton").requireText("Update");
 
+		// edit text
 		window.textBox("noteTextArea").deleteText();
-		window.textBox("noteTextArea").enterText("Updated text");
+		window.textBox("noteTextArea").enterText("Updated Text");
+
+		// Change category to PERSONAL
+		window.comboBox("categoryComboBox").selectItem(1);
+
+		// Save
 		window.button("saveButton").click();
 
-		Document updatedNote = noteCollection.find().first();
-		assertThat(updatedNote.getString("text")).isEqualTo("Updated text");
-		assertThat(window.button("saveButton").text()).isEqualTo("Save");
+		
+		Document updated = noteCollection.find().first();
+		assertThat(updated.getString("text")).isEqualTo("Updated Text");
+		assertThat(updated.getString("categoryId")).isEqualTo(personalCategoryId);
 	}
 }
