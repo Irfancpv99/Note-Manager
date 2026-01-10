@@ -101,4 +101,34 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 		assertThat(noteCollection.countDocuments()).isZero();
 		assertThat(window.list("notesList").contents()).isEmpty();
 	}
+	@Test
+	@GUITest
+	public void testEditNoteSuccess() {
+		Document category = new Document().append("name", "STUDY");
+		categoryCollection.insertOne(category);
+		String categoryId = category.getObjectId("_id").toString();
+
+		Document note = new Document()
+			.append("text", "Original text")
+			.append("categoryId", categoryId);
+		noteCollection.insertOne(note);
+
+		GuiActionRunner.execute(() -> {
+			noteController.allCategories();
+			noteController.allNotes();
+		});
+
+		window.list("notesList").selectItem(0);
+		window.button(JButtonMatcher.withText("Edit")).click();
+		window.textBox("noteTextArea").requireText("Original text");
+		window.button("saveButton").requireText("Update");
+
+		window.textBox("noteTextArea").deleteText();
+		window.textBox("noteTextArea").enterText("Updated text");
+		window.button("saveButton").click();
+
+		Document updatedNote = noteCollection.find().first();
+		assertThat(updatedNote.getString("text")).isEqualTo("Updated text");
+		assertThat(window.button("saveButton").text()).isEqualTo("Save");
+	}
 }
