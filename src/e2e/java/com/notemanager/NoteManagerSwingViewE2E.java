@@ -70,7 +70,6 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 		categoryCollection.insertOne(category);
 
 		GuiActionRunner.execute(() -> noteController.allCategories());
-
 		window.comboBox("categoryComboBox").selectItem(0);
 		window.textBox("noteTextArea").enterText("E2E test note");
 		window.button("saveButton").click();
