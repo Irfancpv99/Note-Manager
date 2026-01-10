@@ -3,6 +3,7 @@ package com.notemanager;
 import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.swing.annotation.GUITest;
+import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
@@ -57,7 +58,6 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 		window = new FrameFixture(robot(), noteSwingView);
 		window.show();
 	}
-
 	@Override
 	protected void onTearDown() {
 		client.close();
