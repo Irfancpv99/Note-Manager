@@ -114,7 +114,6 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 		categoryCollection.insertOne(personalCategory);
 		String personalCategoryId = personalCategory.getObjectId("_id").toString();
 
-		// Added note in WORK category
 		Document note = new Document()
 			.append("text", "Original Text")
 			.append("categoryId", workCategoryId);
@@ -125,18 +124,14 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 			noteController.allNotes();
 		});
 
-		// edit 
 		window.list("notesList").selectItem(0);
 		window.button(JButtonMatcher.withText("Edit")).click();
 
-		// edit text
 		window.textBox("noteTextArea").deleteText();
 		window.textBox("noteTextArea").enterText("Updated Text");
 
-		// Change category to PERSONAL
 		window.comboBox("categoryComboBox").selectItem(1);
 
-		// Save
 		window.button("saveButton").click();
 
 		
@@ -146,32 +141,53 @@ public class NoteManagerSwingViewE2E extends AssertJSwingJUnitTestCase {
 	}
 	@Test
 	@GUITest
-	public void testEditNoteSuccess() {
-		Document category = new Document().append("name", "STUDY");
-		categoryCollection.insertOne(category);
-		String categoryId = category.getObjectId("_id").toString();
+	public void testFullUserWorkflow() {
+		
+		Document workCategory = new Document().append("name", "WORK");
+		categoryCollection.insertOne(workCategory);
 
-		Document note = new Document()
-			.append("text", "Original text")
-			.append("categoryId", categoryId);
-		noteCollection.insertOne(note);
+		Document personalCategory = new Document().append("name", "PERSONAL");
+		categoryCollection.insertOne(personalCategory);
+		String personalCategoryId = personalCategory.getObjectId("_id").toString();
 
-		GuiActionRunner.execute(() -> {
-			noteController.allCategories();
-			noteController.allNotes();
-		});
+		GuiActionRunner.execute(() -> noteController.allCategories());
+
+		window.comboBox("categoryComboBox").selectItem(0); // WORK
+		window.textBox("noteTextArea").enterText("Work Task 1");
+		window.button("saveButton").click();
+
+		assertThat(noteCollection.countDocuments()).isEqualTo(1);
+
+		window.comboBox("categoryComboBox").selectItem(1); // PERSONAL
+		window.textBox("noteTextArea").enterText("Personal Note");
+		window.button("saveButton").click();
+
+		assertThat(noteCollection.countDocuments()).isEqualTo(2);
+
+		window.comboBox("categoryComboBox").selectItem(0); // WORK
+		window.textBox("noteTextArea").enterText("Work Task 2");
+		window.button("saveButton").click();
+
+		assertThat(noteCollection.countDocuments()).isEqualTo(3);
+
+		GuiActionRunner.execute(() -> noteController.allNotes());
 
 		window.list("notesList").selectItem(0);
 		window.button(JButtonMatcher.withText("Edit")).click();
-		window.textBox("noteTextArea").requireText("Original text");
-		window.button("saveButton").requireText("Update");
-
 		window.textBox("noteTextArea").deleteText();
-		window.textBox("noteTextArea").enterText("Updated text");
+		window.textBox("noteTextArea").enterText("Updated Work Task");
+		window.comboBox("categoryComboBox").selectItem(1); // Change to PERSONAL
 		window.button("saveButton").click();
 
-		Document updatedNote = noteCollection.find().first();
-		assertThat(updatedNote.getString("text")).isEqualTo("Updated text");
-		assertThat(window.button("saveButton").text()).isEqualTo("Save");
+		GuiActionRunner.execute(() -> noteController.allNotes());
+		window.list("notesList").selectItem(1);
+		window.button(JButtonMatcher.withText("Delete")).click();
+
+		assertThat(noteCollection.countDocuments()).isEqualTo(2);
+
+		long personalNotes = noteCollection.countDocuments(
+			new Document("categoryId", personalCategoryId)
+		);
+		assertThat(personalNotes).isEqualTo(1);
 	}
 }
