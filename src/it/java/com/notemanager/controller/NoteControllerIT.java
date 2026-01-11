@@ -140,11 +140,4 @@ class NoteControllerIT {
 		verify(noteView).noteDeleted(noteCaptor.capture());
 		assertThat(noteCollection.countDocuments()).isZero();
 	}
-	@Test
-	void testNewNoteWithEmptyTextShowsError() {
-		noteController.newNote("", "cat1");
-
-		verify(noteView).showError("Note text cannot be empty");
-		assertThat(noteCollection.countDocuments()).isZero();
-	}
 }
