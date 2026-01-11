@@ -98,4 +98,5 @@ public class NoteManagerAppE2E extends AssertJSwingJUnitTestCase {
 
         assertThat(notes.countDocuments()).isZero();
     }
+    
 }
