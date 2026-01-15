@@ -1,6 +1,5 @@
 package com.notemanager.unit.service;
 
-import static java.util.Arrays.*;
 import static java.util.Collections.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
