@@ -4,6 +4,7 @@ import static java.util.Collections.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,6 +33,7 @@ class DatabaseInitializerTest {
 
 		verify(categoryRepository, times(3)).save(any(Category.class));
 	}
+
 	@Test
 	void testInitializeDefaultCategoriesWhenCategoriesAlreadyExist() {
 		Category existingCategory = new Category("EXISTING");
