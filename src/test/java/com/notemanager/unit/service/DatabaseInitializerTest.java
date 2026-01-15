@@ -32,6 +32,4 @@ class DatabaseInitializerTest {
 
 		verify(categoryRepository, times(3)).save(any(Category.class));
 	}
-
-	
 }
