@@ -32,4 +32,15 @@ class DatabaseInitializerTest {
 
 		verify(categoryRepository, times(3)).save(any(Category.class));
 	}
+	@Test
+	void testInitializeDefaultCategoriesWhenCategoriesAlreadyExist() {
+		Category existingCategory = new Category("EXISTING");
+		existingCategory.setId("1");
+		when(categoryRepository.findAll())
+			.thenReturn(asList(existingCategory));
+
+		databaseInitializer.initializeDefaultCategories();
+
+		verify(categoryRepository, never()).save(any(Category.class));
+	}
 }
