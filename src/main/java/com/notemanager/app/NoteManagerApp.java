@@ -18,7 +18,6 @@ public class NoteManagerApp {
         start("notemanager");
     }
 
-    // 🔥 THIS IS THE KEY
     public static void start(String databaseName) {
         MongoClient client = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = client.getDatabase(databaseName);
