@@ -1,6 +1,5 @@
 package com.notemanager.unit.service;
 
-import static java.util.Arrays.*;
 import static java.util.Collections.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -13,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.notemanager.model.Category;
 import com.notemanager.repository.CategoryRepository;
+import com.notemanager.service.DatabaseInitializer;
 
 @ExtendWith(MockitoExtension.class)
 class DatabaseInitializerTest {
