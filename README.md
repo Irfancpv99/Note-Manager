@@ -6,6 +6,7 @@ A Java Swing desktop application for managing notes with category organization, 
 
 | Metric | Status |
 |------|------|
+| Build Status | [![Build Status](https://github.com/Irfancpv99/Note-Manager/actions/workflows/maven.yml/badge.svg)](https://github.com/Irfancpv99/Note-Manager/actions) |
 | Quality Gate | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
 | Test Coverage | <a href="https://coveralls.io/github/Irfancpv99/Note-Manager?branch=main"><img src="https://coveralls.io/repos/github/Irfancpv99/Note-Manager/badge.svg?branch=main" alt="Coverage Status" /></a> |
 | Security  | [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager)|
@@ -15,6 +16,7 @@ A Java Swing desktop application for managing notes with category organization, 
 | Vulnerabilities | [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
 | Code Smells | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
 | Bugs | [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+
 
 ## Features
 
