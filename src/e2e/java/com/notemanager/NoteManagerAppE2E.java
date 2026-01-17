@@ -88,7 +88,7 @@ public class NoteManagerAppE2E extends AssertJSwingJUnitTestCase {
     }
     @Test
     @GUITest
-    public void emptyNoteShowsError() {
+    public void testemptyNoteShowsError() {
         window.comboBox("categoryComboBox").selectItem("WORK");
         window.button("saveButton").click();
 
