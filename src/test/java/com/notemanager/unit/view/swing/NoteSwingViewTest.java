@@ -47,8 +47,8 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	public void testControlsInitialState() {
 		window.button(JButtonMatcher.withText("Edit")).requireDisabled();
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
+		assertThat(window.button(JButtonMatcher.withText("Edit")).isEnabled()).isFalse();
 	}
-
 	@Test
 	@GUITest
 	public void testSaveButtonCallsControllerNewNote() {
@@ -83,6 +83,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 		window.button(JButtonMatcher.withText("Edit")).requireEnabled();
 		window.button(JButtonMatcher.withText("Delete")).requireEnabled();
+		assertThat(window.button(JButtonMatcher.withText("Edit")).isEnabled()).isTrue();
 	}
 
 	@Test
