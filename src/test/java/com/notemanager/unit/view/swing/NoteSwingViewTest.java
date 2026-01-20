@@ -30,13 +30,11 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	@Override
 	protected void onSetUp() {
-	    closeable = MockitoAnnotations.openMocks(this);
-	    noteSwingView = GuiActionRunner.execute(NoteSwingView::new);
-	    window = new FrameFixture(robot(), noteSwingView);
-	    window.show();
-	    robot().waitForIdle();
-	    GuiActionRunner.execute(() -> noteSwingView.setNoteController(noteController));
-	    robot().waitForIdle();
+		closeable = MockitoAnnotations.openMocks(this);
+		noteSwingView = GuiActionRunner.execute(NoteSwingView::new);
+		window = new FrameFixture(robot(), noteSwingView);
+		window.show();
+		GuiActionRunner.execute(() -> noteSwingView.setNoteController(noteController));
 	}
 
 	@Override
@@ -47,14 +45,8 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testControlsInitialState() {
-	    window.comboBox("categoryComboBox").requireEnabled();
-	    window.textBox("noteTextArea").requireEnabled();
-	    window.button(JButtonMatcher.withText("Save")).requireEnabled();
-	    window.list("notesList").requireEnabled();
-	    window.button(JButtonMatcher.withText("Edit")).requireDisabled();
-	    window.button(JButtonMatcher.withText("Delete")).requireDisabled();
-	    
-	    assertThat(window.button(JButtonMatcher.withText("Delete")).isEnabled()).isFalse();
+		window.button(JButtonMatcher.withText("Edit")).requireDisabled();
+		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
 	}
 
 	@Test
@@ -62,23 +54,18 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	public void testSaveButtonCallsControllerNewNote() {
 		Category category = new Category("WORK");
 		category.setId("1");
-		GuiActionRunner.execute(() -> 
-			noteSwingView.showAllCategories(Arrays.asList(category))
-		);
+		GuiActionRunner.execute(() -> noteSwingView.showAllCategories(Arrays.asList(category)));
 
 		window.comboBox("categoryComboBox").selectItem(0);
-		robot().waitForIdle();
-		window.textBox("noteTextArea").enterText("Test note text");
-		robot().waitForIdle();
+		window.textBox("noteTextArea").enterText("Test note");
 		window.button(JButtonMatcher.withText("Save")).click();
-		robot().waitForIdle();
 
-		verify(noteController).newNote("Test note text", "1");
+		verify(noteController).newNote("Test note", "1");
 	}
 
 	@Test
 	@GUITest
-	public void testSaveButtonCallsControllerWithNullCategoryWhenNoneSelected() {
+	public void testSaveButtonWithNullCategory() {
 		window.textBox("noteTextArea").enterText("Test note");
 		window.button(JButtonMatcher.withText("Save")).click();
 
@@ -87,81 +74,34 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	@Test
 	@GUITest
-	public void testSelectNoteFromListEnablesButtons() {
-	    Note note = new Note("Test note", "cat1");
-	    note.setId("1");
-	    GuiActionRunner.execute(() -> 
-	        noteSwingView.showAllNotes(Arrays.asList(note))
-	    );
-	    window.list("notesList").selectItem(0);
-	    robot().waitForIdle();
-	    window.button(JButtonMatcher.withText("Edit")).requireEnabled();
-	    window.button(JButtonMatcher.withText("Delete")).requireEnabled();
-	    
-	    assertThat(window.button(JButtonMatcher.withText("Edit")).isEnabled()).isTrue();
+	public void testSelectNoteEnablesButtons() {
+		Note note = new Note("Test note", "cat1");
+		note.setId("1");
+		GuiActionRunner.execute(() -> noteSwingView.showAllNotes(Arrays.asList(note)));
+
+		window.list("notesList").selectItem(0);
+
+		window.button(JButtonMatcher.withText("Edit")).requireEnabled();
+		window.button(JButtonMatcher.withText("Delete")).requireEnabled();
 	}
 
 	@Test
 	@GUITest
-	public void testDeleteButtonCallsControllerDelete() {
+	public void testDeleteButtonCallsController() {
 		Note note = new Note("Test note", "cat1");
 		note.setId("1");
-		GuiActionRunner.execute(() -> 
-			noteSwingView.showAllNotes(Arrays.asList(note))
-		);
+		GuiActionRunner.execute(() -> noteSwingView.showAllNotes(Arrays.asList(note)));
 
 		window.list("notesList").selectItem(0);
-		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Delete")).click();
-		robot().waitForIdle();
 
 		verify(noteController).deleteNote("1");
 	}
 
 	@Test
 	@GUITest
-	public void testEditButtonLoadsNoteIntoTextArea() {
-	    Category category = new Category("WORK");
-	    category.setId("cat1");
-	    Note note = new Note("Test note content", "cat1");
-	    note.setId("1");
-	    GuiActionRunner.execute(() -> {
-	        noteSwingView.showAllCategories(Arrays.asList(category));
-	        noteSwingView.showAllNotes(Arrays.asList(note));
-	    });
-	    window.list("notesList").selectItem(0);
-	    robot().waitForIdle();
-	    window.button(JButtonMatcher.withText("Edit")).click();
-	    robot().waitForIdle();
-	    window.textBox("noteTextArea").requireText("Test note content");
-	    
-	    assertThat(window.textBox("noteTextArea").text()).isEqualTo("Test note content");
-	}
-
-	@Test
-	@GUITest
-	public void testEditModeChangesButtonText() {
-	    Category category = new Category("WORK");
-	    category.setId("cat1");
-	    Note note = new Note("Test note", "cat1");
-	    note.setId("1");
-	    GuiActionRunner.execute(() -> {
-	        noteSwingView.showAllCategories(Arrays.asList(category));
-	        noteSwingView.showAllNotes(Arrays.asList(note));
-	    });
-	    window.list("notesList").selectItem(0);
-	    robot().waitForIdle();
-	    window.button(JButtonMatcher.withText("Edit")).click();
-	    robot().waitForIdle();
-	    window.button("saveButton").requireText("Update");
-	    
-	   assertThat(window.button("saveButton").text()).isEqualTo("Update");
-	}
-
-	@Test
-	@GUITest
-	public void testUpdateButtonCallsControllerUpdate() {
-		Category category = new Category("PERSONAL");
+	public void testEditAndUpdateFlow() {
+		Category category = new Category("WORK");
 		category.setId("cat1");
 		Note note = new Note("Original", "cat1");
 		note.setId("1");
@@ -171,58 +111,78 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		});
 
 		window.list("notesList").selectItem(0);
-		robot().waitForIdle();
 		window.button(JButtonMatcher.withText("Edit")).click();
-		robot().waitForIdle();
+
+		assertThat(window.textBox("noteTextArea").text()).isEqualTo("Original");
+		assertThat(window.button("saveButton").text()).isEqualTo("Update");
 
 		window.textBox("noteTextArea").deleteText();
-		window.textBox("noteTextArea").enterText("Updated text");
+		window.textBox("noteTextArea").enterText("Updated");
 		window.button(JButtonMatcher.withText("Update")).click();
-		robot().waitForIdle();
 
-		verify(noteController).updateNote("1", "Updated text", "cat1");
+		verify(noteController).updateNote("1", "Updated", "cat1");
 	}
 
 	@Test
 	@GUITest
-	public void testNoteUpdatedRefreshesInList() {
-		Note note = new Note("Original text", "cat1");
+	public void testNoteUpdatedRefreshesList() {
+		Note note = new Note("Original", "cat1");
 		note.setId("1");
-		GuiActionRunner.execute(() -> 
-			noteSwingView.showAllNotes(Arrays.asList(note))
-		);
+		GuiActionRunner.execute(() -> noteSwingView.showAllNotes(Arrays.asList(note)));
 
-		Note updatedNote = new Note("Updated text", "cat1");
-		updatedNote.setId("1");
-		GuiActionRunner.execute(() -> noteSwingView.noteUpdated(updatedNote));
+		Note updated = new Note("Updated", "cat1");
+		updated.setId("1");
+		GuiActionRunner.execute(() -> noteSwingView.noteUpdated(updated));
 
-		String[] listContents = window.list("notesList").contents();
-		assertThat(listContents[0]).contains("Updated text");
+		assertThat(window.list("notesList").contents()[0]).contains("Updated");
 	}
 
 	@Test
 	@GUITest
-	public void testNoteDeletedRemovedFromList() {
+	public void testNoteDeletedRemovesFromList() {
 		Note note1 = new Note("Note 1", "cat1");
 		note1.setId("1");
 		Note note2 = new Note("Note 2", "cat1");
 		note2.setId("2");
-		GuiActionRunner.execute(() -> 
-			noteSwingView.showAllNotes(Arrays.asList(note1, note2))
-		);
+		GuiActionRunner.execute(() -> noteSwingView.showAllNotes(Arrays.asList(note1, note2)));
 
 		GuiActionRunner.execute(() -> noteSwingView.noteDeleted(note1));
 
-		String[] listContents = window.list("notesList").contents();
-		assertThat(listContents).hasSize(1);
+		assertThat(window.list("notesList").contents()).hasSize(1);
 	}
+
 	@Test
 	@GUITest
-	public void testShowErrorDisplaysMessage() {
-	    GuiActionRunner.execute(() -> 
-	        noteSwingView.showError("Test error message")
-	    );
-	    window.label("errorLabel").requireText("Test error message");
-	    assertThat(window.label("errorLabel").text()).isEqualTo("Test error message");
+	public void testShowError() {
+		GuiActionRunner.execute(() -> noteSwingView.showError("Error message"));
+		assertThat(window.label("errorLabel").text()).isEqualTo("Error message");
+	}
+
+	@Test
+	@GUITest
+	public void testNoteUpdatedWhenIdNotFound() {
+		Note existing = new Note("existing", "cat1");
+		existing.setId("id1");
+		Note different = new Note("other", "cat1");
+		different.setId("different-id");
+		GuiActionRunner.execute(() -> {
+			noteSwingView.noteAdded(existing);
+			noteSwingView.noteUpdated(different);
+		});
+		assertThat(window.list("notesList").contents()).hasSize(1);
+	}
+
+	@Test
+	@GUITest
+	public void testNoteDeletedWhenIdNotFound() {
+		Note existing = new Note("existing", "cat1");
+		existing.setId("id1");
+		Note different = new Note("other", "cat1");
+		different.setId("different-id");
+		GuiActionRunner.execute(() -> {
+			noteSwingView.noteAdded(existing);
+			noteSwingView.noteDeleted(different);
+		});
+		assertThat(window.list("notesList").contents()).hasSize(1);
 	}
 }

@@ -63,10 +63,10 @@ public class NoteSwingView extends JFrame implements NoteView {
 			CategoryItem selectedCategory = (CategoryItem) categoryComboBox.getSelectedItem();
 			String categoryId = selectedCategory != null ? selectedCategory.getId() : null;
 
-			if (editMode && editingNoteId != null) {
-				noteController.updateNote(editingNoteId, text, categoryId);
+			if (editMode) {
+			    noteController.updateNote(editingNoteId, text, categoryId);
 			} else {
-				noteController.newNote(text, categoryId);
+			    noteController.newNote(text, categoryId);
 			}
 		});
 
@@ -97,23 +97,19 @@ public class NoteSwingView extends JFrame implements NoteView {
 		editButton.setName("editButton");
 		editButton.setEnabled(false);
 		editButton.addActionListener(e -> {
-			Note selected = notesList.getSelectedValue();
-			if (selected != null) {
-				editMode = true;
-				editingNoteId = selected.getId();
-				noteTextArea.setText(selected.getText());
-				saveButton.setText("Update");
-			}
+		    Note selected = notesList.getSelectedValue();
+		    editMode = true;
+		    editingNoteId = selected.getId();
+		    noteTextArea.setText(selected.getText());
+		    saveButton.setText("Update");
 		});
 
 		deleteButton = new JButton("Delete");
 		deleteButton.setName("deleteButton");
 		deleteButton.setEnabled(false);
 		deleteButton.addActionListener(e -> {
-			Note selected = notesList.getSelectedValue();
-			if (selected != null) {
-				noteController.deleteNote(selected.getId());
-			}
+		    Note selected = notesList.getSelectedValue();
+		    noteController.deleteNote(selected.getId());
 		});
 
 		errorLabel = new JLabel(" ");
