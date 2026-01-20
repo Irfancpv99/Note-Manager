@@ -66,7 +66,7 @@ public class CategoryMongoRepository implements CategoryRepository {
 		try {
 			collection.deleteOne(Filters.eq("_id", new ObjectId(id)));
 		} catch (IllegalArgumentException e) {
-			
+			// Invalid ObjectId  - ignore as the category not exist 
 		}
 	}
 }
