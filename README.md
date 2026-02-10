@@ -43,7 +43,7 @@ A simple desktop app for managing your notes with categories. Built with Java an
 
 ## What You Need
 
-- Java 17 or higher
+- Java 17
 - Maven 3.6+
 - Docker
 - MongoDB 6.0
