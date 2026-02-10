@@ -69,6 +69,7 @@ mvn package
 
 # Run it
 java -jar target/note-manager-1.0.0-jar-with-dependencies.jar
+mvn exec:java
 ```
 
 ## Project Structure
