@@ -1,82 +1,86 @@
 # Note Manager
 
-A Java Swing desktop application for managing notes with category organization, built using Test-Driven Development (TDD) practices.
+A simple desktop app for managing your notes with categories. Built with Java and Swing, following TDD practices.
 
-## Metric 
-
-| Metric | Status |
-|------|------|
-| Build Status | [![Build Status](https://github.com/Irfancpv99/Note-Manager/actions/workflows/maven.yml/badge.svg)](https://github.com/Irfancpv99/Note-Manager/actions) |
-| Quality Gate | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
-| Test Coverage | <a href="https://coveralls.io/github/Irfancpv99/Note-Manager?branch=main"><img src="https://coveralls.io/repos/github/Irfancpv99/Note-Manager/badge.svg?branch=main" alt="Coverage Status" /></a> |
-| Security  | [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager)|
-| Duplications | [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
-| Technical Debt|[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager)|
-|Reliability |[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager)|
-| Vulnerabilities | [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
-| Code Smells | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
-| Bugs | [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
-
-
-## Features
+## What It Does
 
 - Create, edit, and delete notes
-- Organize notes by categories (Personal, Work, Study)
-- MongoDB persistence
+- Organize notes into categories (Personal, Work, Study)
+- Stores everything in MongoDB
 - Clean MVC architecture
 
 ## Tech Stack
 
-- **Java 17**
-- **MongoDB** - Data persistence
-- **Swing** - GUI framework
+- **Java 17** - Core language
+- **MongoDB** - Database
+- **Swing** - GUI
 - **Maven** - Build tool
 
-### Testing & Quality
+### Testing & Quality Tools
 
-- JUnit 5 & JUnit 4 (for Swing tests)
-- Mockito - Mocking framework
+- JUnit 5 & JUnit 4 - Testing
+- Mockito - Mocking
 - AssertJ & AssertJ Swing - Assertions
 - JaCoCo - Code coverage
 - PIT - Mutation testing
-- SonarCloud - Code quality analysis
-- Coveralls - Code Coverage
+- SonarCloud - Code quality
+- Coveralls - Coverage tracking
 
-## Requirements
+## Project Status
 
-- Java 17+
+| Metric | Badge |
+|--------|-------|
+| Build | [![Build Status](https://github.com/Irfancpv99/Note-Manager/actions/workflows/maven.yml/badge.svg)](https://github.com/Irfancpv99/Note-Manager/actions) |
+| Quality | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+| Coverage | [![Coverage Status](https://coveralls.io/repos/github/Irfancpv99/Note-Manager/badge.svg?branch=main)](https://coveralls.io/github/Irfancpv99/Note-Manager?branch=main) |
+| Security | [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+| Reliability | [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+| Duplications | [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+| Tech Debt | [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+| Vulnerabilities | [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+| Code Smells | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+| Bugs | [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Irfancpv99_Note-Manager&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Irfancpv99_Note-Manager) |
+
+## What You Need
+
+- Java 17
 - Maven 3.6+
-- Docker 
+- Docker
 - MongoDB 6.0
 
-## Build & Run
+## Getting Started
 
+### Running Tests
 ```bash
-# Run unit tests
+# Just unit tests
 mvn clean test
 
-# Run all tests (unit + integration + E2E)
+# Everything (unit + integration + E2E)
 mvn clean verify
 
-# Run mutation testing
+# Mutation testing
 mvn pitest:mutationCoverage
+```
 
-# Build and run the application
+### Running the App
+```bash
+# Build it
 mvn package
+
+# Run it
 java -jar target/note-manager-1.0.0-jar-with-dependencies.jar
 ```
 
 ## Project Structure
-
 ```
 src/
 ├── main/java/com/notemanager/
-│   ├── app/           # Application entry point
-│   ├── controller/    # MVC controllers
-│   ├── model/         # Domain models (Note, Category)
-│   ├── repository/    # Data access layer
+│   ├── app/           # Main entry point
+│   ├── controller/    # Controllers
+│   ├── model/         # Note & Category models
+│   ├── repository/    # Database access
 │   ├── service/       # Business logic
-│   └── view/          # Swing GUI
+│   └── view/          # Swing UI
 ├── test/java/         # Unit tests
 ├── it/java/           # Integration tests
 └── e2e/java/          # End-to-end tests
@@ -84,12 +88,14 @@ src/
 
 ## CI/CD
 
-GitHub Actions workflow runs:
-- Build and test with GUI support (xvfb)
-- Mutation testing
-- Coveralls coverage report
-- SonarCloud analysis
+GitHub Actions runs on every push:
+- Builds and tests (with headless GUI support)
+- Mutation testing with PIT
+- Coverage reports to Coveralls
+- Code quality analysis via SonarCloud
 
 ## License
 
 MIT
+
+---
