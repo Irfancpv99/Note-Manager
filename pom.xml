@@ -29,7 +29,7 @@
         <failsafe.version>3.1.2</failsafe.version>
         <jacoco.version>0.8.10</jacoco.version>
         <pitest.version>1.14.1</pitest.version>
-        <docker-maven-plugin.version>0.46.0</docker-maven-plugin.version>
+        <docker-maven-plugin.version>0.47.0</docker-maven-plugin.version>
           
            <!-- SonarCloud properties -->
 		<sonar.organization>irfancpv99</sonar.organization>
@@ -134,7 +134,7 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.46.0</version>
+                <version>0.47.0</version>
                 <configuration>
                     <images>
 					    <image>
