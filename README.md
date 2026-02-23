@@ -67,6 +67,9 @@ mvn pitest:mutationCoverage
 # Build it
 mvn package
 
+mvn docker:start
+mvn docker:stop 
+
 # Run it
 java -jar target/note-manager-1.0.0-jar-with-dependencies.jar
 mvn exec:java
