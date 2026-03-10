@@ -128,6 +128,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
+				<argLine>@{argLine} --add-opens java.base/java.util=ALL-UNNAMED</argLine>
             </plugin>
 
             <!-- Docker Maven Plugin - starts MongoDB before integration tests -->
@@ -179,6 +180,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${failsafe.version}</version>
+				<argLine>@{argLine} --add-opens java.base/java.util=ALL-UNNAMED</argLine>
                 <configuration>
 		        <includes>
 		            <include>**/*IT.java</include>
