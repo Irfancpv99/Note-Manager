@@ -129,7 +129,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
 				 <configuration>
-        			<argLine>@{argLine}--add-opens java.base/java.util=ALL-UNNAMED</argLine>
+        			<argLine>@{argLine} --add-opens java.base/java.util=ALL-UNNAMED</argLine>
     			</configuration>
             </plugin>
 
@@ -187,7 +187,7 @@
 		            <include>**/*IT.java</include>
 		            <include>**/*E2E.java</include>
 		        </includes>
-					 <argLine>@{argLine}--add-opens java.base/java.util=ALL-UNNAMED</argLine>
+					 <argLine>@{argLine} --add-opens java.base/java.util=ALL-UNNAMED</argLine>
 		    	</configuration>
                 <executions>
                     <execution>
