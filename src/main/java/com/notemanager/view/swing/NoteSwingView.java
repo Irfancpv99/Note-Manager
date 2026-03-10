@@ -70,6 +70,25 @@ public class NoteSwingView extends JFrame implements NoteView {
 			}
 		});
 
+		editButton = new JButton("Edit");
+		editButton.setName("editButton");
+		editButton.setEnabled(false);
+		editButton.addActionListener(e -> {
+		    Note selected = notesList.getSelectedValue();
+		    editMode = true;
+		    editingNoteId = selected.getId();
+		    noteTextArea.setText(selected.getText());
+		    saveButton.setText("Update");
+		});
+
+		deleteButton = new JButton("Delete");
+		deleteButton.setName("deleteButton");
+		deleteButton.setEnabled(false);
+		deleteButton.addActionListener(e -> {
+		    Note selected = notesList.getSelectedValue();
+		    noteController.deleteNote(selected.getId());
+		});
+
 		notesListModel = new DefaultListModel<>();
 		notesList = new JList<>(notesListModel);
 		notesList.setName("notesList");
@@ -91,25 +110,6 @@ public class NoteSwingView extends JFrame implements NoteView {
 		        label.setOpaque(true);
 		    }
 		    return label;
-		});
-
-		editButton = new JButton("Edit");
-		editButton.setName("editButton");
-		editButton.setEnabled(false);
-		editButton.addActionListener(e -> {
-		    Note selected = notesList.getSelectedValue();
-		    editMode = true;
-		    editingNoteId = selected.getId();
-		    noteTextArea.setText(selected.getText());
-		    saveButton.setText("Update");
-		});
-
-		deleteButton = new JButton("Delete");
-		deleteButton.setName("deleteButton");
-		deleteButton.setEnabled(false);
-		deleteButton.addActionListener(e -> {
-		    Note selected = notesList.getSelectedValue();
-		    noteController.deleteNote(selected.getId());
 		});
 
 		errorLabel = new JLabel(" ");
