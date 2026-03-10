@@ -31,10 +31,13 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 	@Override
 	protected void onSetUp() {
 		closeable = MockitoAnnotations.openMocks(this);
-		noteSwingView = GuiActionRunner.execute(NoteSwingView::new);
+		noteSwingView = GuiActionRunner.execute(() -> {
+			NoteSwingView view = new NoteSwingView();
+			view.setNoteController(noteController);
+			return view;
+		});
 		window = new FrameFixture(robot(), noteSwingView);
 		window.show();
-		GuiActionRunner.execute(() -> noteSwingView.setNoteController(noteController));
 	}
 
 	@Override
@@ -49,6 +52,7 @@ public class NoteSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withText("Delete")).requireDisabled();
 		assertThat(window.button(JButtonMatcher.withText("Edit")).isEnabled()).isFalse();
 	}
+
 	@Test
 	@GUITest
 	public void testSaveButtonCallsControllerNewNote() {
