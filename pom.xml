@@ -188,7 +188,6 @@
 		            <include>**/*IT.java</include>
 		            <include>**/*E2E.java</include>
 		        </includes>
-					 <argLine>@{argLine} --add-opens java.base/java.util=ALL-UNNAMED</argLine>
 		    	</configuration>
                 <executions>
                     <execution>
